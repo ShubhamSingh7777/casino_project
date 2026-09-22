@@ -218,7 +218,7 @@ const Odds = () => {
         <div className='t10-iframe'>
           <iframe
             style={{ height: `${height}px` }}
-            src={`https://tv.777exch.live/scorecard?id=${currentMatch.marketId}`}
+            src={`https://tv.777exch.live/scorecard?id=${currentMatch.matchId}`}
           ></iframe>
         </div>
       )
