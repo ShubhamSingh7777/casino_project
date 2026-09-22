@@ -218,7 +218,7 @@ const Odds = () => {
         <div className='t10-iframe'>
           <iframe
             style={{ height: `${height}px` }}
-            src={`https://live.cricketid.xyz/directStream?gmid=${currentMatch.matchId}&key=Snnsksnshiwjsb82773737bdbsnsnsb`}
+            src={`https://tv.777exch.live/scorecard?id=${currentMatch.marketId}`}
           ></iframe>
         </div>
       )
@@ -245,7 +245,7 @@ const Odds = () => {
             <div className='card-body p0'>
               <iframe
                 style={{ width: '100%', height: '250px' }}
-                src={`${urls?.tv}`}
+                src={`https://tv.777exch.live/sports/${currentMatch.matchId}`}
               ></iframe>
             </div>
           )}
@@ -253,7 +253,7 @@ const Odds = () => {
             <div className='card-body p0'>
               <iframe
                 style={{ width: '100%', height: '250px' }}
-                src={urls?.tv}
+                 src={`https://tv.777exch.live/sports/${currentMatch.matchId}`}
               ></iframe>
             </div>
           )}
