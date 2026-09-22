@@ -1,0 +1,91 @@
+import React from "react";
+
+interface CardJudgeResultProps {
+  resultHtml: any;
+}
+
+const CardJudgeResult = ({ resultHtml }: CardJudgeResultProps) => {
+//   const iscardB = resultHtml.ename === "32 Cards B";
+
+  const cards = resultHtml.card?.split(",") || [];
+  const winnat = resultHtml.winnat || "";
+
+  const rdesc = resultHtml.rdesc || "";
+  const rdescParts = rdesc.split("#");
+  const total0 = cards.slice(0, 4);
+  const winner = rdescParts[0]?.trim() || "";
+  const suitData = rdescParts[3]?.trim() || "";
+
+  const consecutiveData = rdescParts[2]?.trim() || "";
+  const luckyData = rdescParts[4]?.trim() || "";
+
+  const oddEvenData = rdescParts[1]?.trim() || "";
+
+  
+  const createCards = (playerCards: string[]) => {
+    return playerCards
+      .map((card: string) => {
+        const safeCard = card.replace(/[^a-zA-Z0-9_-]/g, "");
+
+        return `
+          <img
+            src="https://g1ver.sprintstaticdata.com/v73/static/front/img/cards/${safeCard}.jpg"
+            alt="${safeCard}"
+            style="
+              width:auto;
+              height:35px;
+              margin:3px;
+            "
+          />
+        `;
+      })
+      .join("");
+  };
+  const total0card = createCards(total0);
+
+  return `
+    <div style="text-align:center;">
+      <div style="
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        margin-bottom:3px;
+      ">
+      
+        ${total0card} 
+      </div>
+      
+    </div>
+ <div style="
+      box-shadow:0 0 4px -1px;
+      border-top:1px solid #ddd;
+      margin-top:15px;
+      padding:6px 35px;
+    ">
+
+      <div style="
+        display:flex;
+        justify-content:center;
+        font-size:12px;
+        margin-bottom:2px;
+      ">
+        <span style="
+          opacity:0.6;
+          margin-right:8px;
+          width:30%;
+          text-align:end;
+        ">
+          Result
+        </span>
+
+        <span style="width:60%">
+          ${winner}
+        </span>
+      </div>
+
+    
+    </div>
+  `;
+};
+
+export default CardJudgeResult;
