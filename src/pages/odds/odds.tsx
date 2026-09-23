@@ -204,7 +204,7 @@ const Odds = () => {
       return (
         <iframe
           style={{ width: '100%', height: 'auto' }}
-         src={`https://tv.777exch.live/scorecard?id=${currentMatch.matchId}`}
+         src={`https://tv.777exch.live/scorecard?etid=${currentMatch.sportId}&gmid=${currentMatch.matchId}`}
         ></iframe>
       )
     }
