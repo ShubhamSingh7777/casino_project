@@ -58,6 +58,8 @@ const RaceSeventeen = ({ lastOdds, liveMatchData }: any) => {
           matchName: liveMatchData.title,
           betOn: IBetOn.CASINO,
           gtype: liveMatchData.slug,
+            minbet: liveMatchData.min,
+            maxbet: liveMatchData.max,
         },
       }),
     );

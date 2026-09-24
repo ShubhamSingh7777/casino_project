@@ -276,7 +276,7 @@ class Fancy extends React.Component<
       <div className='table-header'>
         <div
           className={`float-left ${isMobile ? 'text-white' : ''
-            } country-name box-6`} style={{border:'1px solid red'}}
+            } country-name box-6`}
         >
           {/* {isMobile ? title : ''} */}
             <span className='market-nation-nameminmax'>

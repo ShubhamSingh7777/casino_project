@@ -9,6 +9,9 @@ import LayBackButton from './_common/new/LayBackButton'
 const AaaCasino = (props: any) => {
   const { lastOdds, liveMatchData } = props
   const cardMarketIndex: any = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
+  console.log("EVENT ID:", liveMatchData?.eventId);
+console.log("LIVE MATCH DATA:", liveMatchData);
+
   const laybacklayout = () => {
     const markets = liveMatchData?.defaultMarkets?.[0]?.Runners || []
     return (

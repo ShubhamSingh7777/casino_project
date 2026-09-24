@@ -1886,7 +1886,7 @@ const CasinoTitle = (props: any) => {
             getCurrentMatch.slug == "trio" || getCurrentMatch.slug == "vtrio") &&
             Cards3J()}
           {getCurrentMatch.slug == "lottcard" && Lottery()}
-        {getCurrentMatch.slug == "superover" || getCurrentMatch.slug == "superover2" && Superover()}
+        {getCurrentMatch.slug == "superover" || getCurrentMatch.slug == "superover2" || getCurrentMatch.slug == "superover3" && Superover()}
           {getCurrentMatch.slug == "fivewicket" && fivecricket()}
           {getCurrentMatch.slug == "cricket2020" && Cricket2020()}
           {getCurrentMatch.slug == "warcasino" && warcasino()}

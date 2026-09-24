@@ -158,7 +158,7 @@ const formatIndianNumber = (num: any) => {
               </thead>
           </table>
       </div>
-      <div className='container container-ballbyball' style={{ display: 'flex' }}>
+      <div className='container container-ballbyball' style={{ display: 'flex',gap:!isMobile?'7px':'' }}>
           {/* FIRST TABLE */}
           <div className='row casino-32A' style={{ marginLeft:isMobile?'0px': '-15px', marginRight: '0px', width:isMobile?'100%': '50%' }}>
               <div className={`col-lg-12 ${isMobile? 'm-b-0':'m-b-10'} main-market bg-gray`} style={{ padding: '0px' }}>

@@ -47,13 +47,15 @@ const LaybackBoxNote = (props: any) => {
             pnl: 0,
             stack: 0,
             currentMarketOdds: isBack ? item.b : item.l,
-            eventId: item.mid,
+            eventId: liveMatchData?.event_data?.match_id || 0,
             exposure: 0,
             ipAddress,
             type: IBetType.Match,
             matchName: liveMatchData.title,
             betOn: IBetOn.CASINO,
             gtype: gameCode,
+              minbet: liveMatchData.min,
+            maxbet: liveMatchData.max,
           },
         })
       );

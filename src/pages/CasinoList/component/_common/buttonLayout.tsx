@@ -8,7 +8,7 @@ import { IBetOn, IBetType } from "../../../../models/IBet"
 import CasinoPnl from "../casinoPnl"
 
 const ButtonLayout = (props: any) => {
-  const { key, market, rate } = props
+  const { key, market, rate,liveMatchData } = props
   const dispatch = useAppDispatch()
   const userState = useAppSelector(selectUserData)
   const getCurrentMatch = useAppSelector(selectCasinoCurrentMatch)
@@ -33,7 +33,7 @@ const ButtonLayout = (props: any) => {
             pnl: 0,
             stack: 0,
             currentMarketOdds: isBack ? item.b : item.l,
-            eventId: item.mid,
+            eventId:  getCurrentMatch?.match_id || 0,
             exposure: -0,
             ipAddress: ipAddress,
             type: IBetType.Match,

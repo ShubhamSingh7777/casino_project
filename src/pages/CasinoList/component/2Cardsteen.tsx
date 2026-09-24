@@ -315,8 +315,8 @@ const orderB = ['Player B', 'Mini Baccarat B', 'Total B'];
       style={{
         marginTop: 10,
         textAlign: "center",
-        paddingLeft: isMobile?'none':'none',
-        paddingRight: isMobile?'none':'none'
+        paddingLeft: isMobile?'none':'0px',
+        paddingRight: isMobile?'none':'0px'
       }}
     >
       <button
@@ -336,7 +336,7 @@ const orderB = ['Player B', 'Mini Baccarat B', 'Total B'];
           fontWeight: 600,
           border:"none",
           minHeight:"46px",
-          fontSize:!isMobile?"12px":"16px"
+          fontSize:!isMobile?"16px":"16px"
         }}
       >
         Color Plus

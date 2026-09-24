@@ -1,4 +1,5 @@
 import React from "react";
+import { isMobile } from "react-device-detect";
 
 interface CasinoMeterResultProps {
   resultHtml: any;
@@ -35,7 +36,7 @@ const CasinoMeterResult = ({
             alt="${safeCard}"
             style="
               width:auto;
-              height:35px;
+            height:${isMobile?'35px':'50px'};
               margin:3px;
             "
           />
@@ -48,18 +49,21 @@ const CasinoMeterResult = ({
   const highCardsHtml = createCards(highCards);
 
   return `
-    <div style="text-align:center;">
-
+ <div style="text-align:center;display:${!isMobile?'flex':''};justify-content:${!isMobile?'space-between':''}">
       <!-- LOW CARDS -->
+      
       <div style="
         display:flex;
+        flex-direction:${!isMobile?'column':''};
         align-items:center;
         justify-content:center;
         margin-bottom:5px;
+        width:${!isMobile?'50%':''}
       ">
-
+        
         <div style="
-          font-size:12px;
+           font-size:${!isMobile?'20px':'16px'};
+        margin-bottom:${isMobile?'3px':'5px'};
           width:15%;
           padding:0 1px;
           text-align:center;
@@ -88,13 +92,16 @@ const CasinoMeterResult = ({
       <!-- HIGH CARDS -->
       <div style="
         display:flex;
+        flex-direction:${!isMobile?'column':''};
         align-items:center;
         justify-content:center;
         margin-bottom:5px;
+         width:${!isMobile?'50%':''}
       ">
 
         <div style="
-          font-size:12px;
+        font-size:${!isMobile?'20px':'16px'};
+        margin-bottom:${isMobile?'3px':'5px'};
           width:15%;
           padding:0 1px;
           text-align:center;
@@ -123,18 +130,20 @@ const CasinoMeterResult = ({
 
 
     <!-- RESULT -->
+    <div style="display:flex;justify-content:center;align-items:center">
     <div style="
       box-shadow:0 0 4px -1px;
       border-top:1px solid #ddd;
       margin-top:15px;
       padding:6px 35px;
+         width:${!isMobile?'50%':'100%'}
     ">
 
       <div style="
         display:flex;
         justify-content:center;
-        font-size:12px;
-        margin-bottom:2px;
+          font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
       ">
 
         <span style="
@@ -155,8 +164,8 @@ const CasinoMeterResult = ({
       <div style="
         display:flex;
         justify-content:center;
-        font-size:12px;
-        margin-bottom:2px;
+         font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
       ">
 
         <span style="
@@ -174,6 +183,7 @@ const CasinoMeterResult = ({
 
       </div>
 
+    </div>
     </div>
   `;
 };

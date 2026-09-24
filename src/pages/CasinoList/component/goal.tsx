@@ -71,13 +71,15 @@ const Goal = (props: any) => {
             pnl: 0,
             stack: 0,
             currentMarketOdds: isBack ? item.b : item.l,
-            eventId: item.mid,
+            eventId: liveMatchData?.event_data?.match_id || 0,
             exposure: -0,
             ipAddress: ipAddress,
             type: IBetType.Match,
             matchName: liveMatchData.title,
             betOn: IBetOn.CASINO,
             gtype: gameCode,
+            minbet: liveMatchData.min,
+            maxbet: liveMatchData.max,
           },
         }),
       );
@@ -313,7 +315,7 @@ const Goal = (props: any) => {
                         style={{display:!isMobile?'flex':'',flexDirection:isMobile?'column':'column'}}
                       >
                         <span className="odd">{Item.b}</span>
-                                <span style={{ color: "#333",fontSize:'11px',fontWeight:'100' }}>
+                                <span style={{ color: "#333",fontSize:isMobile?'11px':'12px',fontWeight:'100' }}>
                     {" "}
                    {(Item?.bs)}{" "}
                   </span>
@@ -355,7 +357,7 @@ const Goal = (props: any) => {
                           style={{display:!isMobile?'flex':'',flexDirection:isMobile?'column':'column'}}
                         >
                           <span className="odd">{Item.l}</span>
-                          <span style={{ color: "#333",fontSize:'11px',fontWeight:'100' }}>
+                          <span style={{ color: "#333",fontSize:'12px',fontWeight:'100' }}>
                     {" "}
                    {(Item?.bs)}{" "}
                   </span>

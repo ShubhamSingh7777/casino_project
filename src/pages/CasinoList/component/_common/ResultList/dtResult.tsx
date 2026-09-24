@@ -1,4 +1,5 @@
 import React from "react";
+import { isMobile } from "react-device-detect";
 
 interface dtResultProps {
   resultHtml: any;
@@ -36,7 +37,7 @@ const dtResult = ({
             alt="${safeCard}"
             style="
               width:auto;
-              height:35px;
+               height:${isMobile?'35px':'50px'};
               margin:3px;
             "
           />
@@ -49,10 +50,11 @@ const dtResult = ({
   const playerBCardsP = createCards(playerBP);
 
   return `
-    <div style="text-align:center;">
- <div style="
-        font-size:16px;
-        margin-bottom:3px;
+    <div style="text-align:center;display:${!isMobile?'flex':''};justify-content:${!isMobile?'space-between':''}">
+ <div style="width:${!isMobile?'50%':''}">
+    <div style="
+         font-size:${!isMobile?'20px':'16px'};
+        margin-bottom:${isMobile?'3px':'5px'};
       ">
        Dragon
       </div>
@@ -70,9 +72,11 @@ const dtResult = ({
           : ""
       }
       </div>
+      </div>
+      <div style="width:${!isMobile?'50%':''}">
       <div style="
-        font-size:16px;
-        margin-bottom:3px;
+         font-size:${!isMobile?'20px':'16px'};
+        margin-bottom:${isMobile?'3px':'5px'};
       ">
         
         Tiger
@@ -91,9 +95,10 @@ const dtResult = ({
             : ""
         }
       </div>
-      ${isdtl20 ?` <div style="
-        font-size:16px;
-        margin-bottom:3px;
+      </div>
+      ${isdtl20 ?`<div style="width:${!isMobile?'50%':''}"><div style="
+          font-size:${!isMobile?'20px':'16px'};
+        margin-bottom:${isMobile?'3px':'5px'};
       ">
         
         Lion
@@ -111,22 +116,24 @@ const dtResult = ({
             ? '<i class="fas fa-trophy tropyAnimation"></i>'
             : ""
         }
-      </div>`:''}
-
+      </div> </div>`:''}
+</div>
 
     </div>
+ <div style="display:flex;justify-content:center;align-items:center">
  <div style="
       box-shadow:0 0 4px -1px;
       border-top:1px solid #ddd;
       margin-top:15px;
       padding:6px 35px;
+        width:${!isMobile?'50%':'100%'}
     ">
 
       <div style="
         display:flex;
         justify-content:center;
-        font-size:12px;
-        margin-bottom:2px;
+       font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
       ">
         <span style="
           opacity:0.6;
@@ -144,8 +151,8 @@ const dtResult = ({
       <div style="
         display:flex;
         justify-content:center;
-        font-size:12px;
-        margin-bottom:2px;
+      font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
       ">
         <span style="
           opacity:0.6;
@@ -163,8 +170,8 @@ const dtResult = ({
         <div style="
         display:flex;
         justify-content:center;
-        font-size:12px;
-        margin-bottom:2px;
+       font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
       ">
         <span style="
           opacity:0.6;
@@ -182,8 +189,8 @@ const dtResult = ({
         <div style="
         display:flex;
         justify-content:center;
-        font-size:12px;
-        margin-bottom:2px;
+     font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
       ">
         <span style="
           opacity:0.6;
@@ -201,8 +208,8 @@ const dtResult = ({
       ${!isdtl20?` <div style="
         display:flex;
         justify-content:center;
-        font-size:12px;
-        margin-bottom:2px;
+        font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
       ">
         <span style="
           opacity:0.6;
@@ -220,7 +227,7 @@ const dtResult = ({
       </div>
         `:''}
  
-
+</div>
     </div>
   `;
 };

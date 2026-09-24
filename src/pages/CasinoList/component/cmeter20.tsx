@@ -100,7 +100,7 @@ const Cmeter20 = (props: any) => {
               {ItemNew.SelectionId == "1" ? lowCard() : highCard()}
               <div className="text-center"></div>
             </button>
-            <div className='d-flex mt-1 mb-10' style={{ justifyContent: "space-between", alignItems: "center" }}>
+            <div className={`d-flex mt-1 ${isMobile?'mb-10':''}`} style={{ justifyContent: "space-between", alignItems: "center" }}>
               <CasinoPnl sectionId={ItemNew.SelectionId} matchId={liveMatchData.match_id} />
               {/* <p className="m-b-0 m-t-5 text-right min-max">
                 <span ><b>Min:</b>{Item.min}</span>

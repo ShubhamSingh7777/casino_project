@@ -32,6 +32,8 @@ import CasinoWarResult from "./component/_common/ResultList/CasinoWarResult";
 import VvipteenpattiResult from "./component/_common/ResultList/VvipteenpattiResult";
 import LuckySixResult from "./component/_common/ResultList/Lucky6Result";
 import RouletteResult from "./component/_common/ResultList/RouletteResult";
+import { isMobile } from "react-device-detect";
+import AndarBaharResult from "./component/_common/ResultList/AndarbaharResult";
 
 const CasinoResultDetail = (props: any) => {
   const { popupdata, setPopStatus, popupstatus } = props;
@@ -48,17 +50,21 @@ const CasinoResultDetail = (props: any) => {
       casinoService.getResultByMid(popupdata.slug, popupdata.mid).then((res) => {
         setLoader(false);
         const resultHtml = res?.data?.data?.html || {};
+        const ename = String(resultHtml.ename || "")
+  .trim()
+  .toLowerCase();
         // setCasinoResult(res?.data?.data?.html)
-
+console.log("ENAME:", JSON.stringify(resultHtml.ename));
+console.log("NORMALIZED ENAME:", ename);
         if (
           resultHtml.ename === "Goal 2" ||
           resultHtml.ename === "Goal" ||
-          resultHtml.ename === "Lucky 15" || resultHtml.ename === "Ball by Ball"
+          resultHtml.ename === "Lucky 15" || resultHtml.ename === "Ball By Ball"
         ) {
           setCasinoResult(resultHtml);
           const islucky15 = resultHtml.ename === "Lucky 15";
           const winner = resultHtml.winnat || "";
-
+          const ballbyball = resultHtml.ename === "Ball By Ball"
           let htmlContent = "";
 
           htmlContent += `
@@ -70,10 +76,10 @@ const CasinoResultDetail = (props: any) => {
             <div style="display:flex;justify-content:center">
               <div style="position:relative">
               ${
-                islucky15
-                  ? ` <img src='/ball-blank.png' alt='' style="width:50px;height:250pxauto"/>
-                 <span style="position:absolute;bottom: 14px;
-    left: 6px;;color:#fff;font-size:11px;font-weight:bold;text-transform:uppercase;text-align:center;line-height:22px">${winner}</span>`
+                islucky15 || ballbyball
+                  ? ` <img src='/ball-blank.png' alt='' style="width:${isMobile?'50px':'150px'};height:250pxauto"/>
+                 <span style="position:absolute;bottom:${isMobile?'14px':'63px'};
+    left:${isMobile?'6px':'26px'};color:#fff;font-size:${isMobile?'11px':'26px'};font-weight:bold;text-transform:uppercase;text-align:center;line-height:22px">${winner}</span>`
                   : ` <img src='/soccer-ball.png' alt='' style="width:auto;height:250px"/>
                  <span style="position:absolute;bottom: 9px;
     left: 76px;;color:#000;font-size:15px;font-weight:bold;text-transform:uppercase;text-align:center;line-height:22px">Header Goal By </br> ${winner}</span>`
@@ -116,7 +122,7 @@ const CasinoResultDetail = (props: any) => {
 
           return;
         }
-          if (resultHtml.ename === "Beach Roulette" || resultHtml.ename === "Roulette" || resultHtml.ename === "VIP Roulette") {
+          if (resultHtml.ename === "Beach Roulette" || resultHtml.ename === "Roulette" || resultHtml.ename === "VIP Roulette"  || resultHtml.ename === "Unique Roulette") {
           setCasinoResult(resultHtml);
 
           const rouletteHtml = RouletteResult({
@@ -362,6 +368,19 @@ const CasinoResultDetail = (props: any) => {
 
           return;
         }
+         if (
+          resultHtml.ename === "Andar Bahar 2" || resultHtml.ename === "Andar Bahar"
+        ) {
+          setCasinoResult(resultHtml);
+
+          const andarBaharHtml = AndarBaharResult({
+            resultHtml,
+          });
+
+          setData(andarBaharHtml);
+
+          return;
+        }
         if (resultHtml.ename === "Teenpatti - 2.0") {
           setCasinoResult(resultHtml);
 
@@ -445,8 +464,15 @@ const CasinoResultDetail = (props: any) => {
           const cards = resultHtml.card?.split(",") || [];
           const rdescParts = resultHtml.rdesc?.split("#") || [];
 
-          const playerA = cards.slice(0, 3);
-          const playerB = cards.slice(3, 6);
+          // const playerA = cards.slice(0, 3);
+          // const playerB = cards.slice(3, 6);
+          const playerA = cards.filter(
+  (_: string, index: number) => index % 2 === 0
+);
+
+const playerB = cards.filter(
+  (_: string, index: number) => index % 2 === 1
+);
 
           const winner = resultHtml.winnat || "";
           const rdesc = resultHtml.rdesc || "";
@@ -479,7 +505,7 @@ const CasinoResultDetail = (props: any) => {
             alt="${safeCard}"
             style="
               width:auto;
-              height:35px;
+             height:${isMobile?'35px':'50px'}; 
               margin:3px;
             "
           />`
@@ -488,7 +514,7 @@ const CasinoResultDetail = (props: any) => {
             alt="${safeCard}"
             style="
               width:auto;
-              height:35px;
+              height:${isMobile?'35px':'50px'};
               margin:3px;
             "
           />`
@@ -506,12 +532,15 @@ const CasinoResultDetail = (props: any) => {
           const playerBOddEven = oddEven.slice(3, 6).join(" ");
 
           const htmlContent = `
-    <div style="text-align:center;">
-      ${
+         
+    <div style="text-align:center;display:${!isMobile?'flex':''};justify-content:${!isMobile?'space-between':''}">
+     
+      ${  
         !isDoliDana
-          ? `  <div style="
-        font-size:16px;
-        margin-bottom:3px;
+          ? ` <div style="width:${!isMobile?'50%':''}">
+          <div style="
+        font-size:${!isMobile?'20px':'16px'};
+        margin-bottom:${isMobile?'3px':'5px'};
       ">
         Player A
       </div> 
@@ -522,10 +551,10 @@ const CasinoResultDetail = (props: any) => {
         margin-bottom:3px;
       ">
     ${
-      !isteenpattiC &&
-      !isqueenteenpatti &&
-      isInstantteenpatti &&
-      !isjacktopteenpatti
+        (isteenpattiC || isInstantteenpatti) &&
+  !isqueenteenpatti &&
+  !isjacktopteenpatti
+
         ? `
         ${
           winner === "Player A"
@@ -538,7 +567,7 @@ const CasinoResultDetail = (props: any) => {
 
      ${playerACards}
         ${
-          isteenpattiC ||
+          !isteenpattiC ||
           isqueenteenpatti ||
           isjacktopteenpatti ||
           teenpattioneday
@@ -551,12 +580,12 @@ const CasinoResultDetail = (props: any) => {
       `
             : ""
         }
-
+</div>
       </div>
-
+<div style="width:${!isMobile?'50%':''}">
        <div style="
-        font-size:16px;
-        margin-bottom:3px;
+         font-size:${!isMobile?'20px':'16px'};
+        margin-bottom:${isMobile?'3px':'5px'};
       ">
         Player B
       </div>
@@ -594,6 +623,7 @@ const CasinoResultDetail = (props: any) => {
                 : ""
             }
       </div>
+      </div>
       `
           : `
       <div style="
@@ -605,10 +635,11 @@ const CasinoResultDetail = (props: any) => {
         ${playerACards}
       </div>`
       }
-     
+     </div>
 
 
     </div>
+    <div style="display:flex;justify-content:center;align-items:center">
     <div style="
       box-shadow: ${
         !isqueenteenpatti && !isjacktopteenpatti ? "0 0 4px -1px" : ""
@@ -617,7 +648,8 @@ const CasinoResultDetail = (props: any) => {
         !isqueenteenpatti && !isjacktopteenpatti ? "1px solid #ddd" : ""
       };
       margin-top:${isDoliDana ? "6px" : "15px"};
-      padding:${isqueenteenpatti || isjacktopteenpatti ? "0px" : "12px 35px"};
+      padding:${isqueenteenpatti || isjacktopteenpatti ? "0px" : "6px 35px"};
+      width:${!isMobile?'50%':'100%'}
     ">
     ${
       isDoliDana
@@ -626,8 +658,8 @@ const CasinoResultDetail = (props: any) => {
   <div style="
     display:flex;
     justify-content:center;
-    font-size:12px;
-    margin-bottom:2px;
+      font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
   ">
     <span style="
       opacity:0.6;
@@ -645,8 +677,8 @@ const CasinoResultDetail = (props: any) => {
   <div style="
     display:flex;
     justify-content:center;
-    font-size:12px;
-    margin-bottom:2px;
+      font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
   ">
     <span style="
       opacity:0.6;
@@ -661,11 +693,11 @@ const CasinoResultDetail = (props: any) => {
       ${nod}
     </span>
   </div>
-  <div style="
+    <div style="
     display:flex;
     justify-content:center;
-    font-size:12px;
-    margin-bottom:2px;
+      font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
   ">
     <span style="
       opacity:0.6;
@@ -680,11 +712,11 @@ const CasinoResultDetail = (props: any) => {
       ${dashD}
     </span>
   </div>
-  <div style="
+    <div style="
     display:flex;
     justify-content:center;
-    font-size:12px;
-    margin-bottom:2px;
+      font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
   ">
     <span style="
       opacity:0.6;
@@ -699,11 +731,11 @@ const CasinoResultDetail = (props: any) => {
       ${numberD}
     </span>
   </div>
-  <div style="
+    <div style="
     display:flex;
     justify-content:center;
-    font-size:12px;
-    margin-bottom:2px;
+      font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
   ">
     <span style="
       opacity:0.6;
@@ -711,18 +743,18 @@ const CasinoResultDetail = (props: any) => {
       width:30%;
       text-align:end;
     ">
-      Odd/Even
+     Odd/Even
     </span>
 
     <span style="width:60%">
       ${oddEvenDoli}
     </span>
   </div>
-  <div style="
+    <div style="
     display:flex;
     justify-content:center;
-    font-size:12px;
-    margin-bottom:2px;
+      font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
   ">
     <span style="
       opacity:0.6;
@@ -748,11 +780,12 @@ const CasinoResultDetail = (props: any) => {
           isqueenteenpatti || isjacktopteenpatti ? `0 0 4px -1px` : ""
         };
       ">
-        <span style="opacity:0.6; margin-right:8px;width:30%,text-align:end">
+        <span style="opacity:0.6; margin-right:8px;width:30%;text-align:end;font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};">
           Winner:
         </span>
 
-        <span style="width:60%">
+        <span style="width:60%;font-size:${!isMobile?'16px':''}">
           ${winner}
         </span>
       </div>
@@ -767,8 +800,8 @@ const CasinoResultDetail = (props: any) => {
     <div style="
         display:flex;
         justify-content:center;
-        font-size:12px;
-        margin-bottom:2px;
+          font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
       ">
         <span style="opacity:0.6; margin-right:8px;width:30%,text-align:end">
           Under/Over:
@@ -787,8 +820,8 @@ const CasinoResultDetail = (props: any) => {
          <div style="
         display:flex;
         justify-content:center;
-        font-size:12px;
-        margin-bottom:2px;
+         font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
       ">
         <span style="opacity:0.6; margin-right:8px;width:30%,text-align:end">
           ${isMuflisteenpatti ? `Top 9` : `3 Baccarat:`}
@@ -801,8 +834,8 @@ const CasinoResultDetail = (props: any) => {
          <div style="
         display:flex;
         justify-content:center;
-        font-size:12px;
-        margin-bottom:2px;
+         font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
       ">
         <span style="opacity:0.6; margin-right:8px;width:30%,text-align:end">
         ${isMuflisteenpatti ? `M Baccarat:` : `Total:`}
@@ -822,8 +855,8 @@ const CasinoResultDetail = (props: any) => {
           ? `<div style="
         display:flex;
         justify-content:center;
-        font-size:12px;
-        margin-bottom:2px;
+          font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
       ">
         
         <span style="opacity:0.6; margin-right:8px;width:30%,text-align:end">
@@ -841,8 +874,8 @@ const CasinoResultDetail = (props: any) => {
       <div style="
         display:flex;
         justify-content:center;
-        font-size:12px;
-        margin-bottom:0px
+         font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
       ">
         
         <span style="opacity:0.6; margin-right:8px;width:30%,text-align:end">
@@ -860,7 +893,7 @@ const CasinoResultDetail = (props: any) => {
       
 `
     }
-    
+    </div>
 </div>
   `;
 
@@ -893,21 +926,22 @@ const CasinoResultDetail = (props: any) => {
           htmlContent += `<div style="display:flex;justify-content:center;align-items:center"><img 
     src="https://g1ver.sprintstaticdata.com/v73/static/front/img/cards/${safeCard}.jpg" 
     alt="${safeCard}" 
-    style="width:auto;margin:4px;height:35px"
+    style="width:auto;margin:4px;height:${isMobile?'35px':'50px'};"
   /></div>`;
         }
 
         // Add winner text
-        htmlContent += `<div style="box-shadow:0 0 4px -1px;margin-top:8px;padding: 6px;display:flex;flex-direction:column;justify-content:center;align-items:center,padding-left:20px"><div style="display:flex;width:100%;font-size:12px;margin-bottom:2px;">
+        htmlContent += ` <div style="display:flex;justify-content:center;align-items:center"><div style="box-shadow:0 0 4px -1px;margin-top:8px;padding: 6px;display:flex;flex-direction:column;justify-content:center;align-items:center; padding-left:20px; width:${!isMobile?'50%':'100%'}">
+        <div style="display:flex;width:100%;font-size:${!isMobile?'16px':'12px'};margin-bottom:2px;">
 <div style="margin-right: 2%;
     opacity: 0.6;
     width: 30%;
-    text-align: right;opacity:0.6">Winner </div> <div style="word-break: break-all;
+    text-align: right;opacity:0.6;font-size:${!isMobile?'16px':'12px'}">Winner </div> <div style="word-break: break-all;
     width: 60%;"> ${winner}</div>
     </div>
     ${
       islucky7
-        ? `<div style="display:flex;width:100%;font-size:12px;margin-bottom:2px;">
+        ? `<div style="display:flex;width:100%;font-size:${!isMobile?'16px':'12px'};margin-bottom:2px;padding:${!isMobile?'5px 0px':''}">
     <div style="margin-right: 2%;
     opacity: 0.6;
     width: 30%;
@@ -915,7 +949,7 @@ const CasinoResultDetail = (props: any) => {
      <div style="word-break: break-all;
     width: 60%;"> ${nod}</div>
     </div>
-    <div style="display:flex;width:100%;font-size:12px;margin-bottom:2px;">
+    <div style="display:flex;width:100%;font-size:${isMobile?'12px':'16px'};margin-bottom:2px;">
     <div style="margin-right: 2%;
     opacity: 0.6;
     width: 30%;
@@ -923,14 +957,14 @@ const CasinoResultDetail = (props: any) => {
     <div style="word-break: break-all;
     width: 60%;"> ${oddevenl}</div>
     </div>
-     <div style="display:flex;width:100%;font-size:12px;margin-bottom:2px;">
+     <div style="display:flex;width:100%;font-size:${isMobile?'12px':'16px'};margin-bottom:2px;">
     <div style="margin-right: 2%;
     opacity: 0.6;
     width: 30%;
     text-align: right;opacity:0.6">${isAmarAkbar ? `Under/Over` : `Card`}</div>
      <div style="word-break: break-all;
     width: 60%;"> ${colorl}</div></div>
-        <div style="display:flex;width:100%;font-size:12px;margin-bottom:2px;">
+        <div style="display:flex;width:100%;font-size:${isMobile?'12px':'16px'};margin-bottom:2px;">
     <div style="margin-right: 2%;
     opacity: 0.6;
     width: 30%;
@@ -941,8 +975,8 @@ const CasinoResultDetail = (props: any) => {
         : ``
     }
     ${
-      islucky6 || isAmarAkbar
-        ? `    <div style="display:flex;width:100%;font-size:12px;margin-bottom:2px;">
+      (islucky6 || isAmarAkbar) && !isbtable2 && !islucky7
+        ? ` <div style="display:flex;width:100%;font-size:${!isMobile?'16px':'12px'};margin-bottom:2px;padding:${!isMobile?'5px 0px':''}">
     <div style="margin-right: 2%;
     opacity: 0.6;
     width: 30%;
@@ -950,7 +984,7 @@ const CasinoResultDetail = (props: any) => {
      <div style="word-break: break-all;
     width: 60%;"> ${nod}</div>
     </div>
-    <div style="display:flex;width:100%;font-size:12px;margin-bottom:2px;">
+    <div style="display:flex;width:100%;font-size:${isMobile?'12px':'16px'};margin-bottom:2px;">
     <div style="margin-right: 2%;
     opacity: 0.6;
     width: 30%;
@@ -958,7 +992,7 @@ const CasinoResultDetail = (props: any) => {
     <div style="word-break: break-all;
     width: 60%;"> ${oddevenl}</div>
     </div>
-     <div style="display:flex;width:100%;font-size:12px;margin-bottom:2px;">
+     <div style="display:flex;width:100%;font-size:${isMobile?'12px':'16px'};margin-bottom:2px;padding:${!isMobile?'5px 0px':''}">
     <div style="margin-right: 2%;
     opacity: 0.6;
     width: 30%;
@@ -968,20 +1002,20 @@ const CasinoResultDetail = (props: any) => {
     ${
       isAmarAkbar
         ? `
-        <div style="display:flex;width:100%;font-size:12px;margin-bottom:2px;">
+        <div style="display:flex;width:100%;font-size:${!isMobile?'16px':'12px'};margin-bottom:2px;padding:${!isMobile?'5px 0px':''}">
     <div style="margin-right: 2%;
     opacity: 0.6;
     width: 30%;
     text-align: right;opacity:0.6">Card</div>
      <div style="word-break: break-all;
     width: 60%;"> ${cardl}</div></div>`
-        : ""
+        : ``
     }
       `
-        : ""
+        : ``
     }
 ${isbtable2
-    ? ` <div style="display:flex;width:100%;font-size:12px;margin-bottom:2px;">
+    ? ` <div style="display:flex;width:100%;font-size:${!isMobile?'16px':'12px'};margin-bottom:2px;padding:${!isMobile?'5px 0px':''}">
     <div style="margin-right: 2%;
     opacity: 0.6;
     width: 30%;
@@ -989,7 +1023,7 @@ ${isbtable2
      <div style="word-break: break-all;
     width: 60%;"> ${nod}</div>
     </div>
-    <div style="display:flex;width:100%;font-size:12px;margin-bottom:2px;">
+    <div style="display:flex;width:100%;font-size:${isMobile?'12px':'16px'};margin-bottom:2px;">
     <div style="margin-right: 2%;
     opacity: 0.6;
     width: 30%;
@@ -997,14 +1031,14 @@ ${isbtable2
     <div style="word-break: break-all;
     width: 60%;"> ${oddevenl}</div>
     </div>
-     <div style="display:flex;width:100%;font-size:12px;margin-bottom:2px;">
+     <div style="display:flex;width:100%;font-size:${isMobile?'12px':'16px'};margin-bottom:2px;">
     <div style="margin-right: 2%;
     opacity: 0.6;
     width: 30%;
     text-align: right;opacity:0.6">Color</div>
      <div style="word-break: break-all;
     width: 60%;"> ${colorl}</div></div>
-    <div style="display:flex;width:100%;font-size:12px;margin-bottom:2px;">
+    <div style="display:flex;width:100%;font-size:${isMobile?'12px':'16px'};margin-bottom:2px;">
     <div style="margin-right: 2%;
     opacity: 0.6;
     width: 30%;
@@ -1016,7 +1050,7 @@ ${isbtable2
 }
 
     
-   </div></div>`;
+  </div> </div></div>`;
 
         // Set the HTML (preferably after sanitizing)
         setData(htmlContent);
@@ -1075,7 +1109,7 @@ ${isbtable2
         <div className="bg w-100 d-flex flex-row justify-content-between">
           <h4
             className="text-white mb-0"
-            style={{ width: "100%", fontSize: "16px" }}
+            style={{ width: "100%", fontSize: isMobile?"16px":"20px" }}
           >
             {" "}
             {popupdata?.event_data?.title || ""} Result
@@ -1105,11 +1139,11 @@ ${isbtable2
 
       <Modal.Body>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <h6 className="text-left">
+          <h6 className="text-left" style={{fontWeight:'bold'}}>
             Round Id:{" "}
             <span style={{ fontWeight: "400" }}> {popupdata?.mid || ""}</span>
           </h6>
-          <h6 className="text-left">
+          <h6 className="text-left" style={{fontWeight:'bold'}}>
             Match Time:{" "}
             <span style={{ fontWeight: "400", color: "#000000" }}>
               {formatMatchTime(casinoResult?.mtime)}

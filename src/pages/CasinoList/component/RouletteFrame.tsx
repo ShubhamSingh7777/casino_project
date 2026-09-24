@@ -25,7 +25,7 @@ const RouletteFrame = ({ liveMatchData, lastOdds }: any) => {
       {liveMatchData && (
         <iframe
           title='stream'
-          src={`https://tv.777exch.live/${gameCode}`}
+          src={`https://tv.betsclub.online/${gameCode}`}
           style={{
             width: '100%',
             height: '100%',

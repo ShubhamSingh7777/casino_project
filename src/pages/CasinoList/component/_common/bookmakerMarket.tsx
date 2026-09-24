@@ -12,7 +12,7 @@ import { isMobile } from "react-device-detect";
 import { useParams } from "react-router-dom";
 
 const BookmakerMarket = (props: any) => {
-  const { oddsMarket, lastOdds, max } = props;
+  const { oddsMarket, lastOdds, max ,liveMatchData} = props;
   const dispatch = useAppDispatch();
   const isSuperOver = window.location.pathname.includes("superover");
   const userState = useAppSelector(selectUserData);
@@ -49,13 +49,15 @@ const BookmakerMarket = (props: any) => {
             pnl: 0,
             stack: 0,
             currentMarketOdds: isBack ? item.b : item.l,
-            eventId: lastOdds.match_id,
+            eventId: Number(matchId),
             exposure: -0,
             ipAddress: ipAddress,
             type: IBetType.Match,
             matchName: lastOdds.title,
             betOn: IBetOn.CASINO,
             gtype: lastOdds.slug,
+              minbet: lastOdds.min,
+            maxbet: lastOdds.max,
           },
         }),
       );
@@ -102,16 +104,16 @@ const BookmakerMarket = (props: any) => {
                 />
               </>
             )}
-            <div
+            {/* <div
               className={`${
                 isSuperOver ? "superover-class2" : boxLayoutCls2
               } back float-left back lock text-center betting-disabled`}
               onClick={() => {
                 onBet(true, ItemRunner);
               }}
-            >
+            > */}
               {/* {isSuperOver ? ItemRunner.b1 : ItemRunner.b} */}
-            <b>  {(isSuperOver ? ItemRunner.b1 : ItemRunner.b) == 0
+            {/* <b>  {(isSuperOver ? ItemRunner.b1 : ItemRunner.b) == 0
                 ? "-"
                 : isSuperOver
                 ? ItemRunner.b1
@@ -122,27 +124,54 @@ const BookmakerMarket = (props: any) => {
                   2,
                 )}
               </span>
-            </div>
+            </div> */}
             <div
-              className={`${
-                isSuperOver ? "superover-class2" : boxLayoutCls2
-              } lay float-left text-center betting-disabled`}
-              onClick={() => {
-                onBet(false, ItemRunner);
-              }}
-            >
-             <span><b>{(isSuperOver ? ItemRunner.l1 : ItemRunner.l) == 0
-                ? "-"
-                : isSuperOver
-                ? ItemRunner.l1
-                : ItemRunner.l}</b></span> 
-              <span className="d-block">
-                {nFormatter(
-                  isSuperOver ? ItemRunner.ls1 || 0 : ItemRunner.ls || 2,
-                  2,
-                )}
-              </span>
-            </div>
+  className={`${
+    isSuperOver ? "superover-class2" : boxLayoutCls2
+  } back float-left back lock text-center betting-disabled`}
+  onClick={() => {
+    onBet(true, ItemRunner);
+  }}
+>
+  <b>
+    {(isSuperOver ? ItemRunner.b1 : ItemRunner.b) == 0
+      ? "-"
+      : isSuperOver
+      ? ItemRunner.b1
+      : ItemRunner.b}
+  </b>
+
+ <span className="d-block" style={{fontSize:!isMobile?'12px':''}}>
+  {isSuperOver
+    ? Number(ItemRunner.bs1 || 0).toFixed(2)
+    : nFormatter(ItemRunner.bs || 2, 2)}
+</span>
+</div>
+           <div
+  className={`${
+    isSuperOver ? "superover-class2" : boxLayoutCls2
+  } lay float-left text-center betting-disabled`}
+  onClick={() => {
+    onBet(false, ItemRunner);
+  }}
+  style={{paddingRight:'0px'}}
+>
+  <span>
+    <b>
+      {(isSuperOver ? ItemRunner.l1 : ItemRunner.l) == 0
+        ? "-"
+        : isSuperOver
+        ? ItemRunner.l1
+        : ItemRunner.l}
+    </b>
+  </span>
+
+  <span className="d-block" style={{fontSize:!isMobile?'12px':''}}>
+    {isSuperOver
+      ? Number(ItemRunner.ls1 || 0).toFixed(2)
+      : nFormatter(ItemRunner.ls || 2, 2)}
+  </span>
+</div>
             {!isSuperOver && (
               <>
                 <div
@@ -165,7 +194,7 @@ const BookmakerMarket = (props: any) => {
           className={`float-left country-name ${
             isSuperOver ? "superover-class" : boxLayoutCls
           }  text-start`}
-          style={{ textAlign: "start" ,color:isMobile?'#097c93':'',fontWeight:isMobile?'bold':'',fontSize:isMobile?'12px':'' }}
+          style={{ textAlign: "start" ,color:isMobile?'#097c93':'#097c93',fontWeight:isMobile?'bold':'bold',fontSize:isMobile?'12px':'12px',padding:!isMobile?'0px 6px':'',display:'flex',alignItems:'center' }}
         >
           Min: {lastOdds?.min} Max: {lastOdds?.max}
         </div>
@@ -178,14 +207,14 @@ const BookmakerMarket = (props: any) => {
         )}
         <div
           className={`back ${
-            isSuperOver ? "superover-class2" : boxLayoutCls2
+            isSuperOver ? "superover-class2 superOver-classback" : boxLayoutCls2
           } float-left text-center`}
         >
           <b>Back</b>
         </div>
         <div
           className={`lay ${
-            isSuperOver ? "superover-class2" : boxLayoutCls2
+            isSuperOver ? "superover-class2 superOver-classback" : boxLayoutCls2
           } float-left text-center`}
         >
           <b>Lay</b>

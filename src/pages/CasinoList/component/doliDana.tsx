@@ -186,7 +186,7 @@ const Dolidana = ({ lastOdds, liveMatchData }: any) => {
                 {/* ================= LOWER SECTION ================= */}
                 <div className={`row ${isMobile ? 'gx-3' : ''}`}  style={{marginRight:isMobile?'0px':'',marginLeft:isMobile?'0px':'',gap:!isMobile?'10px':'',flexWrap:isMobile?'wrap':'nowrap'}}>
                     {/* Particular Pair */}
-                    <div className="col-12 col-md-4" style={isMobile ? { backgroundColor: "#0000000a", padding:"8px", borderRadius: "5px", marginBottom: "1.5%" } : {backgroundColor: "#0000000a", padding: "1%", borderRadius: "4px", marginBottom: "1.5%"}}>
+                    <div className="col-12 col-md-4" style={isMobile ? { backgroundColor: "#0000000a", padding:"8px", borderRadius: "5px", marginBottom: "1.5%" } : {backgroundColor: "#0000000a", padding: "1%", borderRadius: "4px", marginBottom: "0px"}}>
                         <div className="" style={isMobile ? {} : { paddingRight: '7px' }}>
                             <div className='text-table-color' style={{fontSize:isMobile?'16px':'', fontWeight:isMobile?'bold':'700', marginBottom:isMobile? 4:6 }}>
                                 Particular Pair
@@ -213,7 +213,7 @@ const Dolidana = ({ lastOdds, liveMatchData }: any) => {
                         </div>
                     </div>
                     {/* Odds of Sum Total */}
-                    <div className="col-12 col-md-8" style={isMobile ? { backgroundColor: "#0000000a", padding: "2%" } : {backgroundColor: "#0000000a", padding: "2%",borderRadius: "4px",maxWidth:"64.666667%",marginBottom: '1.5%'}}>
+                    <div className="col-12 col-md-8" style={isMobile ? { backgroundColor: "#0000000a", padding: "2%" } : {backgroundColor: "#0000000a", padding: "2%",borderRadius: "4px",maxWidth:"64.666667%",marginBottom:'0px'}}>
                         <div style={isMobile ? {} : { padding: '0%' }}>
                             <div className='text-table-color' style={{fontSize:isMobile?'16px':'', fontWeight:isMobile?'bold':'700', marginBottom:isMobile? 4:6 }}>
                                 Odds of Sum Total

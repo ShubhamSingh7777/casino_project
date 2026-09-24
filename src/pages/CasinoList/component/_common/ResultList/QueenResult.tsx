@@ -1,4 +1,5 @@
 import React from "react";
+import { isMobile } from "react-device-detect";
 
 interface QueenResultProps {
   resultHtml: any;
@@ -16,10 +17,14 @@ const QueenResult = ({
   const rdesc = resultHtml.rdesc || "";
   const rdescParts = rdesc.split("#");
 
-  const total0 = cards.slice(0, 2);
-  const total1 = cards.slice(2, 4);
-  const total2 = cards.slice(4, 6);
-  const total3 = cards.slice(6, 8);
+  // const total0 = cards.slice(0, 2);
+  // const total1 = cards.slice(2, 4);
+  // const total2 = cards.slice(4, 6);
+  // const total3 = cards.slice(6, 8);
+ const total0 = cards.filter((_: string, index: number) => index % 4 === 0);
+const total1 = cards.filter((_: string, index: number) => index % 4 === 1);
+const total2 = cards.filter((_: string, index: number) => index % 4 === 2);
+const total3 = cards.filter((_: string, index: number) => index % 4 === 3);
 
   const winner = rdescParts[0]?.trim() || "";
 
@@ -77,7 +82,7 @@ const QueenResult = ({
             alt="${safeCard}"
             style="
               width:auto;
-              height:35px;
+               height:${isMobile?'35px':'50px'};
               margin:3px;
             "
           />
@@ -92,13 +97,13 @@ const QueenResult = ({
   const total3card = createCards(total3);
 
   return `
-    <div style="text-align:center;">
-
+     <div style="text-align:center;display:${!isMobile?'flex':''};justify-content:${!isMobile?'space-between':''}">
+<div style="width:${!isMobile?'25%':''}">
       <div style="
-        font-size:16px;
-        margin-bottom:3px;
+         font-size:${!isMobile?'20px':'16px'};
+        margin-bottom:${isMobile?'3px':'5px'};
       ">
-        Total 0 - <span style="background-color:#086f3f;padding:.35em .65em;font-size: 12px;font-weight: 700;color:white;border-radius:5px">${total0Value}</span>
+        Total 0 - <span style="background-color:#086f3f;padding:.35em .65em;font-size:${isMobile?'12px':'15px'};font-weight: 700;color:white;border-radius:5px">${total0Value}</span>
       </div>
 
       <div style="
@@ -106,6 +111,7 @@ const QueenResult = ({
         justify-content:center;
         align-items:center;
         margin-bottom:3px;
+        margin-top:${!isMobile?'5px':''}
       ">
         ${total0card}
 
@@ -115,12 +121,13 @@ const QueenResult = ({
             : ""
         }
       </div>
-
+</div>
+<div style="width:${!isMobile?'25%':''}">
       <div style="
-        font-size:16px;
-        margin-bottom:3px;
+        font-size:${!isMobile?'20px':'16px'};
+        margin-bottom:${isMobile?'3px':'5px'};
       ">
-        Total 1 - <span style="background-color:#086f3f;padding:.35em .65em;font-size: 12px;font-weight: 700;color:white;border-radius:5px">${total1Value}</span>
+        Total 1 - <span style="background-color:#086f3f;padding:.35em .65em;font-size:${isMobile?'12px':'15px'};font-weight: 700;color:white;border-radius:5px">${total1Value}</span>
       </div>
 
       <div style="
@@ -128,6 +135,7 @@ const QueenResult = ({
         justify-content:center;
         align-items:center;
         margin-bottom:3px;
+         margin-top:${!isMobile?'5px':''}
       ">
         ${total1card}
 
@@ -137,12 +145,13 @@ const QueenResult = ({
             : ""
         }
       </div>
-
+</div>
+<div style="width:${!isMobile?'25%':''}">
       <div style="
-        font-size:16px;
-        margin-bottom:3px;
+          font-size:${!isMobile?'20px':'16px'};
+        margin-bottom:${isMobile?'3px':'5px'};
       ">
-        Total 2 - <span style="background-color:#086f3f;padding:.35em .65em;font-size: 12px;font-weight: 700;color:white;border-radius:5px">${total2Value}</span>
+        Total 2 - <span style="background-color:#086f3f;padding:.35em .65em;font-size:${isMobile?'12px':'15px'};font-weight: 700;color:white;border-radius:5px">${total2Value}</span>
       </div>
 
       <div style="
@@ -150,6 +159,7 @@ const QueenResult = ({
         justify-content:center;
         align-items:center;
         margin-bottom:3px;
+         margin-top:${!isMobile?'5px':''}
       ">
         ${total2card}
 
@@ -159,12 +169,13 @@ const QueenResult = ({
             : ""
         }
       </div>
-
+</div>
+<div style="width:${!isMobile?'25%':''}">
       <div style="
-        font-size:16px;
-        margin-bottom:3px;
+  font-size:${!isMobile?'20px':'16px'};
+        margin-bottom:${isMobile?'3px':'5px'};
       ">
-        Total 3 - <span style="background-color:#086f3f;padding:.35em .65em;font-size: 12px;font-weight: 700;color:white;border-radius:5px">${total3Value}</span>
+        Total 3 - <span style="background-color:#086f3f;padding:.35em .65em;font-size:${isMobile?'12px':'15px'};font-weight: 700;color:white;border-radius:5px">${total3Value}</span>
       </div>
 
       <div style="
@@ -172,6 +183,7 @@ const QueenResult = ({
         justify-content:center;
         align-items:center;
         margin-bottom:3px;
+         margin-top:${!isMobile?'5px':''}
       ">
         ${total3card}
 
@@ -181,21 +193,23 @@ const QueenResult = ({
             : ""
         }
       </div>
-
+</div>
     </div>
-
+</div>
+ <div style="display:flex;justify-content:center;align-items:center">
     <div style="
       box-shadow:0 0 4px -1px;
       border-top:1px solid #ddd;
       margin-top:15px;
       padding:6px 35px;
+        width:${!isMobile?'50%':'100%'}
     ">
 
       <div style="
         display:flex;
         justify-content:center;
-        font-size:12px;
-        margin-bottom:2px;
+        font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
       ">
         <span style="
           opacity:0.6;
@@ -210,7 +224,7 @@ const QueenResult = ({
           ${winner}
         </span>
       </div>
-
+</div>
     </div>
   `;
 };

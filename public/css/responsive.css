@@ -415,6 +415,8 @@
 
     .superover .fancy-tripple .suspended::after {
         width: 40% !important;
+        left: 60% !important;
+        font-size: 12px !important;
     }
 
     .fancy-tripple-box .suspended::after {
@@ -1170,7 +1172,7 @@ font-size: 12px;
         top: 0%;
         left: 0%;
         right: 0%;
-        z-index: 3;
+        z-index: 99999;
     }
     .place-bet .card-header{
       padding:12px 10px
@@ -1376,12 +1378,17 @@ font-size: 12px;
     padding: 0px;
 }
 .casino .card-title{
-    font-size: 12px  !important;
+    font-size: 13px  !important;
     font-weight: bold !important;
-    text-transform: uppercase;
+    text-transform: capitalize;
     width: unset !important;
 }
-
+.superover .my-bet .card-header {
+ padding: 3px 6px;
+}
+.superover .card-title{
+    font-weight: bold;
+}
 .clock2digit{
     bottom: -18px;
     position: absolute !important;
@@ -1446,6 +1453,9 @@ font-size: 12px;
   .matchlist .coupon-table button.back,.matchlist .coupon-table button.lay{
     height: 22px;
   }
+  .coupon-table button.lay {
+  height: 45px;
+}
   .coupon-table button{
     color: black
   }
@@ -1778,12 +1788,11 @@ font-size: 12px;
         max-width: 20%;
     
     }
-    .superover  .suspended::after {
+    .superover .suspended::after {
         width: 40% !important;
         left: 60% !important;
         height: 100% !important;
-        font-size: 16px
-
+        font-size: 12px
     }
     .aaa-button button {
         float: none;
@@ -1891,6 +1900,10 @@ max-width: 100%;
 .casino-container-box .teen41 .suspended::after,.casino-container-box .teen42 .suspended::after,.casino-container-box .teen33 .suspended::after,.casino-container-box .teen32 .suspended::after,.casino-container-box .teen .suspended::after,.casino-container-box .teen3 .suspended::after{
  width: 100% !important;
 }
+.teen-section button .green,.teen-section button .red{
+    font-size: 10px !important;
+}
+
 .teen-section button{
     border: none !important;
     width: 100% !important;
@@ -2329,6 +2342,13 @@ margin-left: 41px;
 .casino-result-modal .modal-body{
     padding: 5px;
 }
+.modal-content {
+  background-color: var(--primary-bg);
+  border: 0;
+  box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.5);
+  z-index: 5;
+  margin-top: 5%;
+}
 
 .dateInputAcc{
   position: relative;
@@ -2399,7 +2419,7 @@ width: 54%;
     padding: 0px;
 }
 .my-bet .card-header{
-    background: #0088CC;
+    background: #2c3e50d9;
 }
 
 .casino-container-box .nav-tabs .nav-link{
@@ -2413,6 +2433,18 @@ width: 54%;
   .container-goal .coupon-table thead .lay{
     font-size:16px !important;
   }
+  .box-2Goal2Title {
+  width: 25%;
+  max-width: 25%;
+  min-width: 25%;
+  min-height: 34px
+}
+.coupon-table .box-2Goal2Back button.back {
+  min-height: 24px !important;
+  height: auto !important;
+  padding: 0px !important;
+}
+
   .coupon-table .box-2Goal2Title {
     min-height: 24px !important;  
 }
@@ -2442,6 +2474,9 @@ width: 54%;
 }
 .back, .back-color ,.lay, .lay-color {
   font-size: 16px;
+}
+.back, .back-color span, .lay, .lay-color span{
+    font-size: 11px;
 }
 .main-market .table-bordered th,.main-market .table-bordered td{
   border-left: none !important;
@@ -2800,6 +2835,10 @@ min-width: 20%;
 .team-name, .country-name {
 font-size: 13px;
 }
+.trio .aaa-button button{
+    width: 49%;
+    min-height: 46px;
+}
 
 @keyframes slideDown {
   from {
@@ -2824,4 +2863,404 @@ font-size: 13px;
     opacity: 0;
   }
 }
+
+/* =========================================
+   MOBILE SICBO
+========================================= */
+
+.sicbo-mobile {
+  width: 100%;
+  padding: 0 2px;
+  box-sizing: border-box;
+}
+.sicbo-odds {
+    font-size: 12px;
+}
+.mobile-main-topFlex{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 30%;
+}
+/* TOP 3 HEADER */
+.mobile-top-header {
+  display: flex;
+    justify-content: space-between;
+    align-items: center;
+  gap: 8px;
+  margin-bottom: 5px;
+}
+.OddevenMobile{
+    width: 100%;
+}
+.mobile-side-cell{
+    width: 47%;
+}
+.oddEvenMobile2{
+    width: 95%;
+}
+.mobile-market-wrapper{
+    width: 50%;
+}
+.anyTripleMobile{
+    width: 20% !important;
+}
+.mobile-header-box {
+  height: 18px;
+  border-radius: 20px;
+  background: #666;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  text-align: center;
+  white-space: nowrap;
+  padding: 0 3px;
+  width: 115px;
+}
+.mobile-top-header  > div:nth-child(2) {
+  width: 76px;
+}
+
+.mobile-header-box.center {
+  font-size: 10px;
+}
+.anyTripleMobile.suspended::after{
+  width: 100% !important;
+}
+.anyTripleMobile.suspended::before{
+ z-index: 9999;
+}
+.mobile-main-topFlex .suspended::before{
+    z-index: 9999;
+}
+
+/* =========================================
+   SMALL / ODD / ANY TRIPLE / EVEN / BIG
+========================================= */
+
+.mobile-main-top {
+display: flex;
+justify-content: space-between;
+align-items: center;
+  margin-bottom: 5px;
+}
+
+.mobile-side-cell,
+.mobile-market-cell {
+  position: relative;
+  min-height: 40px;
+  background: linear-gradient(
+    rgba(153, 146, 135, 0.7),
+    rgba(162, 142, 130, 0.7)
+  );
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 5px;
+}
+
+.mobile-side-cell .side-title,
+.mobile-market-cell .sicbo-label {
+  font-size: 12px;
+  color: #111a35;
+  text-align: center;
+  margin-bottom: 0px;
+}
+
+.mobile-side-cell .side-range {
+  font-size: 12px;
+  font-weight: 700;
+  color: #111a35;
+  margin-top: 4px;
+}
+.Toastify__toast-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    right: 0% !important;
+}
+
+.mobile-main-top .sicbo-bet-wrapper {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+
+
+/* =========================================
+   SECTION TITLE
+========================================= */
+
+.mobile-section {
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.mobile-section-title {
+  width: 100%;
+  height: 18px;
+  border-radius: 18px;
+  background: #666;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  margin-bottom: 8px;
+}
+
+
+/* =========================================
+   DOUBLE / TRIPLE - 6 COLUMNS
+========================================= */
+
+.mobile-six-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 4px;
+}
+
+.mobile-dice-cell {
+  min-height: 96px;
+  background: #b8b1ab;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+
+/* =========================================
+   TOTAL 4 - 17
+========================================= */
+
+.mobile-total-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin: 5px 0 12px;
+}
+
+.mobile-total-cell {
+  min-height: 50px;
+  background: #b8b1ab;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.mobile-total-cell .sicbo-label {
+  font-size: 19px;
+  color: #111a35;
+}
+
+
+/* =========================================
+   TWO DICE - 5 COLUMNS
+========================================= */
+
+.mobile-five-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 5px;
+}
+
+.mobile-combination-cell {
+  min-height: 36px;
+  background: linear-gradient(
+    rgba(153, 146, 135, 0.7),
+    rgba(162, 142, 130, 0.7)
+  );
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+
+/* =========================================
+   SINGLE / DOUBLE / TRIPLE HEADER
+========================================= */
+
+.mobile-single-double-header {
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  background: #666666;
+  border-radius: 10px;
+}
+
+.mobile-single-double-header > div {
+  height: 18px;
+  background: #666;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+}
+
+.mobile-single-double-header > div:first-child {
+  border-radius: 18px 0 0 18px;
+}
+
+.mobile-single-double-header > div:last-child {
+  border-radius: 0 18px 18px 0;
+}
+
+
+/* =========================================
+   SINGLE DICE
+========================================= */
+
+.mobile-single-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 4px;
+}
+
+.mobile-single-cell {
+  height: 55px;
+  background: linear-gradient(
+    rgba(153, 146, 135, 0.7),
+    rgba(162, 142, 130, 0.7)
+  );
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+
+/* =========================================
+   DICE IMAGE
+========================================= */
+
+.mobile-dice-cell .sicbo-dice-image {
+  width: auto;
+  height: 13px;
+  object-fit: contain;
+}
+.eachTripleCont .mobile-dice-cell .sicbo-dice-image:first-child {
+    position: absolute;
+    left: 5px;
+    top: 5px;
+}
+.eachTripleCont .mobile-dice-cell .sicbo-dice-image:nth-child(2) {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+.sicbodoubleCont .mobile-dice-cell{
+    border-radius: 6px;
+    min-height: 50px;
+}
+.eachTripleCont .mobile-dice-cell .sicbo-dice-image:last-child {
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+}
+.mobile-combination-cell .sicbo-dice-image {
+  width: auto;
+  height: 20px;
+}
+.sicbodoubleCont .sicbo-dice-image{
+    height: 20px;
+}
+.eachTripleCont .mobile-dice-cell{
+    min-height: 53px;
+    border-radius: 6px;
+}
+.sicbodoubleCont .sicbo-dice-image:first-child {
+    position: absolute;
+    left: 5px;
+    top: 5px;
+}
+.sicbodoubleCont .sicbo-dice-image:last-child {
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+}
+.mobile-single-cell .sicbo-dice-image {
+  width: auto;
+  height: 30px;
+}
+
+
+/* Hide betting button visually but keep it clickable */
+.mobile-dice-cell .sicbo-bet-wrapper,
+.mobile-combination-cell .sicbo-bet-wrapper,
+.mobile-single-cell .sicbo-bet-wrapper,
+.mobile-total-cell .sicbo-bet-wrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+}
+
+.mobile-dice-cell .sicbo-back-button,
+.mobile-combination-cell .sicbo-back-button,
+.mobile-single-cell .sicbo-back-button,
+.mobile-total-cell .sicbo-back-button {
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+.sicbo .sicbo-suspended::after,.sicbo2 .sicbo-suspended::after{
+      content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(55, 54, 54, 0.84);
+border-radius: 0px;
+}
+
+/* =========================================================
+   SUSPENDED
+========================================================= */
+.sicbo .sicbo-suspended::before ,.sicbo2 .sicbo-suspended::before{
+  content: "";
+  position: absolute;
+  width: 17px;
+  height: 17px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: url("../imgs/lock.svg") center/contain no-repeat;
+  filter: invert(1);
+  z-index: 1;
+  border-radius: 0px;
+}
+.casino-container-box .mobile-main-topFlex .suspended:after{
+    width: 100% !important;
+}
+
+/* =========================================
+   MOBILE ONLY
+========================================= */
+
+/* @media (min-width: 769px) {
+  .sicbo-mobile {
+    display: none !important;
+  }
+} */
+}
+.goal2 .casino-32A .suspended::after {
+height: auto;
 }

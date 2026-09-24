@@ -106,7 +106,7 @@ const Teenpatti2O = (props: any) => {
             {/* BACK BUTTON */}
             <td
               className={`back teen-section ${clsstatus} box-3`}
-              style={{ textAlign: "center" }}
+              style={{ textAlign: "center",width:!isMobile?"20%":"",maxWidth:!isMobile?'20%':'',minWidth:!isMobile?'20%':''}}
             >
               <button className="back" onClick={() => onBet(true, item)}>
                 <span className="odd">{item.b || "0"}</span>
@@ -117,7 +117,7 @@ const Teenpatti2O = (props: any) => {
             {!onlyBack && (
               <td
                 className={`lay teen-section ${clsstatus} box-3`}
-                style={{ textAlign: "center" }}
+                style={{ textAlign: "center",width:!isMobile?"20%":"",maxWidth:!isMobile?'20%':'',minWidth:!isMobile?'20%':'' }}
               >
                 <button className="lay" onClick={() => onBet(false, item)}>
                   <span className="odd">{item.l || "0"}</span>
@@ -154,11 +154,11 @@ const Teenpatti2O = (props: any) => {
           <table className="table coupon-table table-bordered suspendwidth">
             <thead>
               <tr style={{ background: "#f8f8f8" }}>
-                <th className={`box-4 text-start ${isMobile ? "pl-2" : ""}`}>
+                <th className={`box-4 box-6desk text-start ${isMobile ? "pl-2" : ""}`} style={{width:!isMobile?"60%":"",maxWidth:!isMobile?'60%':'',minWidth:!isMobile?'60%':''}}>
                   Player A
                 </th>
-                <th className="back box-3">BACK</th>
-                <th className="lay-color box-3">LAY</th>
+                <th className="back box-3" style={{width:!isMobile?"20%":"",maxWidth:!isMobile?'20%':'',minWidth:!isMobile?'20%':''}}>BACK</th>
+                <th className="lay-color box-3" style={{width:!isMobile?"20%":"",maxWidth:!isMobile?'20%':'',minWidth:!isMobile?'20%':''}}>LAY</th>
               </tr>
             </thead>
             <tbody>
@@ -211,11 +211,11 @@ const Teenpatti2O = (props: any) => {
           <table className="table coupon-table table-bordered suspendwidth">
             <thead>
               <tr style={{ background: "#f8f8f8" }}>
-                <th className={`box-4 text-start ${isMobile ? "pl-2" : ""}`}>
+                <th className={`box-4 box-6desk text-start ${isMobile ? "pl-2" : ""}`} style={{width:!isMobile?"60%":"",maxWidth:!isMobile?'60%':'',minWidth:!isMobile?'60%':''}}>
                   Player B
                 </th>
-                <th className="back box-3">BACK</th>
-                <th className="lay-color box-3">LAY</th>
+                <th className="back box-3" style={{width:!isMobile?"20%":"",maxWidth:!isMobile?'20%':'',minWidth:!isMobile?'20%':''}}>BACK</th>
+                <th className="lay-color box-3" style={{width:!isMobile?"20%":"",maxWidth:!isMobile?'20%':'',minWidth:!isMobile?'20%':''}}>LAY</th>
               </tr>
             </thead>
             <tbody>

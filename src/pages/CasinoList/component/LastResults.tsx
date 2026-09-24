@@ -329,6 +329,20 @@ const gameWiseResultStyle: any = {
       shortName: "T",
     },
   },
+    superover3: {
+    "1": {
+      clsname: "ball-runs playera last-result",
+      shortName: "I",
+    },
+    "2": {
+      clsname: "ball-runs playerb last-result",
+      shortName: "A",
+    },
+    "0": {
+      clsname: "ball-runs playera last-result text-white",
+      shortName: "T",
+    },
+  },
   cmeter: {
     "1": {
       clsname: "ball-runs playera last-result",
@@ -625,6 +639,8 @@ const LastResults = (props: any) => {
           shortName = Item.win;
           break;
         case "lucky15":
+          case "sicbo":
+            case "sicbo2":
           clsname = "ball-runs ball-runs-lottcard playerb playerNum-lucky last-result";
           shortName = Item.win;
           break;
@@ -689,9 +705,13 @@ const LastResults = (props: any) => {
           clsname = gameWiseResultStyle["superover"][Item.win]["clsname"];
           shortName = gameWiseResultStyle["superover"][Item.win]["shortName"];
           break;
-          case "superover2":  
+          case "superover2": 
           clsname = gameWiseResultStyle["superover2"][Item.win]["clsname"];
           shortName = gameWiseResultStyle["superover2"][Item.win]["shortName"];
+          break;
+            case "superover3":
+          clsname = gameWiseResultStyle["superover3"][Item.win]["clsname"];
+          shortName = gameWiseResultStyle["superover3"][Item.win]["shortName"];
           break;
         case "fivewicket":
           clsname = gameWiseResultStyle["fivewicket"][Item.win]["clsname"];
@@ -747,6 +767,7 @@ const LastResults = (props: any) => {
         case "roulette12":
         case "roulette13":
         case "roulette11":
+          case "ourroullete":
           clsname = `badge rounded-circle mx-1 p-1 ${getRouletteBgClass(
             Item.win
           )} text-white`;
@@ -813,6 +834,7 @@ const LastResults = (props: any) => {
       case "roulette12":
       case "roulette11":
       case "roulette13":
+        case "ourroullete":
         return true;
 
       default:
@@ -845,7 +867,7 @@ const LastResults = (props: any) => {
           </div>
         </div>
       ) : (
-        <div className={`card m-b-10 my-bet mt-10}`}>
+        <div className={`card m-b-10 my-bet mt-10`} style={{boxShadow:!isMobile?'none':''}}>
           <div className='card-header casino lastResult-header'>
             <h6 className='card-title d-inline-block'>
               {'Last Result'}

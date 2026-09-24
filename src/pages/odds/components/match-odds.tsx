@@ -125,9 +125,14 @@ class MatchOdds extends React.PureComponent<
   };
   getSocketEvents = () => {
     const handler = (market: any) => {
-      console.log(market, 'market')
+      console.log(market, "market");
+      console.log("MAXB:", market?.maxb);
       if ((window as any).oddsStartTime) {
-        console.warn(`⏱️ TIME TAKEN TO GET FIRST MARKET DATA: ${Date.now() - (window as any).oddsStartTime}ms`);
+        console.warn(
+          `⏱️ TIME TAKEN TO GET FIRST MARKET DATA: ${
+            Date.now() - (window as any).oddsStartTime
+          }ms`,
+        );
         delete (window as any).oddsStartTime;
       }
       this.setState((prev: any) => ({
@@ -154,7 +159,7 @@ class MatchOdds extends React.PureComponent<
   getCurrentOdds = (
     market: IMarket,
     runner: any,
-    isBack: boolean
+    isBack: boolean,
   ): number | null => {
     let currentOdds: number | null = null;
 
@@ -163,10 +168,13 @@ class MatchOdds extends React.PureComponent<
     const layOdds = runner.lay?.map((o: any) => o.odds) || [];
 
     // For BOOKMAKER markets
-    if (market.marketName?.toLowerCase().includes("bookmaker") || market.oddsType === "bookMaker") {
+    if (
+      market.marketName?.toLowerCase().includes("bookmaker") ||
+      market.oddsType === "bookMaker"
+    ) {
       currentOdds =
         runner.odds?.find(
-          (o: any) => o.odds > 0 && o.otype === (isBack ? "back" : "lay")
+          (o: any) => o.odds > 0 && o.otype === (isBack ? "back" : "lay"),
         )?.odds || null;
     } else {
       // For EXCHANGE markets, pick the first available live odds from your arrays
@@ -199,11 +207,11 @@ class MatchOdds extends React.PureComponent<
     const values = Object.entries(pnlMap);
 
     const negative = values.reduce((min, curr) =>
-      curr[1] < min[1] ? curr : min
+      curr[1] < min[1] ? curr : min,
     );
 
     const positive = values.reduce((max, curr) =>
-      curr[1] > max[1] ? curr : max
+      curr[1] > max[1] ? curr : max,
     );
 
     if (!positive || !negative) {
@@ -233,7 +241,7 @@ class MatchOdds extends React.PureComponent<
    4️⃣ Find runner
   --------------------------------------- */
     const runner = market.runners.find(
-      (r: any) => r.selectionId === selectionId
+      (r: any) => r.selectionId === selectionId,
     );
 
     if (!runner) {
@@ -301,13 +309,13 @@ class MatchOdds extends React.PureComponent<
         ? (cashoutOdds - 1) * cashoutStack
         : cashoutOdds * cashoutStack - cashoutStack
       : market.mname === "Bookmaker"
-        ? cashoutStack
-        : cashoutStack;
+      ? cashoutStack
+      : cashoutStack;
     const cashoutExposure = isBack
       ? -cashoutStack
       : market.mname === "Bookmaker"
-        ? -(cashoutOdds - 1) * cashoutStack
-        : -(cashoutOdds * cashoutStack - cashoutStack);
+      ? -(cashoutOdds - 1) * cashoutStack
+      : -(cashoutOdds * cashoutStack - cashoutStack);
     const finalCashout = Number(cashoutPnl.toFixed(2));
 
     betPopup({
@@ -350,13 +358,24 @@ class MatchOdds extends React.PureComponent<
     const isAdminRoute = window.location.pathname.startsWith("/admin");
     const hasAnyLiveData = data?.some((market: any) => {
       const oddsData = runnersData ? runnersData[market.marketId] : null;
-      return this.state.liveMarketIds[market.marketId] && oddsData?.runners?.some((r: any) => r.back?.length > 0 || r.lay?.length > 0);
+      return (
+        this.state.liveMarketIds[market.marketId] &&
+        oddsData?.runners?.some(
+          (r: any) => r.back?.length > 0 || r.lay?.length > 0,
+        )
+      );
     });
 
     if (data && data.length > 0 && !hasAnyLiveData) {
       return (
-        <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "200px" }}>
-          <i className="fas fa-spinner fa-spin fa-2x" style={{ color: "black" }} />
+        <div
+          className="d-flex justify-content-center align-items-center"
+          style={{ minHeight: "200px" }}
+        >
+          <i
+            className="fas fa-spinner fa-spin fa-2x"
+            style={{ color: "black" }}
+          />
         </div>
       );
     }
@@ -370,7 +389,8 @@ class MatchOdds extends React.PureComponent<
 
             // Check if we actually have live odds for this market
             const hasLiveData = oddsData?.runners?.some(
-              (runner: any) => runner?.back?.length > 0 || runner?.lay?.length > 0
+              (runner: any) =>
+                runner?.back?.length > 0 || runner?.lay?.length > 0,
             );
 
             // If we haven't received live odds yet, hide the market entirely
@@ -380,8 +400,7 @@ class MatchOdds extends React.PureComponent<
 
             const isSingleBackLay = oddsData?.runners?.some(
               (runner: any) =>
-                runner?.back?.length === 1 &&
-                runner?.lay?.length === 1
+                runner?.back?.length === 1 && runner?.lay?.length === 1,
             );
 
             let setVisibleMarketStatus = true;
@@ -396,14 +415,43 @@ class MatchOdds extends React.PureComponent<
             const hasExposure = Object.keys(getMarketBook || {}).some(
               (key) =>
                 key.startsWith(market.marketId) &&
-                Number(getMarketBook[key]) !== 0
+                Number(getMarketBook[key]) !== 0,
             );
 
             const marketKey = market.mname || market.marketName || "";
 
             const showCashout =
-              cashoutMarketNames.some(name => marketKey.toLowerCase().includes(name.toLowerCase())) && hasExposure;
+              cashoutMarketNames.some((name) =>
+                marketKey.toLowerCase().includes(name.toLowerCase()),
+              ) && hasExposure;
+            const marketName = (
+              market.mname ||
+              market.marketName ||
+              ""
+            ).toLowerCase();
 
+            const isMatchOdds =
+              marketName === "match_odds" || marketName === "match odds";
+
+            const isBookmaker = marketName === "bookmaker";
+
+            const formatMaxValue = (value: any) => {
+              const num = Number(value || 0);
+
+              if (num >= 10000000) {
+                return `${(num / 10000000).toFixed(2).replace(/\.00$/, "")}Cr`;
+              }
+
+              if (num >= 100000) {
+                return `${(num / 100000).toFixed(2).replace(/\.00$/, "")}L`;
+              }
+
+              if (num >= 1000) {
+                return `${(num / 1000).toFixed(2).replace(/\.00$/, "")}K`;
+              }
+
+              return num;
+            };
             return (
               <div key={market._id}>
                 <div className={`market-title ${isMobile ? "" : "mt-1"}`}>
@@ -445,12 +493,29 @@ class MatchOdds extends React.PureComponent<
                 </div>
                 <div className="table-header">
                   <div
-                    className={`float-left country-name ${classforheadingfirst} min-max`}
+                    className={`float-left country-name d-flex ${classforheadingfirst} min-max`}
                   >
-                    <b />
+                    <span
+                      className="market-nation-nameminmax"
+                      style={{ marginRight: "5px" }}
+                    >
+                      {" "}
+                      {isBookmaker && <>Min: {oddsData?.min}</>}
+                    </span>
+                    <span className="market-nation-nameminmax">
+                      {" "}
+                      Max:{" "}
+                      {formatMaxValue(
+                        isMatchOdds
+                          ? oddsData?.maxb
+                          : isBookmaker
+                          ? oddsData?.max
+                          : 0,
+                      )}
+                    </span>
                   </div>
                   {(!isMobile && market.oddsType != OddsType.BM) ||
-                    market.oddsType == OddsType.BM ? (
+                  market.oddsType == OddsType.BM ? (
                     <>
                       <div
                         className="box-1 float-left"
@@ -467,14 +532,16 @@ class MatchOdds extends React.PureComponent<
                   )}
 
                   <div
-                    className={`back ${classforheading} float-left text-center ${isSingleBackLay ? "single-back-heading" : ""
-                      }`}
+                    className={`back ${classforheading} float-left text-center ${
+                      isSingleBackLay ? "single-back-heading" : ""
+                    }`}
                   >
                     <b>Back</b>
                   </div>
                   <div
-                    className={`lay ${classforheading} float-left text-center ${isSingleBackLay ? "single-lay-heading" : ""
-                      }`}
+                    className={`lay ${classforheading} float-left text-center ${
+                      isSingleBackLay ? "single-lay-heading" : ""
+                    }`}
                   >
                     <b>Lay</b>
                   </div>
@@ -490,16 +557,19 @@ class MatchOdds extends React.PureComponent<
                 {oddsData &&
                   oddsData?.runners
                     ?.sort(
-                      (a: any, b: any) => a?.sortPriority - b?.sortPriority
+                      (a: any, b: any) => a?.sortPriority - b?.sortPriority,
                     )
                     .map((runner: any) => {
-                      let pnlValue = getMarketBook ? getMarketBook[`${market.marketId}_${runner.selectionId}`] : null;
+                      let pnlValue = getMarketBook
+                        ? getMarketBook[
+                            `${market.marketId}_${runner.selectionId}`
+                          ]
+                        : null;
                       if (pnlValue && user && user.role !== RoleType.user) {
                         pnlValue = -pnlValue;
                       }
                       const isSingleBackLay =
-                        runner?.back?.length === 1 &&
-                        runner?.lay?.length === 1;
+                        runner?.back?.length === 1 && runner?.lay?.length === 1;
                       const countryClass = isSingleBackLay
                         ? "country-name single-back-lay"
                         : "country-name";
@@ -507,8 +577,9 @@ class MatchOdds extends React.PureComponent<
                         <div key={runner.selectionId}>
                           <div
                             data-title={runner.gstatus}
-                            className={`table-row ${runner.gstatus === "SUSPENDED" ? "suspended" : ""
-                              }`}
+                            className={`table-row ${
+                              runner.gstatus === "SUSPENDED" ? "suspended" : ""
+                            }`}
                           >
                             <div
                               className={`${countryClass} ${classforheadingfirst}`}
@@ -524,11 +595,7 @@ class MatchOdds extends React.PureComponent<
                               <p>
                                 {pnlValue ? (
                                   <span
-                                    className={
-                                      pnlValue > 0
-                                        ? "green"
-                                        : "red"
-                                    }
+                                    className={pnlValue > 0 ? "green" : "red"}
                                   >
                                     {pnlValue.toLocaleString()}
                                   </span>
@@ -556,7 +623,14 @@ class MatchOdds extends React.PureComponent<
                       );
                     })}
                 {this.state.remarkMarket[market.marketId] ? (
-                  <div className="table-remark text-left remark" style={{ color: "#097c93", padding: "0 5px", fontWeight: "normal" }}>
+                  <div
+                    className="table-remark text-left remark"
+                    style={{
+                      color: "#097c93",
+                      padding: "0 5px",
+                      fontWeight: "normal",
+                    }}
+                  >
                     {this.state.remarkMarket[market.marketId]}
                   </div>
                 ) : (

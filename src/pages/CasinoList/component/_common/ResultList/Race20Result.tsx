@@ -1,4 +1,5 @@
 import React from "react";
+import { isMobile } from "react-device-detect";
 
 interface Race20ResultProps {
   resultHtml: any;
@@ -71,7 +72,7 @@ const Race20Result = ({ resultHtml }: Race20ResultProps) => {
             alt="${safeCard}"
             style="
               width:auto;
-              height:35px;
+               height:${isMobile?'35px':'50px'};
               object-fit:contain;
               margin:2px;
             "
@@ -122,7 +123,7 @@ const Race20Result = ({ resultHtml }: Race20ResultProps) => {
         alt="${winnerCard}"
         style="
           width:auto;
-          height:35px;
+          height:${isMobile?'35px':'50px'};
           object-fit:contain;
           margin-left:8px;
         "
@@ -149,7 +150,7 @@ const Race20Result = ({ resultHtml }: Race20ResultProps) => {
           style="
             display:flex;
             align-items:center;
-            height:40px;
+            height:55px;
           "
         >
           <div
@@ -180,7 +181,7 @@ const Race20Result = ({ resultHtml }: Race20ResultProps) => {
           style="
             display:flex;
             align-items:center;
-            height:40px;
+            height:55px;
           "
         >
           <div
@@ -211,7 +212,7 @@ const Race20Result = ({ resultHtml }: Race20ResultProps) => {
           style="
             display:flex;
             align-items:center;
-            height:40px;
+            height:55px;
           "
         >
           <div
@@ -242,7 +243,7 @@ const Race20Result = ({ resultHtml }: Race20ResultProps) => {
           style="
             display:flex;
             align-items:center;
-            height:40px;
+            height:55px;
           "
         >
           <div
@@ -279,11 +280,11 @@ const Race20Result = ({ resultHtml }: Race20ResultProps) => {
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
-    font-size: 16px;
+    font-size:${isMobile?'16px':'22px'};
     width: 30px;
-    height: 23vh;
+    height:${isMobile? '23vh':'58vh'};
     border: 1px solid #097c93;
-    padding: 2px 12px;
+    padding:${isMobile?'2px 12px':'0px 12px'};
     background-color: var(--bg-body);
     z-index: 100;
         "
@@ -327,12 +328,14 @@ const Race20Result = ({ resultHtml }: Race20ResultProps) => {
 
 
     <!-- RESULT DETAILS -->
+     <div style="display:flex;justify-content:center;align-items:center">
     <div
       style="
         box-shadow:0 0 4px -1px;
         border-top:1px solid #ddd;
         margin-top:15px;
         padding:6px 35px;
+          width:${!isMobile?'50%':'100%'}
       "
     >
 
@@ -340,8 +343,8 @@ const Race20Result = ({ resultHtml }: Race20ResultProps) => {
         style="
           display:flex;
           justify-content:center;
-          font-size:12px;
-          margin-bottom:2px;
+          font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
         "
       >
         <span
@@ -365,8 +368,9 @@ const Race20Result = ({ resultHtml }: Race20ResultProps) => {
         style="
           display:flex;
           justify-content:center;
-          font-size:12px;
-          margin-bottom:2px;
+          font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
+         
         "
       >
         <span
@@ -390,8 +394,8 @@ const Race20Result = ({ resultHtml }: Race20ResultProps) => {
         style="
           display:flex;
           justify-content:center;
-          font-size:12px;
-          margin-bottom:2px;
+         font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
         "
       >
         <span
@@ -409,7 +413,7 @@ const Race20Result = ({ resultHtml }: Race20ResultProps) => {
           ${total}
         </span>
       </div>
-
+</div>
     </div>
   `;
 };

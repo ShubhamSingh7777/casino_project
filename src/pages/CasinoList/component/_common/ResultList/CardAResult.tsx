@@ -1,4 +1,5 @@
 import React from "react";
+import { isMobile } from "react-device-detect";
 
 interface CardAResultProps {
   resultHtml: any;
@@ -64,7 +65,7 @@ const CardAResult = ({
             alt="${safeCard}"
             style="
               width:auto;
-              height:35px;
+              height:${isMobile?'35px':'50px'};
               margin:3px;
             "
           />
@@ -158,17 +159,17 @@ const CardAResult = ({
   // --------------------------------------------------
 
   return `
-    <div style="text-align:center;">
+    <div style="text-align:center;display:${!isMobile?'flex':''};justify-content:${!isMobile?'space-between':''}">
 
       <!-- ================= PLAYER 8 ================= -->
-
+<div style="width:${!isMobile?'25%':''}">
       <div style="
-        font-size:16px;
-        margin-bottom:3px;
+       font-size:${!isMobile?'20px':'16px'}; 
+        margin-bottom:${isMobile?'3px':'5px'};
       ">
         Player 8 - <span style="
           margin-left:3px;
-          font-size:16px;
+        font-size:${!isMobile?'20px':'16px'};
           color:rgb(255 193 7);
         "> ${player8Total}</span>
       </div>
@@ -190,17 +191,17 @@ const CardAResult = ({
         }
 
       </div>
-
+</div>
 
       <!-- ================= PLAYER 9 ================= -->
-
+<div style="width:${!isMobile?'25%':''}">
       <div style="
-        font-size:16px;
-        margin-bottom:3px;
+        font-size:${!isMobile?'20px':'16px'};
+        margin-bottom:${isMobile?'3px':'5px'};
       ">
         Player 9 - <span style="
           margin-left:3px;
-          font-size:16px;
+          font-size:${!isMobile?'20px':'16px'};
           color:rgb(255 193 7);
         ">${player9Total}</span>
       </div>
@@ -230,17 +231,17 @@ const CardAResult = ({
         }
 
       </div>
-
+</div>
 
       <!-- ================= PLAYER 10 ================= -->
-
+<div style="width:${!isMobile?'25%':''}">
       <div style="
-        font-size:16px;
-        margin-bottom:3px;
+          font-size:${!isMobile?'20px':'16px'};
+        margin-bottom:${isMobile?'3px':'5px'};
       ">
         Player  10 - <span style="
           margin-left:3px;
-          font-size:16px;
+         font-size:${!isMobile?'20px':'16px'};
           color:rgb(255 193 7);
         "> ${player10Total}</span>
       </div>
@@ -261,17 +262,16 @@ const CardAResult = ({
         }
 
       </div>
-
-
+</div>
       <!-- ================= PLAYER 11 ================= -->
-
+<div style="width:${!isMobile?'25%':''}">
       <div style="
-        font-size:16px;
-        margin-bottom:3px;
+        font-size:${!isMobile?'20px':'16px'};
+        margin-bottom:${isMobile?'3px':'5px'};
       ">
         Player 11 - <span style="
           margin-left:3px;
-          font-size:16px;
+         font-size:${!isMobile?'20px':'16px'};
           color:rgb(255 193 7);
         "> ${player11Total}</span>
       </div>
@@ -294,17 +294,18 @@ const CardAResult = ({
         }
 
       </div>
-
+</div>
     </div>
 
 
     <!-- ================= RESULT DETAILS ================= -->
-
+ <div style="display:flex;justify-content:center;align-items:center">
     <div style="
       box-shadow:0 0 4px -1px;
       border-top:1px solid #ddd;
       margin-top:15px;
       padding:6px 35px;
+       width:${!isMobile?'50%':'100%'}
     ">
 
       <!-- Winner -->
@@ -312,8 +313,8 @@ const CardAResult = ({
       <div style="
         display:flex;
         justify-content:center;
-        font-size:12px;
-        margin-bottom:2px;
+         font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
       ">
 
         <span style="
@@ -341,8 +342,8 @@ const CardAResult = ({
       <div style="
         display:flex;
         justify-content:center;
-        font-size:12px;
-        margin-bottom:2px;
+          font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
       ">
 
         <span style="
@@ -378,8 +379,8 @@ const CardAResult = ({
       <div style="
         display:flex;
         justify-content:center;
-        font-size:12px;
-        margin-bottom:2px;
+          font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
       ">
 
         <span style="
@@ -415,8 +416,8 @@ const CardAResult = ({
       <div style="
         display:flex;
         justify-content:center;
-        font-size:12px;
-        margin-bottom:2px;
+        font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
       ">
 
         <span style="
@@ -440,8 +441,8 @@ const CardAResult = ({
       <div style="
         display:flex;
         justify-content:center;
-        font-size:12px;
-        margin-bottom:2px;
+         font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
       ">
 
         <span style="
@@ -465,8 +466,8 @@ const CardAResult = ({
       <div style="
         display:flex;
         justify-content:center;
-        font-size:12px;
-        margin-bottom:2px;
+         font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
       ">
 
         <span style="

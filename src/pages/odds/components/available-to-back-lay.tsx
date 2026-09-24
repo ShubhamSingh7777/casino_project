@@ -34,7 +34,7 @@ const OddsBox = React.memo(({ odds, size, onClick, cls, classforbox }: any) => {
   return (
     <div
       onClick={onClick}
-      className={`${classforbox} text-center ${cls} ${blink}`}
+      className={`${classforbox} uiFor text-center ${cls} ${blink}`}
     >
       <span className="odd d-block">
         {odds !== null && odds !== undefined ? odds : "-"}

@@ -1202,7 +1202,7 @@ marquee {
   font-size: 16px;
   font-weight: bold;
   text-align: center;
-  padding: 6px 0;
+  padding: 2px 0;
   padding-left: 0px;
   color: #000000;
 }
@@ -1479,6 +1479,9 @@ footer {
 .main-market .coupon-table tr td {
   padding: 0;
 }
+.goal2 .main-market .coupon-table tr td{
+  padding: 3px 0px;
+}
 
 .coupon-table tr td:first-child {
   vertical-align: middle;
@@ -1557,11 +1560,120 @@ footer {
   padding-left: 0 !important;
 }
 
-.place-bet {
+.sidebar-place-bet .place-bet {
   position: relative;
   overflow: hidden;
 }
 
+/* .center-place-bet .card{
+  background: none;
+} */
+.center-place-bet .back{
+  background-color: #72bbef !important;
+  border: 10px solid white;
+  text-align: start;
+}
+.center-place-bet .coupon-table,.sidebar-place-bet .coupon-table{
+  background: none
+}
+.center-place-bet .coupon-table thead.sidebar-place-bet .coupon-table thead{
+  border-bottom: none;
+}
+.center-place-bet .table thead th{
+  border-top: none;
+  border-bottom: none;
+}
+.center-place-bet .place-bet .coupon-table tr td{
+  padding: 4px 0px;
+}
+.center-place-bet .place-bet .value-buttons .btn{
+  background-color: #cccccc;
+  font-size: 14px;
+  color: black;
+}
+.center-place-bet .table td{
+  border-bottom: none;
+}
+.center-place-bet .place-bet {
+        position: fixed !important;
+        top: 1%;
+        left: 30%;
+        right: 0%;
+        z-index: 99999;
+        max-width: 500px;
+        box-shadow: none;
+    }
+    .center-place-bet .backdrop-custom {
+        position: fixed;
+        /* display: none; */
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #000;
+        z-index: 2;
+        cursor: pointer;
+        opacity:.5
+    }
+    .center-place-bet .place-bet thead tr,.sidebar-place-bet .place-bet thead tr{
+      background: none;
+    }
+    .center-place-bet .coupon-table thead,.sidebar-place-bet .coupon-table thead{
+      border-bottom: none;
+    }
+    .center-place-bet .card-header {
+    padding: 10px;
+    }
+    .center-place-bet .card-title{
+         font-size: 20px;
+         font-weight: bold;
+         padding-right: 0px;
+         padding-left: 0px;
+    }
+    .center-place-bet .btn-clearLink,.sidebar-place-bet .btn-clearLink{
+     background-color:unset !important;
+    border-color: unset !important;
+     color: #0d6efd !important;
+           font-size: 16px !important;
+        font-weight: 400 !important;
+   padding: .375rem .75rem !important;
+   border-radius: 0px !important;
+   text-decoration: underline !important;
+   border: none;
+   text-transform: lowercase;
+}
+.center-place-bet .btn-resetPlace,.sidebar-place-bet .btn-resetPlace{
+    background-color: #bd1828 !important;
+    border-color: #bd1828 !important;
+     color: #fff !important;
+           font-size: 16px !important;
+        font-weight:  400!important;
+   padding: .375rem .75rem !important;
+   border-radius: 0px !important
+}
+.center-place-bet .btn-editplace,.sidebar-place-bet .btn-editplace{
+    background-color:#097c93 !important;
+    border-color: #097c93 !important;
+     color: #fff !important;
+           font-size: 16px !important;
+        font-weight: 400 !important;
+   padding: .375rem .75rem !important;
+   border-radius: 0px !important
+}
+.center-place-bet .btn-palcebet,.sidebar-place-bet .btn-palcebet{
+        color: #fff !important;
+    background-color: #198754 !important;
+    border-color: #198754 !important;
+            font-size: 16px !important;
+        font-weight: 400 !important;
+   padding: .375rem .75rem !important;
+   border-radius: 0px !important
+}
+.center-place-bet .table-responsive{
+ scrollbar-width: none !important;
+}
 .loading {
   position: absolute;
   left: 0px;
@@ -2621,6 +2733,7 @@ footer {
   background-color: #faa9ba !important;
   color: #333 !important;
   font-size: 16px;
+  text-align: center;
 }
 
 .back,
@@ -2628,6 +2741,7 @@ footer {
   background-color: #72bbef !important;
   color: #333 !important;
   font-size: 16px;
+  text-align: center;
 }
 
 .customHeadColor {
@@ -3642,6 +3756,32 @@ marquee.casino-remark {
   font-size: 14px;
 }
 
+.superover3 .team-name{
+  font-size: 13px;
+}
+.superover3 .back span,.superover3 .back-color span,.superover3 .lay span,.superover3 .lay-color span{
+  font-size: 12px;
+}
+.superover3 .lay span b,.superover3 .lay-color span b{
+  font-size: 16px;
+}
+.superover3 .table-header>div, .table-row>div
+ {
+  padding: 2px 0px;
+}
+.superover3 .table-header>div, .table-row>div{
+ border: none;
+}
+.superOver-classback{
+  min-height: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.casino-container-box .superover3 .suspended::before,.casino-container-box .superover .suspended::before{
+  background: none !important;
+  background-color: none !important;
+}
 .min-max {
   font-size: 12px;
 }
@@ -7381,7 +7521,7 @@ footer p {
   border: 0;
   box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.5);
   z-index: 5;
-  margin-top: 5%;
+  margin-top: 0%;
 }
 
 .search-input:focus {
@@ -7499,7 +7639,7 @@ footer p {
 
 .casino-32A .suspended::after {
   width: 40%;
-  height: 45px;
+  height: auto;
 }
 .goal .casino-32A .suspended::after{
  height: 34px;
@@ -8051,7 +8191,7 @@ footer p {
 
 .table-bordered thead th,
 .table-bordered thead td {
-  border-bottom-width: 2px;
+  border-bottom-width: 1px;
   color: #333;
 }
 
@@ -8286,7 +8426,7 @@ footer p {
 .casino-32A .coupon-table button {
   height: auto;
   min-height: 40px;
-  padding: 4px 0 1px;
+  padding: 0px 0 1px;
   background: none;
   color: #273a47;
   border: 0;
@@ -8527,12 +8667,15 @@ footer p {
   height: 45px;
 }
 
-.coupon-table .teen-section button.back {
-  height: 40px;
+.coupon-table .teen-section button.back,.coupon-table .teen-section button.lay{
+  height: auto;
 }
 
 .coupon-table button.lay {
-  height: 45px;
+  height: 30px;
+}
+.goal2 .casino-32A .suspended::after{
+  height: 36px;
 }
 
 .matchlist .coupon-table button.back {
@@ -9154,7 +9297,7 @@ footer p {
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
   /* padding: 1.25rem; */
-  border: 1px solid #eee;
+  border: none;
 }
 
 .setting-box {
@@ -10028,10 +10171,15 @@ footer p {
   box-shadow:  none !important;
   justify-content: center !important;
   align-items: center ;
+
+  width: fit-content !important;
+  min-width: 100px !important;
+  max-width: 90vw !important;
+
 }
 .Toastify__toast-icon {
-      width: 35px !important;
-    height: 35px;
+      width: 30px !important;
+    height: 30px;
     font-size: 14px;
   background: #61d34a;
   color: #fff;
@@ -10052,7 +10200,9 @@ footer p {
   border-radius: 50%;
   padding: 2px 3px 3px 4px;
 } */
-
+.Toastify__close-button--light{
+  display: none;
+}
 .error-toast-body {
   /* background: var(--theme2-bg) !important; */
   /* border-bottom: 2px solid #ffffffa8; */
@@ -10080,14 +10230,16 @@ footer p {
 .Toastify__toast-body{
   margin: 11px 51px 13px 51px !important;
   background: white;
-  width: 320px !important;
-  min-height: 59px !important;
-  background: #fff !important;
+  width: fit-content !important;
+  min-width: 100px !important;
+  max-width: 90vw !important;
+  min-height:auto !important;
+  background: #fff !important;  
   color: #333 !important;
   border-radius: 12px !important;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.18) !important;
   padding: 10px 18px !important;
-  font-size: 18px !important;
+  font-size: 14px !important;
   font-weight: 400 !important;
 }
   
@@ -10131,25 +10283,51 @@ footer p {
     }
 
 .superover-class {
-  width: 80%;
-  min-width: 80%;
-  max-width: 80%;
+  width: 84%;
+  min-width: 84%;
+  max-width: 84%;
 }
 
 .superover-class2 {
-  width: 10%;
-  min-width: 10%;
-  max-width: 10%;
+  width: 8%;
+  min-width: 8%;
+  max-width: 8%;
 
+}
+.superover .fancy-tripple .box-1{
+  width: 8%;
+  max-width: 8%;
+  min-width: 8%
+}
+
+.superover3 .table-header>div:last-child,.superover3 .table-row>div:last-child{
+  border-right: 0px;
+  padding-right: 0px;
+}
+.superover .table-header>div:last-child{
+  border-right: 0px;
 }
 
 .superover .suspended::after {
-  width: 20% !important;
-  right: 0% !important;
+  width: 16% !important;
+    left: 84% !important;
   height: 100% !important;
-  font-size: 16px
+  font-size: 10px;
+  background: #373636d6;
+  color: #ff0000;
+  font-family: "Roboto Condensed", sans-serif;
+}
+.superover3 .box-6New,.superover .box-6New{
+    width: 76%;
+  min-width: 76%;
+  max-width: 76%;
 }
 
+.superover3 .box-1{
+  width: 8%;
+  min-width: 8%;
+  max-width: 8%;
+}
 .box-6New {
   width: 70%;
   min-width: 70%;
@@ -10163,16 +10341,21 @@ footer p {
 .fancy-max {
   color: #097c93;
   font-size: 10px !important;
+  font-weight: bold;
 }
 
 .superover .fancy-tripple .suspended::after {
-  width: 30% !important;
-  right: 0% !important;
+  width: 24% !important;
+  left: 76% !important;
   height: 100% !important;
-  font-size: 16px
+  font-size: 10px
+}
+.superover .table-header, .table-row {
+border-bottom: 0.01em solid #c7c8ca;
+
 }
 
-.casino-container-box .superover2 .suspended::before {
+.casino-container-box .superover2 .suspended::before,.casino-container-box .superover .suspended::before {
   background: none !important;
 }
 
@@ -10257,8 +10440,11 @@ footer p {
 
 .teen-section button {
   font-size: 16px !important;
-  min-height: 36px !important;
+  min-height: 30px !important;
   border: none;
+}
+.patti2 .teen-section button {
+  font-size: 18px !important;
 }
 
 .desktop-market-row {
@@ -10396,13 +10582,13 @@ footer p {
     height: 40px;
 } */
 .coupon-table .box-2Goal2Title {
-  height: 34px !important;
+  height: 30px !important;
   padding: 0px 5px !important;
 
 }
 
 .coupon-table .box-2Goal2Back button.back {
-  height: 34px !important;
+  min-height: 30px !important;
   padding: 0px !important;
 }
 
@@ -10410,7 +10596,7 @@ footer p {
   width: 25%;
   max-width: 25%;
   min-width: 25%;
-  min-height: 34px
+  min-height: 30px
 }
 
 .box-2Goal2TitleShowLay {
@@ -10423,7 +10609,7 @@ footer p {
   width: 25%;
   max-width: 25%;
   min-width: 25%;
-  min-height: 34px
+  min-height: 30px
 }
 
 .box-2Goal2TitleShowLayNew {
@@ -10555,8 +10741,12 @@ width: 13%;
   gap: 5px;
 }
 .goal .casino-32A .coupon-table button{
-   padding: 0px;
+   padding: 0px !important;
 }
+.goal2 .casino-32A .coupon-table button{
+   padding: 0px 0 1px !important;
+}
+
 .goal .coupon-table .teen-section button.back{
   height: 34px;
   min-height: 34px !important;
@@ -10658,12 +10848,15 @@ width: 13%;
   border: none !important;
   background: #f7f7f7;
 }
+.casino-result-modal .race2{
+  background: none !important;
+} 
 .race2 .casino-odds-box-bhav,.race17 .new-casino .casino-odds-box-bhav{
   font-size: 16px;
   margin-top: 5px;
 }
 .race2 .mogambo-suspended .suspended::after,.race17 .mogambo-suspended .suspended::after {
-  height: 52px !important;
+  height: auto !important;
 }
 .race2 .new-casino .casino-odds-box,.race17 .new-casino .casino-odds-box {
   margin-top: 0px;
@@ -10761,6 +10954,17 @@ min-width: 20%;
     color: #097c93;
     font-weight: bold;
 }
+.casino-result-modal .modal-lg{
+ max-width: 1140px;
+}
+.casino-result-modal .modal-dialog{
+  margin: 4px auto;
+}
+@media (min-width: 992px) {
+  .casino-result-modal .modal-lg{
+ max-width: 1140px;
+}
+}
 @keyframes toastSlideDown {
   from {
     transform: translateY(-120%);
@@ -10809,3 +11013,732 @@ min-width: 20%;
   
 }
 
+.superover .card{
+  box-shadow: none;
+}
+/* =========================================================
+   MAIN
+========================================================= */
+
+.sicbo-container {
+  width: 100%;
+  padding: 5px 0px 2px;
+  background: #ffffff;
+  box-sizing: border-box;
+  font-family:  "Roboto Condensed", sans-serif;
+  color: #101b36;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.sicbo-top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.sicbo-header-box {
+  background:#666666;
+  color: white;
+  border-radius: 22px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+          padding: 0 10px;
+        font-size: 9px;
+      min-width: 70px;
+}
+
+.sicbo-header-box.center {
+  width: 70px;
+  justify-self: center;
+}
+
+
+/* =========================================================
+   MAIN BOARD
+========================================================= */
+
+.sicbo-main-board {
+display: flex;
+    flex-wrap: nowrap;
+    margin-top: 5px;
+    justify-content: space-between;
+}
+
+
+/* =========================================================
+   SMALL / BIG
+========================================================= */
+
+.sicbo-side-market {
+  background:linear-gradient(
+    rgba(153, 146, 135, 0.7),
+    rgba(162, 142, 130, 0.7)
+  );
+  border-radius: 6px;
+  min-height: 137px;
+  width: 76px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+
+  position: relative;
+  overflow: hidden;
+}
+
+.side-title {
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 12px;
+}
+
+.side-range {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.side-bet {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+
+/* =========================================================
+   CENTER
+========================================================= */
+
+.sicbo-center-board {
+  min-width: 0;
+}
+
+
+/* =========================================================
+   TOP TOTAL ROW
+========================================================= */
+
+.sicbo-top-row {
+  display: flex;
+  gap: 2px;
+  height: 42px;
+}
+
+.sicbo-cell {
+  position: relative;
+  background:linear-gradient(
+    rgba(153, 146, 135, 0.7),
+    rgba(162, 142, 130, 0.7)
+  );
+  border-radius: 6px;
+  overflow: hidden;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+
+
+.odd-even-cell {
+  flex: 1.5;
+  width: auto;
+  min-width: 0;
+  margin: 0 5px;
+  font-weight: 400;
+}
+
+.total-cell {
+  flex: 1;
+  width: auto;
+  min-width: 25px;
+  height: 42px;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+
+/* Any triple */
+.any-triple-cell {
+  width: 80px;
+  flex-shrink: 0;
+  font-size: 16px;
+}
+
+
+/* =========================================================
+   TEXT
+========================================================= */
+
+.sicbo-label {
+  font-size: 16px;
+  line-height: 1;
+  text-align: center;
+  color: #101b36;
+  z-index: 2;
+}
+
+.sicbo-odds {
+  font-size: 16px;
+  font-weight: 700;
+  margin-top: 8px;
+  color: #101b36;
+  z-index: 2;
+}
+
+
+/* =========================================================
+   EVEN
+========================================================= */
+
+.sicbo-even-row {
+  height: auto;
+  /* margin-top: 1px; */
+  width: auto;
+  margin: 0px 5px;
+}
+
+.even-cell {
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+  height: auto;
+ 
+}
+
+.even-cell .sicbo-label {
+ font-size: 16px;
+  font-weight: 400;
+}
+
+.even-cell .sicbo-odds {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+
+/* =========================================================
+   BET BUTTON
+========================================================= */
+
+.sicbo-bet-wrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+}
+
+.sicbo-back-button {
+  width: 100% !important;
+  height: 100% !important;
+  opacity: 0 !important;
+  cursor: pointer;
+}
+
+
+/* =========================================================
+   ODDS INFORMATION BAR
+========================================================= */
+
+.sicbo-odds-info {
+  height: 36px;
+  margin-top: 10px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 1px;
+}
+
+
+.sicbo-odds-info-3set{
+  background-color: #666666;
+  color: #fff;
+  display: flex;
+    justify-content: space-between;
+            padding: 0 2px;
+        font-size: 8px;
+        min-width: unset;
+        height: 18px;
+        align-items: center;
+        border-radius: 10px;
+        width: 33%;
+}
+
+.sicbo-odds-info .double-info {
+  margin-left: 3px;
+   background: #686868;
+  color: #ffffff;
+  border-radius: 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 8px;
+  height: 18px;
+  width: 33%;
+}
+
+.sicbo-odds-info .triple-info {
+  margin-left: 3px;
+   background: #686868;
+  color: #ffffff;
+  border-radius: 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 8px;
+  width: 33%;
+  padding: 2px;
+}
+
+
+/* =========================================================
+   DICE ROW
+========================================================= */
+
+.sicbo-dice-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 3px;
+
+  height: auto;
+  margin-top: 10px;
+  margin: 0px 2px;
+}
+
+.dice-market {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 2px;
+}
+
+
+/* =========================================================
+   DICE CELL
+========================================================= */
+
+.dice-market .sicbo-cell {
+  min-width: 0;
+  height: 42px;
+  padding: 5px;
+  
+}
+
+
+/* =========================================================
+   DICE
+========================================================= */
+
+.dice-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+
+  z-index: 2;
+}
+
+.sicbo-dice {
+  width: 35px;
+  height: 35px;
+
+  background: #a9002f;
+  border-radius: 4px;
+
+  position: relative;
+  display: grid;
+
+  padding: 4px;
+  box-sizing: border-box;
+}
+
+.sicbo-dice-image{
+  height: 25px;
+}
+.double-market .sicbo-dice-image{
+  height: 15px;
+}
+.double-market .dice-group,.triple-market .dice-group{
+ flex-direction: column;
+}
+.triple-market .sicbo-dice-image{
+  height: 10px;
+}
+/* =========================================================
+   PIPS
+========================================================= */
+
+.pip {
+  width: 6px;
+  height: 6px;
+  background: #ffffff;
+  border-radius: 50%;
+
+  position: absolute;
+}
+
+
+/* ---------------------------------------------------------
+   1
+--------------------------------------------------------- */
+
+.pip-1-0 {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+
+/* ---------------------------------------------------------
+   2
+--------------------------------------------------------- */
+
+.pip-2-0 {
+  left: 7px;
+  top: 7px;
+}
+
+.pip-2-1 {
+  right: 7px;
+  bottom: 7px;
+}
+
+
+/* ---------------------------------------------------------
+   3
+--------------------------------------------------------- */
+
+.pip-3-0 {
+  left: 7px;
+  top: 7px;
+}
+
+.pip-3-1 {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.pip-3-2 {
+  right: 7px;
+  bottom: 7px;
+}
+
+
+/* ---------------------------------------------------------
+   4
+--------------------------------------------------------- */
+
+.pip-4-0 {
+  left: 7px;
+  top: 7px;
+}
+
+.pip-4-1 {
+  right: 7px;
+  top: 7px;
+}
+
+.pip-4-2 {
+  left: 7px;
+  bottom: 7px;
+}
+
+.pip-4-3 {
+  right: 7px;
+  bottom: 7px;
+}
+
+
+/* ---------------------------------------------------------
+   5
+--------------------------------------------------------- */
+
+.pip-5-0 {
+  left: 7px;
+  top: 7px;
+}
+
+.pip-5-1 {
+  right: 7px;
+  top: 7px;
+}
+
+.pip-5-2 {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.pip-5-3 {
+  left: 7px;
+  bottom: 7px;
+}
+
+.pip-5-4 {
+  right: 7px;
+  bottom: 7px;
+}
+
+
+/* ---------------------------------------------------------
+   6
+--------------------------------------------------------- */
+
+.pip-6-0 {
+  left: 7px;
+  top: 6px;
+}
+
+.pip-6-1 {
+  right: 7px;
+  top: 6px;
+}
+
+.pip-6-2 {
+  left: 7px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.pip-6-3 {
+  right: 7px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.pip-6-4 {
+  left: 7px;
+  bottom: 6px;
+}
+
+.pip-6-5 {
+  right: 7px;
+  bottom: 6px;
+}
+
+
+/* =========================================================
+   COMBINATION
+========================================================= */
+
+.sicbo-combination {
+  margin-top: 10px;
+  background: #ffffff;
+}
+
+.combination-title {
+  height: 18px;
+  border-radius: 20px;
+  background:#666666;
+
+  color: #ffffff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 9px;
+  margin: 0 15px 6px;
+}
+
+.combination-row {
+  display: grid;
+  grid-template-columns: repeat(15, 1fr);
+  gap: 4px;
+
+  padding: 0 15px;
+}
+
+.combination-cell {
+  height: 50px;
+  min-width: 0;
+}
+.combination-cell .dice-group{
+  flex-direction: column;
+}
+.combination-cell .sicbo-dice-image {
+  width: auto;
+  height: 17px;
+}
+.sicbo .sicbo-suspended::after,.sicbo2 .sicbo-suspended::after{
+      content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(55, 54, 54, 0.84);
+border-radius: 0px;
+}
+
+/* =========================================================
+   SUSPENDED
+========================================================= */
+.sicbo .sicbo-suspended::before,.sicbo2 .sicbo-suspended::before {
+  content: "";
+  position: absolute;
+  width: 17px;
+  height: 17px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: url("../imgs/lock.svg") center/contain no-repeat;
+  filter: invert(1);
+  z-index: 1;
+  border-radius: 0px;
+}
+
+/* .sicbo-suspended {
+  filter: grayscale(0.3);
+} */
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+.closebtnbetplace{
+  -webkit-filter: invert(1);
+  opacity: 1;
+}
+@media (max-width: 768px) {
+
+  .sicbo-container {
+    padding: 5px 0px;
+    overflow-x: auto;
+  }
+
+  .sicbo-top-header {
+    grid-template-columns: 1fr 100px 1fr;
+  }
+
+  .sicbo-header-box {
+    font-size: 11px;
+  }
+
+  .sicbo-main-board {
+    min-width: 900px;
+  }
+
+  .sicbo-combination {
+    min-width: 900px;
+  }
+
+}
+.place-bet-desktop-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  z-index: 9999;
+}
+
+.place-bet-desktop-wrapper .place-bet {
+  width: 500px;
+}
+.teen3 .teen-section button{
+  font-size: 18px !important;
+}
+.teen3 .card-body{
+  border: none !important;
+}
+.casino-result-modal .modal-body{
+  padding: 10px;
+}
+.box-6desk{
+  width: 60% !important;
+}
+
+
+.place-bet-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  background: rgba(0, 0, 0, 0.55);
+
+  z-index: 99999;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+  padding-top: 15px;
+}
+.place-bet-popup {
+  width: 680px;
+  max-width: calc(100% - 30px);
+
+  background: #fff;
+
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.4);
+
+  border-radius: 2px;
+
+  overflow: hidden;
+}
+.place-bet-popup-header {
+  height: 67px;
+
+  background: #078dcc;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 15px;
+
+  color: #fff;
+}
+
+.place-bet-popup-header h5 {
+  margin: 0;
+
+  font-size: 25px;
+  font-weight: 600;
+}
+.place-bet-popup-close {
+  border: none;
+  background: transparent;
+
+  color: #fff;
+
+  font-size: 42px;
+  font-weight: 300;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+  padding: 0;
+}
+.place-bet-popup-body {
+  background: #70b7e5;
+
+  padding: 10px;
+}
+.teen-section button .green,.teen-section button .red{
+    font-size: 10px !important;
+}
+
+.Toastify__toast-container{
+  width: auto !important;
+}
+.Toastify__toast-container--top-right{
+  right: 29% !important;
+  z-index: 999999999 !important;
+}

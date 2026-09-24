@@ -1,4 +1,5 @@
 import React from "react";
+import { isMobile } from "react-device-detect";
 
 interface CasinoWarResultProps {
   resultHtml: any;
@@ -53,7 +54,7 @@ const secondRow = oddEvenParts.slice(mid);
             alt="${safeCard}"
             style="
               width:auto;
-              height:35px;
+               height:${isMobile?'35px':'50px'};
               margin:3px;
             "
           />
@@ -72,10 +73,11 @@ const secondRow = oddEvenParts.slice(mid);
 
 
   return `
-    <div style="text-align:center;">
- <div style="
-        font-size:16px;
-        margin-bottom:3px;
+    <div style="text-align:center;display:${!isMobile?'flex':''};justify-content:${!isMobile?'space-between':''}">
+ <div style="width:${!isMobile?'14%':''}">
+    <div style="
+          font-size:${!isMobile?'20px':'16px'};
+        margin-bottom:${isMobile?'3px':'5px'};
       ">
        Dealer
       </div>
@@ -89,11 +91,11 @@ const secondRow = oddEvenParts.slice(mid);
       
         ${total0card}   
       </div>
-
-      
+</div>
+      <div style="width:${!isMobile?'14%':''}">
       <div style="
-        font-size:16px;
-        margin-bottom:3px;
+        font-size:${!isMobile?'20px':'16px'};
+        margin-bottom:${isMobile?'3px':'5px'};
       ">
         
         1
@@ -107,9 +109,11 @@ const secondRow = oddEvenParts.slice(mid);
      
         ${total1card}
       </div>
+      </div>
+      <div style="width:${!isMobile?'14%':''}">
       <div style="
-        font-size:16px;
-        margin-bottom:3px;
+         font-size:${!isMobile?'20px':'16px'};
+        margin-bottom:${isMobile?'3px':'5px'};
       ">
        2
       </div>
@@ -123,11 +127,12 @@ const secondRow = oddEvenParts.slice(mid);
       
         ${total2card} 
       </div>
-
+</div>
+<div style="width:${!isMobile?'14%':''}">
       
       <div style="
-        font-size:16px;
-        margin-bottom:3px;
+        font-size:${!isMobile?'20px':'16px'};
+        margin-bottom:${isMobile?'3px':'5px'};
       ">
         
         3
@@ -141,10 +146,11 @@ const secondRow = oddEvenParts.slice(mid);
      
         ${total3card}
       </div>
-
+</div>
+<div style="width:${!isMobile?'14%':''}">
         <div style="
-        font-size:16px;
-        margin-bottom:3px;
+        font-size:${!isMobile?'20px':'16px'};
+        margin-bottom:${isMobile?'3px':'5px'};
       ">
         
         4
@@ -158,9 +164,11 @@ const secondRow = oddEvenParts.slice(mid);
      
         ${total4card}
       </div>
+      </div>
+      <div style="width:${!isMobile?'14%':''}">
         <div style="
-        font-size:16px;
-        margin-bottom:3px;
+         font-size:${!isMobile?'20px':'16px'};
+        margin-bottom:${isMobile?'3px':'5px'};
       ">
         
         5
@@ -174,11 +182,13 @@ const secondRow = oddEvenParts.slice(mid);
      
         ${total5card}
       </div>
+      </div>
 
+      <div style="width:${!isMobile?'14%':''}">
       
   <div style="
-        font-size:16px;
-        margin-bottom:3px;
+          font-size:${!isMobile?'20px':'16px'};
+        margin-bottom:${isMobile?'3px':'5px'};
       ">
         
         6
@@ -192,19 +202,23 @@ const secondRow = oddEvenParts.slice(mid);
      
         ${total6card}
       </div>
+      </div>
+      </div>
     </div>
+     <div style="display:flex;justify-content:center;align-items:center">
  <div style="
       box-shadow:0 0 4px -1px;
       border-top:1px solid #ddd;
       margin-top:15px;
       padding:6px 35px;
+        width:${!isMobile?'50%':'100%'}
     ">
 
       <div style="
         display:flex;
         justify-content:center;
-        font-size:12px;
-        margin-bottom:2px;
+       font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
       ">
         <span style="
           opacity:0.6;
@@ -223,8 +237,8 @@ const secondRow = oddEvenParts.slice(mid);
   <div style="
     display:flex;
     justify-content:center;
-    font-size:12px;
-    margin-bottom:2px;
+   font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
   ">
     <span style="
       opacity:0.6;
@@ -249,8 +263,8 @@ const secondRow = oddEvenParts.slice(mid);
   <div style="
     display:flex;
     justify-content:center;
-    font-size:12px;
-    margin-bottom:2px;
+    font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
   ">
     <span style="
       opacity:0.6;
@@ -275,8 +289,8 @@ const secondRow = oddEvenParts.slice(mid);
   <div style="
     display:flex;
     justify-content:center;
-    font-size:12px;
-    margin-bottom:2px;
+  font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
   ">
     <span style="
       opacity:0.6;
@@ -295,8 +309,8 @@ const secondRow = oddEvenParts.slice(mid);
   <div style="
     display:flex;
     justify-content:center;
-    font-size:12px;
-    margin-bottom:2px;
+   font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
   ">
     <span style="
       opacity:0.6;
@@ -314,6 +328,7 @@ const secondRow = oddEvenParts.slice(mid);
 
     
     
+    </div>
     </div>
   `;
 };

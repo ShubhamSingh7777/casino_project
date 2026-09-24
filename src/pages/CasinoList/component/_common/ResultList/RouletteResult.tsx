@@ -1,4 +1,5 @@
 import React from "react";
+import { isMobile } from "react-device-detect";
 
 interface RouletteResultProps {
   resultHtml: any;
@@ -53,7 +54,7 @@ const secondRow = oddEvenParts.slice(mid);
             alt="${safeCard}"
             style="
               width:auto;
-              height:35px;
+               height:${isMobile?'35px':'50px'};
               margin:3px;
             "
           />

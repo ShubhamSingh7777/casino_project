@@ -20,6 +20,7 @@ const Worli3ButtonItem = ({
   activeMenu,
   stake,
   subtitle,
+   liveMatchData,
   isPana = false,
 }: any) => {
   const { gameCode, matchId } = useParams();
@@ -69,7 +70,7 @@ const Worli3ButtonItem = ({
 
       marketId: market.mid,
       marketName: market.mname,
-      eventId: market.mid,
+      eventId: liveMatchData?.event_data?.match_id || 0,
 
       matchId: matchIdNumber,
       selectionName,
@@ -86,6 +87,8 @@ const Worli3ButtonItem = ({
       matchName: "Matka",
       betOn: IBetOn.CASINO,
       gtype: gameCode,
+        minbet: market.min,
+            maxbet: market.max,
     };
 
     // ✅ OPEN / CLOSED SAFE CALC

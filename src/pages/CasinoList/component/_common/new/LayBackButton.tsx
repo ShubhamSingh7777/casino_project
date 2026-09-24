@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "../../../../../redux/hooks";
 import authService from "../../../../../services/auth.service";
 import { nFormatter } from "../../../../../utils/helper";
 import { useLocation, useParams } from "react-router-dom";
+import { isMobile } from "react-device-detect";
 
 
 const LayBackButton = (props: any) => {
@@ -46,13 +47,15 @@ const LayBackButton = (props: any) => {
             pnl: 0,
             stack: 0,
             currentMarketOdds: isBack ? item.b : item.l,
-            eventId: item?.mid || item?.marketId,
+            eventId: liveMatchData?.event_data?.match_id || 0,
             exposure: -0,
             ipAddress,
             type: IBetType.Match,
             matchName: liveMatchData.title,
             betOn: IBetOn.CASINO,
             gtype: gameCode,
+              minbet: liveMatchData.min,
+            maxbet: liveMatchData.max,
           },
         })
       );
@@ -64,7 +67,7 @@ const LayBackButton = (props: any) => {
   return (
     <>
       {/* BACK */}
-      <td  className={`back teen-section ${clsnamename} ${clsstatus}`}>
+      <td  className={`back teen-section ${clsnamename} ${clsstatus}`} style={{height:!isMobile?'46px':''}}>
         <button className="back" onClick={() => onBet(true, ItemMarket)}>
           <span className="odd">{ItemMarket.b}</span>
           {/* 🔥 Hide this when URL = poison */}
@@ -78,7 +81,7 @@ const LayBackButton = (props: any) => {
 
       {/* LAY — only if showLay is true */}
       {showLay && (
-        <td className={`lay teen-section ${clsnamename} ${clsstatus}`}>
+        <td className={`lay teen-section ${clsnamename} ${clsstatus}`} style={{height:!isMobile?'46px':''}}>
           <button className="lay" onClick={() => onBet(false, ItemMarket)}>
             <span className="odd">
               <b>{ItemMarket.l}</b>

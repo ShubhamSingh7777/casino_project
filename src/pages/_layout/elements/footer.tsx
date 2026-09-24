@@ -119,7 +119,7 @@ const Footer = () => {
       <div className="footer-text">
         <p></p>
         <p className="text-center">
-          © Copyright 2026. All Rights Reserved. Powered by Allpanel.
+          © Copyright 2026. All Rights Reserved. Powered by JMDBOOK.
         </p>
       </div>
     </div>

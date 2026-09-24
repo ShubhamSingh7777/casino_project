@@ -42,7 +42,7 @@ const TransactionPasswordModel = (props: any) => {
               password with anyone.{' '}
             </p>
             <p style={{ fontSize: '22px', marginBottom: '45px' }}>
-              Thank you, Team {'allpanelexch999.com'}
+              Thank you, Team {'jmdbook.online'}
             </p>
             <p style={{ fontSize: '24px', marginBottom:isMobile?'20px': '10px', color: 'green' }}>
               Success! आपका पासवर्ड बदला जा चुका है |
@@ -55,7 +55,7 @@ const TransactionPasswordModel = (props: any) => {
               किए जा सकते है और एक बात का ध्यान रखे, इस पासवर्ड को किसी के साथ सांझा ना करे|{' '}
             </p>
             <p style={{ fontSize: '22px', marginBottom: '45px' }}>
-              धन्यवाद, टीम {'allpanelexch999.com'}
+              धन्यवाद, टीम {'jmdbook.online'}
             </p>
             <button onClick={() => props.setIsOpen(false)} className='back-btn float-right'>
              <span className="back-arrow">←</span>

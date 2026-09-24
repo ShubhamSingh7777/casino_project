@@ -1,4 +1,5 @@
 import React from "react";
+import { isMobile } from "react-device-detect";
 
 interface LuckySixResultProps {
   resultHtml: any;
@@ -53,7 +54,7 @@ const secondRow = oddEvenParts.slice(mid);
             alt="${safeCard}"
             style="
               width:auto;
-              height:35px;
+              height:${isMobile?'35px':'50px'};
               margin:3px;
             "
           />
@@ -84,18 +85,20 @@ const secondRow = oddEvenParts.slice(mid);
         ${total0card}   
       </div>
     </div>
+     <div style="display:flex;justify-content:center;align-items:center">
  <div style="
       box-shadow:0 0 4px -1px;
       border-top:1px solid #ddd;
       margin-top:15px;
       padding:6px 35px;
+        width:${!isMobile?'50%':'100%'}
     ">
 
       <div style="
         display:flex;
         justify-content:center;
-        font-size:12px;
-        margin-bottom:2px;
+       font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
       ">
         <span style="
           opacity:0.6;
@@ -114,8 +117,8 @@ const secondRow = oddEvenParts.slice(mid);
   <div style="
     display:flex;
     justify-content:center;
-    font-size:12px;
-    margin-bottom:2px;
+  font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
   ">
     <span style="
       opacity:0.6;
@@ -134,8 +137,8 @@ const secondRow = oddEvenParts.slice(mid);
   <div style="
     display:flex;
     justify-content:center;
-    font-size:12px;
-    margin-bottom:2px;
+   font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
   ">
     <span style="
       opacity:0.6;
@@ -154,8 +157,8 @@ const secondRow = oddEvenParts.slice(mid);
   <div style="
     display:flex;
     justify-content:center;
-    font-size:12px;
-    margin-bottom:2px;
+  font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
   ">
     <span style="
       opacity:0.6;
@@ -171,7 +174,7 @@ const secondRow = oddEvenParts.slice(mid);
     </span>
   </div>
 
-    
+    </div>
     
     </div>
   `;

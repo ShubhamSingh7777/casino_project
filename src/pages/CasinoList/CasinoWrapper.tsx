@@ -91,6 +91,7 @@ import VipTeenPattiOneDay from "./component/VipTeenPattiOneDay";
 import RouletteFrame from "./component/RouletteFrame";
 import Worli3 from "./component/worli3";
 import MarketStrip from "./component/MarketStrip";
+import Sicbo from "./component/Sicbo";
 // import datajson from './Casinojson'
 
 type MarketData = {
@@ -117,7 +118,7 @@ const CasinoWrapper = (props: any) => {
   const { socketUser } = useWebsocketUser();
   const [tv, setTv] = React.useState("");
   const isFetching = React.useRef(false);
-
+  const [showBetPopup, setShowBetPopup] = React.useState(false);
   const key = btoa(`https://stream-s-43.uhdmovies.online/casino-stream?id=${gameCode}`);
 
   const marketList = React.useMemo<any[]>(() => {
@@ -136,7 +137,7 @@ const CasinoWrapper = (props: any) => {
 
   const isMobileRoulette =
     isMobile &&
-    ["roulette11", "roulette12", "roulette13"].includes(String(gameCode));
+    ["roulette11", "roulette12", "roulette13","ourroullete"].includes(String(gameCode));
 
   let interValCasino: any = null;
   ///const [interVal, setIntervalObj] = React.useState<any>(null)
@@ -432,7 +433,8 @@ const CasinoWrapper = (props: any) => {
         );
       case "superover":
       case "cricketv3":
-        case "superover2":  
+        case "superover2":
+          case "superover3":  
         return (
           <SuperOver lastOdds={updateOdds} liveMatchData={liveMatchData} />
         );
@@ -463,6 +465,11 @@ const CasinoWrapper = (props: any) => {
         return (
           <Twentydaypoker lastOdds={updateOdds} liveMatchData={liveMatchData} />
         );
+      case "sicbo":
+      case "sicbo2":  
+        return(
+          <Sicbo lastOdds={updateOdds} liveMatchData={liveMatchData} />
+        )  
       case "goal":
       case "goal2":  //done
         return <Goal lastOdds={updateOdds} liveMatchData={liveMatchData} />;
@@ -561,6 +568,7 @@ const CasinoWrapper = (props: any) => {
         case "roulette12":
       case "roulette13":
       case "roulette11":
+        case "ourroullete":
         return(
          <Roulette lastOdds={updateOdds} liveMatchData={liveMatchData} />
         );
@@ -586,6 +594,12 @@ const CasinoWrapper = (props: any) => {
             gameCode === "cricket2020" ? "cc-20" : ""
           }`}
         >
+                   {/* CENTER PLACE BET */}
+  <div className="center-place-bet">
+  {marketDataList.stake && (
+    <PlaceBetBox stake={marketDataList.stake} />
+  )}
+</div>
           <div className="col-8 col-lg-8">
             <div className="card my-bet">
               <div className="card-header casino">
@@ -639,7 +653,7 @@ const CasinoWrapper = (props: any) => {
                       width="100%"
                       height={isMobile ? "220" : "420"}
                       style={{ border: "0px" }}
-                     src={`https://tv.777exch.live/${gameCode}`}
+                     src={`https://tv.betsclub.online/${gameCode}`}
                     ></iframe>
                   )}
                 {casinoMatchData && gameCode !== 'worli3' && <CasinoTimer lastOdds={casinoMatchData} />}
@@ -697,9 +711,11 @@ const CasinoWrapper = (props: any) => {
             <div id="sidebar-right" className=" ">
               <div className="ps">
                 <div className="sidebar-right-inner">
+                  <div className="sidebar-place-bet">
                   {marketDataList.stake && (
                     <PlaceBetBox stake={marketDataList.stake} />
                   )}
+                  </div>
                   <div className={`card  my-bet ${isMobile ? "m-b-5" : "m-b-10"}`}>
                     <div className="card-header">
                       <h6 className="card-title d-inline-block">My Bet</h6>
@@ -775,7 +791,7 @@ const CasinoWrapper = (props: any) => {
                         width="100%"
                        
                         style={{ border: "0px" , height:isMobile ? "212": "250px",}}
-                        src={`https://tv.777exch.live/${gameCode}`}
+                        src={`https://tv.betsclub.online/${gameCode}`}
                         sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
                         seamless
                       />
@@ -823,6 +839,7 @@ const CasinoWrapper = (props: any) => {
                 className={`card-body ${gameCode}`}
                 style={{ padding:isMobile ? "0px 0px" : "0px", position: "relative" }}
               >
+         
                 {renderUiData(gameCode)}
                 {(liveMatchData.remark != "" && gameCode != "Cards3J") ||
                 (liveMatchData?.event_data?.remark != "" &&
@@ -845,6 +862,7 @@ const CasinoWrapper = (props: any) => {
               {marketDataList.stake && (
                 <PlaceBetBox stake={marketDataList.stake} />
               )}
+              
               {isMobileRoulette ? (
                 <div className='d-flex justify-content-end'>
                   <RouletteFrame liveMatchData={liveMatchData} lastOdds={updateOdds} />

@@ -13,7 +13,7 @@ import Limitinfo from "./limitinfo";
 import { useParams } from "react-router-dom";
 
 const FancyMarket = (props: any) => {
-  const { oddsMarket, lastOdds, max } = props;
+  const { oddsMarket, lastOdds, max} = props;
   const dispatch = useAppDispatch();
   const userState = useAppSelector(selectUserData);
   const isSuperOver = window.location.pathname.includes("superover");
@@ -82,7 +82,7 @@ const FancyMarket = (props: any) => {
               : isBack
               ? item.b
               : item.l,
-            eventId: lastOdds.match_id,
+            eventId: Number(matchId),
             exposure: -0,
             ipAddress: ipAddress,
             type: IBetType.Match,
@@ -97,7 +97,17 @@ const FancyMarket = (props: any) => {
   };
   // Add here 👇
   const isFancy1 = oddsMarket?.MarketName?.includes("Fancy1");
- 
+  const isSuperOver3 = window.location.pathname.includes("superover3");
+ const marketName =
+  oddsMarket?.MarketName?.trim()?.toLowerCase() || "";
+
+
+const isTie = marketName === "tie";
+
+// SuperOver3:
+// Fancy1 + Tie => Back/Lay
+// Fancy => No/Yes
+const showBackLay = isSuperOver3 ? (isFancy1 || isTie) : isFancy1;
 
 const hasAnyGscode = oddsMarket?.Runners?.some(
   (runner: any) =>
@@ -151,7 +161,7 @@ if (!hasGscode) {
                     clsName={'tx-left'}
                   /> */}
                 </div>
-                {isFancy1 ? (
+                {isFancy1 || isTie ?(
                   <>
                     <div
                       className={`back ${
@@ -159,7 +169,7 @@ if (!hasGscode) {
                       } float-left back text-center`}
                       onClick={() => onBet(true, ItemRunner)}
                     >
-                      <span className="odd d-block">
+                      <span className="odd d-block" style={{fontSize:!isMobile?'16px':''}}>
                         {(isSuperOver ? ItemRunner.b1 : ItemRunner.b) == 0
                           ? "-"
                           : isSuperOver
@@ -181,7 +191,7 @@ if (!hasGscode) {
                       } float-left text-center`}
                       onClick={() => onBet(false, ItemRunner)}
                     >
-                      <span className="odd d-block">
+                      <span className="odd d-block" style={{fontSize:!isMobile?'16px':''}}>
                            {(isSuperOver ? ItemRunner.l1 : ItemRunner.l) == 0
                           ? "-"
                           : isSuperOver
@@ -219,7 +229,7 @@ if (!hasGscode) {
                       } float-left  text-center`}
                       onClick={() => onBet(false, ItemRunner)}
                     >
-                      <span className="odd d-block">
+                      <span className="odd d-block" style={{fontSize:!isMobile?'16px':''}}>
                            {(isSuperOver ? ItemRunner.l1 : ItemRunner.l) == 0
                           ? "-"
                           : isSuperOver
@@ -265,7 +275,7 @@ if (!hasGscode) {
                         !isMobile ? "box-1" : "box-2"
                       } float-left text-center`}
                     >
-                      <span className="fancy-max">
+                      <span className="fancy-max" style={{fontWeight:'bold'}}>
                         Min: {isSuperOver ? ItemRunner.min : ""}
                       </span>
                       <span className="odd d-block fancy-max">
@@ -289,14 +299,14 @@ if (!hasGscode) {
   };
   return (
     <div>
-      <div className="table-header" style={{display:'flex',border:'1px solid red'}}>
+      <div className="table-header" style={{display:!isMobile?'flex':'unset'}}>
         <div
           className={`float-left country-name ${
             isMobile ? "bg-theme2 tx-white text-left box-6Fancy " : "box-6New"
           }`}
         >
           {isMobile && (
-            <h6 className="card-title d-inline-block" style={{ width: "100%" }}>
+            <h6 className="card-title d-inline-block" style={{ width: "100%",padding:isMobile?'2px 6px':'' }}>
               {/* {oddsMarket.MarketName} */}
                {oddsMarket.MarketName.replace(" Market", "")}
               <span className="float-right">
@@ -310,7 +320,7 @@ if (!hasGscode) {
           )}
         </div>
        
-        {isFancy1 && (
+        {/* {isFancy1 && (
           <>
           <div style={{display:isMobile?'flex':'',flexDirection:isMobile?'row':'row',padding:isMobile?'0px':''}}>
                 <div
@@ -340,7 +350,69 @@ if (!hasGscode) {
             ></div>
             </div>
           </>
-        )}
+        )} */}
+       {isFancy1 || isTie ? (
+
+  <div
+    style={{
+      display: "flex",
+      flexDirection: "row",
+      width:isMobile? "100%":"24%",
+      padding: 0,
+      borderBottom:isMobile?"0.01em solid #c7c8ca":""
+    }}
+  >
+      
+    {isMobile?(
+ <div
+      className="text-center"
+      style={{
+        width:isMobile? "60%":"8%",
+        flex:isMobile? "0 0 60%":"8%",
+        fontSize: isMobile ? "16px" : "14px",
+        padding: isMobile ? "5px 0px" : "5px 0px",
+        whiteSpace: "nowrap",
+      }}
+    >
+      
+    </div>
+    ):''}
+
+    <div
+      className="back text-center"
+      style={{
+        width:isMobile? "20%":"8%",
+        flex:isMobile? "0 0 20%":"8%",
+        fontSize: isMobile ? "16px" : "14px",
+        padding: isMobile ? "5px 0px" : "5px 0px",
+        whiteSpace: "nowrap",
+      }}
+    >
+      <b>Back</b>
+    </div>
+
+    <div
+      className="lay text-center"
+      style={{
+       width:isMobile? "20%":"8%",
+        flex:isMobile? "0 0 20%":"8%",
+        fontSize: isMobile ? "16px" : "14px",
+        padding: isMobile ? "5px 0px" : "5px 0px",
+        whiteSpace: "nowrap",
+      }}
+    >
+      <b>Lay</b>
+    </div>
+{!isMobile?(  <div
+      className="text-center"
+      style={{
+         width:isMobile? "33.33%":"8%",
+        flex:isMobile? "0 0 33.33%":"8%",
+      }}
+    />):''}
+  
+  </div>
+):('')}
         {/* {isFancy1 && (
           <>
             <div
@@ -357,54 +429,74 @@ if (!hasGscode) {
             ></div>
           </>
         )} */}
-        {!isFancy1 && (
-          <>
-          <div style={{display:isMobile?'flex':'',flexDirection:isMobile?'row':'row',padding:isMobile?'0px':''}}>
-              {/* <div
-          className={`float-left country-name ${
-            isMobile ? "tx-white text-left box-6" : "box-6New"
-          }`}
-        >
-        </div> */}
-            <div
-              className={`lay ${
-                !isMobile ? "box-1" : "box-2"
-              } float-left  text-center`}
-              style={{fontSize:isMobile?'16px':'',padding:isMobile?'5px 0px':''}}
-            >
-              <b>No</b>
-            </div>
-            <div
-              className={`back ${
-                !isMobile ? "box-1" : "box-2"
-              } float-left back text-center`}  style={{fontSize:isMobile?'16px':'',padding:isMobile?'5px 0px':''}}
-            >
-              <b>Yes</b>
-            </div>
-            <div
-              className={`${
-                !isMobile ? "box-1" : "box-2"
-              } float-left  text-center`}
-            ></div>
-            </div>
-          </>
-        )}
-        {/* {!isFancy1 && (
-          <>
-            <div
-              className={`back ${
-                !isMobile ? "box-1" : "box-2"
-              } float-left back text-center`}  style={{fontSize:isMobile?'16px':''}}
-            >
-              <b>Yes</b>
-            </div>
-            <div
-              className={`${
-                !isMobile ? "box-1" : "box-2"
-              } float-left  text-center`}
-            ></div>
-          </>
-        )} */}
+ {!isFancy1 && !isTie && (
+  <div
+    style={{
+      display: "flex",
+      width: isMobile ? "100%" : "30%",
+      marginLeft: isMobile ? "0" : "auto",
+      padding: 0,
+      height: isMobile ? "32px" : "auto",
+      overflow: "visible",
+      borderBottom: isMobile
+        ? "1px solid #c7c8ca"
+        : "none",
+    }}
+  >
+      {/* Empty desktop space */}
+    {isMobile && (
+      <div
+        className="text-center"
+        style={{
+          width: "60%",
+          flex: "0 0 60%",
+        }}
+      />
+    )}
+    {/* NO */}
+    <div
+      className="lay text-center"
+      style={{
+        width: isMobile ? "20%" : "33.33%",
+        flex: isMobile ? "0 0 20%" : "0 0 33.33%",
+        fontSize: isMobile ? "16px" : "14px",
+        padding: "5px 0",
+        whiteSpace: "nowrap",
+        display: "block",
+        visibility: "visible",
+      }}
+    >
+      <b>No</b>
+    </div>
+
+    {/* YES */}
+    <div
+      className="back text-center"
+      style={{
+        width: isMobile ? "20%" : "33.33%",
+        flex: isMobile ? "0 0 20%" : "0 0 33.33%",
+        fontSize: isMobile ? "16px" : "14px",
+        padding: "5px 0",
+        whiteSpace: "nowrap",
+        display: "block",
+        visibility: "visible",
+      }}
+    >
+      <b>Yes</b>
+    </div>
+
+    {/* Empty desktop space */}
+    {!isMobile && (
+      <div
+        className="text-center"
+        style={{
+          width: "33.33%",
+          flex: "0 0 33.33%",
+        }}
+      />
+    )}
+  </div>
+)}
 
         {/* {!isMobile ? <div className="box-2 float-left"></div> : ""} */}
       </div>

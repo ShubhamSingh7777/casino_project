@@ -1,4 +1,5 @@
 import React from "react";
+import { isMobile } from "react-device-detect";
 
 interface TeenpattiTestResultProps {
   resultHtml: any;
@@ -13,10 +14,17 @@ const TeenpattiTestResult = ({
 
   const rdesc = resultHtml.rdesc || "";
   const rdescParts = rdesc.split("#");
-  const poison = cards.slice(0,3);
-  
-  const playerAP = cards.slice(3, 6);
-  const playerBP = cards.slice(6, 9);
+  const poison = cards.filter(
+  (_: string, index: number) => index % 3 === 0
+);
+
+const playerAP = cards.filter(
+  (_: string, index: number) => index % 3 === 1
+);
+
+const playerBP = cards.filter(
+  (_: string, index: number) => index % 3 === 2
+);
    const suitData = rdescParts[3]?.trim() || "";
           const oddEvenData = rdescParts[1]?.trim() || "";
           const consecutiveData = rdescParts[2]?.trim() || "";
@@ -32,8 +40,8 @@ const TeenpattiTestResult = ({
             alt="${safeCard}"
             style="
               width:auto;
-              height:35px;
-              margin:3px;
+ height:${isMobile?'35px':'50px'};
+               margin:3px;
             "
           />
         `;
@@ -45,10 +53,11 @@ const TeenpattiTestResult = ({
   const playerBCardsP = createCards(playerBP);
 
   return `
-    <div style="text-align:center;">
- <div style="
-        font-size:16px;
-        margin-bottom:3px;
+     <div style="text-align:center;display:${!isMobile?'flex':''};justify-content:${!isMobile?'space-between':''}">
+ <div style="width:${!isMobile?'33%':''}">
+     <div style="
+        font-size:${!isMobile?'20px':'16px'};
+        margin-bottom:${isMobile?'3px':'5px'};
       ">
        Tiger
       </div>
@@ -66,9 +75,11 @@ const TeenpattiTestResult = ({
           : ""
       }
       </div>
+      </div>
+      <div style="width:${!isMobile?'33%':''}">
       <div style="
-        font-size:16px;
-        margin-bottom:3px;
+        font-size:${!isMobile?'20px':'16px'};
+        margin-bottom:${isMobile?'3px':'5px'};
       ">
         
         Lion
@@ -87,10 +98,11 @@ const TeenpattiTestResult = ({
             : ""
         }
       </div>
-
+</div>
+<div style="width:${!isMobile?'33%':''}">
       <div style="
-        font-size:16px;
-        margin-bottom:3px;
+         font-size:${!isMobile?'20px':'16px'};
+        margin-bottom:${isMobile?'3px':'5px'};
       ">
         
         Dragon
@@ -110,18 +122,21 @@ const TeenpattiTestResult = ({
       </div>
 
     </div>
+    </div>
+ <div style="display:flex;justify-content:center;align-items:center">
  <div style="
       box-shadow:0 0 4px -1px;
       border-top:1px solid #ddd;
       margin-top:15px;
       padding:6px 35px;
+        width:${!isMobile?'50%':'100%'}
     ">
 
       <div style="
         display:flex;
         justify-content:center;
-        font-size:12px;
-        margin-bottom:2px;
+      font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
       ">
         <span style="
           opacity:0.6;
@@ -139,8 +154,8 @@ const TeenpattiTestResult = ({
       <div style="
         display:flex;
         justify-content:center;
-        font-size:12px;
-        margin-bottom:2px;
+      font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
       ">
         <span style="
           opacity:0.6;
@@ -155,7 +170,7 @@ const TeenpattiTestResult = ({
           ${oddEvenData}
         </span>
       </div>
-
+<div>
 
     </div>
   `;

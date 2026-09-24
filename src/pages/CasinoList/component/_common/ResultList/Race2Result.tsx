@@ -1,4 +1,5 @@
 import React from "react";
+import { isMobile } from "react-device-detect";
 
 interface RaceTwoResultProps {
   resultHtml: any;
@@ -9,7 +10,7 @@ const RaceTwoResult = ({
 }: RaceTwoResultProps) => {
  const isonecard = resultHtml.ename === "1 CARD ONE-DAY" ;
  const isonecard2 = resultHtml.ename ==="1 CARD 20-20";
-
+ const isRaceTo2nd = resultHtml.ename = "Race to 2nd";
 
   const cards = resultHtml.card?.split(",") || [];
   const winner = resultHtml.winnat || "";
@@ -37,7 +38,7 @@ const RaceTwoResult = ({
             alt="${safeCard}"
             style="
               width:auto;
-              height:35px;
+               height:${isMobile?'35px':'50px'};
               margin:3px;
             "
           />
@@ -54,14 +55,21 @@ const RaceTwoResult = ({
 
 
   return `
-    <div style="text-align:center;">
+    <div style="text-align:center;display:${!isMobile?'flex':''};justify-content:${!isMobile?'space-between':''};margin-top:${!isMobile?'.5rem':''}">
+     <div style="
+  width:${
+    isonecard || isonecard2
+      ? (!isMobile ? '50%' : '100%')
+      : (!isMobile ? '25%' : '')
+  };
+">
  <div style="
-        font-size:16px;
-        margin-bottom:3px;
+        font-size:${!isMobile?'20px':'16px'};
+               margin-bottom:${isMobile?'3px':'5px'};
       ">
       ${isonecard || isonecard2 ?`Player`:`Player A`}
       </div>
-
+   
       <div style="
         display:flex;
         justify-content:center;
@@ -78,9 +86,17 @@ const RaceTwoResult = ({
 }
         ${playerACards}
       </div>
+      </div>
       <div style="
-        font-size:16px;
-        margin-bottom:3px;
+  width:${
+    isonecard || isonecard2
+      ? (!isMobile ? '50%' : '100%')
+      : (!isMobile ? '25%' : '')
+  };
+">
+      <div style="
+    font-size:${!isMobile?'20px':'16px'};
+           margin-bottom:${isMobile?'3px':'5px'};
       ">
             ${isonecard || isonecard2 ?`Dealer`:`Player B`}
       
@@ -102,9 +118,11 @@ const RaceTwoResult = ({
 }
         ${playerBCards}
       </div>
-      ${!isonecard && !isonecard2 ? `<div style="
-        font-size:16px;
-        margin-bottom:3px;
+      </div>
+      ${!isonecard && !isonecard2 ? `<div style="width:${!isMobile?'25%':''}">
+      <div style="
+         font-size:${!isMobile?'20px':'16px'};
+                margin-bottom:${isMobile?'3px':'5px'};
       ">
         
         Player C
@@ -122,9 +140,11 @@ const RaceTwoResult = ({
         }
         ${playerCCards}
       </div>
+      </div>
+      <div style="width:${!isMobile?'25%':''}">
       <div style="
-        font-size:16px;
-        margin-bottom:3px;
+       font-size:${!isMobile?'20px':'16px'};
+              margin-bottom:${isMobile?'3px':'5px'};
       ">
         
         Player D
@@ -142,29 +162,34 @@ const RaceTwoResult = ({
         }
         ${playerDCards}
       </div>
+      </div>
       `:''}
       
       
 
     </div>
+    <div style="display:flex;justify-content:center;align-items:center">
   <div style="
       box-shadow:0 0 4px -1px;
       border-top:1px solid #ddd;
       margin-top:15px;
       padding:8px 35px;
+            width:${!isMobile?'50%':'100%'}
+  
     ">
 
       <div style="
         display:flex;
         justify-content:center;
-        font-size:12px;
-        margin-bottom:2px;
+        font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'5px'};
       ">
         <span style="
           opacity:0.6;
           margin-right:8px;
           width:30%;
           text-align:end;
+          font-size:${!isMobile?'16px':''}
         ">
           Winner
         </span>
@@ -173,11 +198,14 @@ const RaceTwoResult = ({
           ${winner}
         </span>
       </div>
-      ${!isonecard2 ? `<div style="
+  ${
+  isonecard
+    ? `
+      <div style="
         display:flex;
         justify-content:center;
-        font-size:12px;
-        margin-bottom:2px;
+        font-size:${!isMobile?'16px':'12px'};
+        margin-bottom:${isMobile ? "3px" : "5px"};
       ">
         <span style="
           opacity:0.6;
@@ -192,29 +220,34 @@ const RaceTwoResult = ({
           ${oddEvenData}
         </span>
       </div>
-      `:`<div style="
-        display:flex;
-        justify-content:center;
-        font-size:12px;
-        margin-bottom:2px;
-      ">
-        <span style="
-          opacity:0.6;
-          margin-right:8px;
-          width:30%;
-          text-align:end;
+    `
+    : isonecard2
+      ? `
+        <div style="
+          display:flex;
+          justify-content:center;
+          font-size:${!isMobile?'16px':'12px'};
+          margin-bottom:${isMobile ? "3px" : "5px"};
         ">
-          Pair
-        </span>
+          <span style="
+            opacity:0.6;
+            margin-right:8px;
+            width:30%;
+            text-align:end;
+          ">
+            Pair
+          </span>
 
-        <span style="width:60%">
-          ${oddEvenData}
-        </span>
-      </div>`}
-       
+          <span style="width:60%">
+            ${oddEvenData}
+          </span>
+        </div>
+      `
+      : ""
+}
      
 
-   
+   </div>
   
 
 

@@ -1,4 +1,5 @@
 import React from "react";
+import { isMobile } from "react-device-detect";
 
 interface PokerSixResultProps {
   resultHtml: any;
@@ -14,13 +15,44 @@ const PokerSixResult = ({
 
   const rdesc = resultHtml.rdesc || "";
   const rdescParts = rdesc.split("#");
-  const board = cards.slice(0,5);
-  const playerA = cards.slice(5,7);
-  const playerB = cards.slice(7,9);
-  const playerC = cards.slice(9,11);
-  const playerD = cards.slice(11,13);
-  const playerE = cards.slice(13,15);
-  const playerF = cards.slice(15,17);
+const board = [
+  
+  cards[12],
+  cards[13],
+  cards[14],
+  cards[15],
+  cards[16],
+];
+
+const playerA = [
+  cards[0],
+  cards[6],
+];
+
+const playerB = [
+ cards[5],
+   cards[11],
+];
+
+const playerC = [
+  cards[1],
+  cards[7],
+];
+
+const playerD = [
+  cards[4],
+  cards[10],
+];
+
+const playerE = [
+  cards[2],
+  cards[8],
+];
+
+const playerF = [
+  cards[3],
+  cards[9],
+];
 
 
   
@@ -39,7 +71,7 @@ const PokerSixResult = ({
             alt="${safeCard}"
             style="
               width:auto;
-              height:35px;
+               height:${isMobile?'35px':'50px'};
               margin:3px;
             "
           />
@@ -56,10 +88,11 @@ const PokerSixResult = ({
   const boardCard = createCards(board);
 
   return `
-    <div style="text-align:center;">
- <div style="
-        font-size:16px;
-        margin-bottom:3px;
+     <div style="text-align:center;display:${!isMobile?'grid':''};grid-template-columns:${!isMobile?'repeat(3,1fr)':''}">
+ <div style="width:${!isMobile?'100%':''}">
+     <div style="
+          font-size:${!isMobile?'20px':'16px'};
+        margin-bottom:${isMobile?'3px':'5px'};
       ">
        Board
       </div>
@@ -77,9 +110,11 @@ const PokerSixResult = ({
           : ""
       }
       </div>
+      </div>
+      <div style="width:${!isMobile?'100%':''}">
       <div style="
-        font-size:16px;
-        margin-bottom:3px;
+         font-size:${!isMobile?'20px':'16px'};
+        margin-bottom:${isMobile?'3px':'5px'};
       ">
         
         1
@@ -98,10 +133,11 @@ const PokerSixResult = ({
             : ""
         }
       </div>
-
+</div>
+<div style="width:${!isMobile?'100%':''}">
       <div style="
-        font-size:16px;
-        margin-bottom:3px;
+         font-size:${!isMobile?'20px':'16px'};
+        margin-bottom:${isMobile?'3px':'5px'};
       ">
         
         6
@@ -119,10 +155,11 @@ const PokerSixResult = ({
             : ""
         }
       </div>
-
+</div>
+<div style="width:${!isMobile?'100%':''}">
       <div style="
-        font-size:16px;
-        margin-bottom:3px;
+      font-size:${!isMobile?'20px':'16px'};
+        margin-bottom:${isMobile?'3px':'5px'};
       ">
         
         2
@@ -140,9 +177,11 @@ const PokerSixResult = ({
             : ""
         }
       </div>
+      </div>
+      <div style="width:${!isMobile?'100%':''}">
       <div style="
-        font-size:16px;
-        margin-bottom:3px;
+          font-size:${!isMobile?'20px':'16px'};
+        margin-bottom:${isMobile?'3px':'5px'};
       ">
         
         5
@@ -160,11 +199,12 @@ const PokerSixResult = ({
             : ""
         }
       </div>
-
+</div>
+<div style="width:${!isMobile?'100%':''}">
 
       <div style="
-        font-size:16px;
-        margin-bottom:3px;
+       font-size:${!isMobile?'20px':'16px'};
+        margin-bottom:${isMobile?'3px':'5px'};
       ">
         
         3
@@ -182,10 +222,11 @@ const PokerSixResult = ({
             : ""
         }
       </div>
-
+</div>
+<div style="width:${!isMobile?'100%':''}">
       <div style="
-        font-size:16px;
-        margin-bottom:3px;
+  font-size:${!isMobile?'20px':'16px'};
+        margin-bottom:${isMobile?'3px':'5px'};
       ">
         
         4
@@ -203,20 +244,22 @@ const PokerSixResult = ({
             : ""
         }
       </div>
-
+</div>
     </div>
+     <div style="display:flex;justify-content:center;align-items:center">
  <div style="
       box-shadow:0 0 4px -1px;
       border-top:1px solid #ddd;
       margin-top:15px;
       padding:6px 35px;
+        width:${!isMobile?'50%':'100%'}
     ">
 
       <div style="
         display:flex;
         justify-content:center;
-        font-size:12px;
-        margin-bottom:2px;
+       font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
       ">
         <span style="
           opacity:0.6;
@@ -234,8 +277,8 @@ const PokerSixResult = ({
       <div style="
         display:flex;
         justify-content:center;
-        font-size:12px;
-        margin-bottom:2px;
+       font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
       ">
         <span style="
           opacity:0.6;
@@ -251,6 +294,7 @@ const PokerSixResult = ({
         </span>
       </div>
    
+    </div>
     </div>
   `;
 };

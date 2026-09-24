@@ -180,9 +180,9 @@ const laylayoutmobile = (keyType: number) => {
           clsName={"tx-right"}
         /> */}
 
-        <div className="row" style={{padding:isMobile?'0px 5px':''}}>
+        <div className="row" style={{padding:isMobile?'0px 5px':'',marginRight:isMobile?"0px":"",marginLeft:isMobile?"0px":""}}>
           {row1Markets.map((mIndex, i) => (
-            <div className={`col-lg-4 col-md-4 col-4`} key={i} style={{paddingRight: isMobile?'12px':'',paddingLeft:isMobile?'7px':''}}>
+            <div className={`col-lg-4 col-md-4 col-4`} key={i} style={{paddingRight: isMobile?'6px':'',paddingLeft:isMobile?'0px':''}}>
               {laybacklayout(mIndex, '')}
             </div>
           ))}

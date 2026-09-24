@@ -1,4 +1,5 @@
 import React from "react";
+import { isMobile } from "react-device-detect";
 
 interface BaccaratResultProps {
   resultHtml: any;
@@ -9,15 +10,33 @@ const BaccaratResult = ({
 }: BaccaratResultProps) => {
  const isbacc2 = resultHtml.ename === "Baccarat 2"
 
-  const cards = resultHtml.card?.split(",") || [];
+ const cards =
+  resultHtml.card
+    ?.split(",")
+    .filter((card: string) => card.trim() !== "1") || [];
   const winner = resultHtml.winnat || "";
 
   const rdesc = resultHtml.rdesc || "";
   const rdescParts = rdesc.split("#");
-  const player = cards.slice(0,3);
-  const banker = cards.slice(3,6);
-  const player2 = cards.slice(0,2);
-  const banker2 = cards.slice(2,4);
+const player = [
+  cards[4],
+  cards[2],
+  cards[0],
+];
+
+const banker = [
+  cards[1],
+  cards[3],
+  cards[5],
+]; const player2 = [
+  cards[0],
+  cards[2],
+];
+
+const banker2 = [
+  cards[1],
+  cards[3],
+];
 
   
    const either = rdescParts[3]?.trim() || "";
@@ -26,18 +45,22 @@ const BaccaratResult = ({
           const bigsmall = rdescParts[4]?.trim() || "";
 
 
-  const createCards = (
-  cards: string[],
+const createCards = (
+  cards: (string | undefined | null)[],
   rotateFirst = false,
   rotateLast = false
 ) => {
   return cards
-    .map((card: string, index: number) => {
+    .filter(
+      (card): card is string =>
+        !!card && card.trim() !== "" && card.trim() !== "1"
+    )
+    .map((card: string, index: number, filteredCards) => {
       const safeCard = card.replace(/[^a-zA-Z0-9_-]/g, "");
 
       const shouldRotate =
         (rotateFirst && index === 0) ||
-        (rotateLast && index === cards.length - 1);
+        (rotateLast && index === filteredCards.length - 1);
 
       return `
         <img
@@ -45,7 +68,7 @@ const BaccaratResult = ({
           alt="${safeCard}"
           style="
             width:auto;
-            height:35px;
+            height:${isMobile ? "35px" : "50px"};
             margin:3px;
             ${shouldRotate ? "transform:rotate(270deg);" : ""}
           "
@@ -54,7 +77,6 @@ const BaccaratResult = ({
     })
     .join("");
 };
-
 
 const createCardsBacc2 = (playerCards: string[]) => {
     return playerCards
@@ -67,7 +89,7 @@ const createCardsBacc2 = (playerCards: string[]) => {
             alt="${safeCard}"
             style="
               width:auto;
-              height:35px;
+               height:${isMobile?'35px':'50px'};
               margin:3px;
             "
           />
@@ -75,16 +97,25 @@ const createCardsBacc2 = (playerCards: string[]) => {
       })
       .join("");
   };
-  const playerCard = createCards(player, true, false);
-const bankerCard = createCards(banker, false, true);
+const playerCard = createCards(
+  player,
+  player.length === 3,
+  false
+);
+
+const bankerCard = createCards(
+  banker,
+  false,
+  banker.length === 3
+);
 const player2Card = createCardsBacc2(player2);
 const banker2Card = createCardsBacc2(banker2);
 
   return `
     <div style="text-align:center;">
  <div style="
-        font-size:16px;
-        margin-bottom:3px;
+      font-size:${!isMobile?'20px':'16px'};
+            margin-bottom:${isMobile?'3px':'5px'};
       ">
         Player
       </div>
@@ -105,18 +136,18 @@ const banker2Card = createCardsBacc2(banker2);
         justify-content:center;
         align-items:center;
         margin-bottom:3px;
-      ">
-   
-        ${playerCard}    ${
+      ">   ${
         winner === "Player"
           ? '<i class="fas fa-trophy tropyAnimation"></i>'
           : ""
       }
+   
+        ${playerCard} 
       </div>`}
     
       <div style="
-        font-size:16px;
-        margin-bottom:3px;
+       font-size:${!isMobile?'20px':'16px'};
+             margin-bottom:${isMobile?'3px':'5px'};
       ">
         
         Banker
@@ -127,12 +158,12 @@ const banker2Card = createCardsBacc2(banker2);
         align-items:center;
         margin-bottom:3px;
       ">
-     
-        ${banker2Card} ${
+      ${
           winner === "Banker"
             ? '<i class="fas fa-trophy tropyAnimation"></i>'
             : ""
         }
+        ${banker2Card}
       </div>
         `:`<div style="
         display:flex;
@@ -140,28 +171,30 @@ const banker2Card = createCardsBacc2(banker2);
         align-items:center;
         margin-bottom:3px;
       ">
-     
-        ${bankerCard} ${
+      ${
           winner === "Banker"
             ? '<i class="fas fa-trophy tropyAnimation"></i>'
             : ""
         }
+        ${bankerCard}
       </div>`}
       
    
     </div>
+     <div style="display:flex;justify-content:center;align-items:center">
  <div style="
       box-shadow:0 0 4px -1px;
       border-top:1px solid #ddd;
       margin-top:15px;
       padding:6px 35px;
+       width:${!isMobile?'50%':'100%'}
     ">
 
       <div style="
         display:flex;
         justify-content:center;
-        font-size:12px;
-        margin-bottom:2px;
+         font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
       ">
         <span style="
           opacity:0.6;
@@ -179,8 +212,8 @@ const banker2Card = createCardsBacc2(banker2);
       <div style="
         display:flex;
         justify-content:center;
-        font-size:12px;
-        margin-bottom:2px;
+       font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
       ">
         <span style="
           opacity:0.6;
@@ -198,8 +231,8 @@ const banker2Card = createCardsBacc2(banker2);
       <div style="
         display:flex;
         justify-content:center;
-        font-size:12px;
-        margin-bottom:2px;
+       font-size:${!isMobile?'16px':'12px'};
+              margin-bottom:${isMobile?'3px':'7px'};
       ">
         <span style="
           opacity:0.6;
@@ -217,8 +250,8 @@ const banker2Card = createCardsBacc2(banker2);
       ${!isbacc2 ?`<div style="
         display:flex;
         justify-content:center;
-        font-size:12px;
-        margin-bottom:2px;
+       font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
       ">
         <span style="
           opacity:0.6;
@@ -236,8 +269,8 @@ const banker2Card = createCardsBacc2(banker2);
       <div style="
         display:flex;
         justify-content:center;
-        font-size:12px;
-        margin-bottom:2px;
+         font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
       ">
         <span style="
           opacity:0.6;
@@ -255,6 +288,7 @@ const banker2Card = createCardsBacc2(banker2);
    
         `:''}
       
+    </div>
     </div>
   `;
 };

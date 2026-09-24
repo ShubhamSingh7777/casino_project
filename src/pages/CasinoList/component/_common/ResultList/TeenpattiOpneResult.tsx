@@ -1,4 +1,5 @@
 import React from "react";
+import { isMobile } from "react-device-detect";
 
 interface TeenpattiOpneResultProps {
   resultHtml: any;
@@ -70,8 +71,9 @@ const getTrophy = (player: string) =>
 
 
   return `
-    <div style="text-align:center;">
- <div style="
+    <div style="text-align:center;display:${!isMobile?'flex':''};justify-content:${!isMobile?'space-between':''}">
+    <div style="width:${!isMobile?'11%':''}">
+    <div style="
         font-size:16px;
         margin-bottom:3px;
       ">
@@ -88,7 +90,8 @@ const getTrophy = (player: string) =>
         ${total0card}${getTrophy("1")}
       </div>
 
-      
+</div>
+<div style="width:${!isMobile?'11%':''}">
       <div style="
         font-size:16px;
         margin-bottom:3px;
@@ -105,6 +108,8 @@ const getTrophy = (player: string) =>
    
         ${total1card} ${getTrophy("Dealer")}
       </div>
+      </div>
+      <div style="width:${!isMobile?'11%':''}">
         <div style="
         font-size:16px;
         margin-bottom:3px;
@@ -121,6 +126,8 @@ const getTrophy = (player: string) =>
    
         ${total2card}  ${getTrophy("8")}
       </div>
+      </div>
+      <div style="width:${!isMobile?'11%':''}">
         <div style="
         font-size:16px;
         margin-bottom:3px;
@@ -137,7 +144,8 @@ const getTrophy = (player: string) =>
    
         ${total3card}  ${getTrophy("2")}
       </div>
-
+</div>
+<div style="width:${!isMobile?'11%':''}">
 
 
       <div style="
@@ -156,6 +164,8 @@ const getTrophy = (player: string) =>
     
         ${total4card}${getTrophy("7")}
       </div>
+      </div>
+      <div style="width:${!isMobile?'11%':''}">
 
       
       <div style="
@@ -174,6 +184,8 @@ const getTrophy = (player: string) =>
    
         ${total5card}  ${getTrophy("3")}
       </div>
+      </div>
+      <div style="width:${!isMobile?'11%':''}">
         <div style="
         font-size:16px;
         margin-bottom:3px;
@@ -190,6 +202,8 @@ const getTrophy = (player: string) =>
    
         ${total6card}   ${getTrophy("4")}
       </div>
+      </div>
+      <div style="width:${!isMobile?'11%':''}">
         <div style="
         font-size:16px;
         margin-bottom:3px;
@@ -206,6 +220,8 @@ const getTrophy = (player: string) =>
    
         ${total7card}   ${getTrophy("5")}
       </div>
+      </div>
+      <div style="width:${!isMobile?'11%':''}">
        <div style="
         font-size:16px;
         margin-bottom:3px;
@@ -223,25 +239,27 @@ const getTrophy = (player: string) =>
         ${total8card}   ${getTrophy("6")}
       </div>
 
+</div>
 
-
-
+</div>
       
 
     </div>
+     <div style="display:flex;justify-content:center;align-items:center">
  <div style="
       box-shadow:0 0 4px -1px;
       border-top:1px solid #ddd;
       margin-top:15px;
       padding:6px 35px;
-      margin-bottom: 30px
+      margin-bottom: 30px;
+        width:${!isMobile?'50%':'100%'}
     ">
 
       <div style="
         display:flex;
         justify-content:center;
-        font-size:12px;
-        margin-bottom:2px;
+      font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
       ">
         <span style="
           opacity:0.6;
@@ -259,8 +277,8 @@ const getTrophy = (player: string) =>
       <div style="
         display:flex;
         justify-content:center;
-        font-size:12px;
-        margin-bottom:2px;
+      font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
       ">
         <span style="
           opacity:0.6;
@@ -276,7 +294,7 @@ const getTrophy = (player: string) =>
         </span>
       </div>
     
-
+</div>
     </div>
   `;
 };

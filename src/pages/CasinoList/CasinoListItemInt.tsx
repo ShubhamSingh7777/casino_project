@@ -110,7 +110,8 @@ const LazyCasinoItem = ({ Item, setGamePlay, gamePlay }: any) => {
             aspectRatio: isMobile ? "12/8" : "12/8",
             overflow: "hidden",
             backgroundColor: "#ccc",
-            paddingTop: isMobile ? 'unset' : 'unset'
+            paddingTop: isMobile ? 'unset' : 'unset',
+            
           }}
         >
           {imageSrc && (

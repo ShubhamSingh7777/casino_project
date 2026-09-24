@@ -219,6 +219,7 @@ const LazyCasinoItem = ({
 
 const CasinoListItem = () => {
   const gamesList = useAppSelector<any>(selectCasinoMatchList);
+  console.log("CASINO GAMES LIST:", gamesList);
   const navigate = useNavigateCustom();
   const gameOrder = [
     "Goal 2",

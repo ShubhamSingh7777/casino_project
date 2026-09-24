@@ -1,5 +1,6 @@
 
 import React from "react";
+import { isMobile } from "react-device-detect";
 
 interface VvipteenpattiResultProps {
   resultHtml: any;
@@ -47,7 +48,7 @@ const VvipteenpattiResult = ({
             alt="${safeCard}"
             style="
               width:auto;
-              height:35px;
+             height:${isMobile?'35px':'50px'};
               margin:3px;
             "
           />
@@ -60,12 +61,12 @@ const VvipteenpattiResult = ({
   const playerBCardHtml = createCards(playerBCards);
 
   return `
-    <div style="text-align:center;">
-
+    <div style="text-align:center;display:${!isMobile?'flex':''};justify-content:${!isMobile?'space-between':''}">
+<div style="width:${!isMobile?'50%':''}">
       <!-- Player A -->
       <div style="
-        font-size:16px;
-        margin-bottom:3px;
+        font-size:${!isMobile?'20px':'16px'};
+        margin-bottom:${isMobile?'3px':'5px'};
       ">
         Player A
       </div>
@@ -84,12 +85,13 @@ const VvipteenpattiResult = ({
             : ""
         }
       </div>
-
+</div>
+<div style="width:${!isMobile?'50%':''}">
 
       <!-- Player B -->
       <div style="
-        font-size:16px;
-        margin-bottom:3px;
+       font-size:${!isMobile?'20px':'16px'};
+        margin-bottom:${isMobile?'3px':'5px'};
       ">
         Player B
       </div>
@@ -111,21 +113,23 @@ const VvipteenpattiResult = ({
 
     </div>
 
-
+</div>
     <!-- Result Details -->
+     <div style="display:flex;justify-content:center;align-items:center">
     <div style="
       box-shadow:0 0 4px -1px;
       border-top:1px solid #ddd;
       margin-top:15px;
       padding:6px 35px;
+        width:${!isMobile?'50%':'100%'}
     ">
 
       <!-- Winner -->
       <div style="
         display:flex;
         justify-content:center;
-        font-size:12px;
-        margin-bottom:2px;
+      font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
       ">
         <span style="
           opacity:0.6;
@@ -146,8 +150,8 @@ const VvipteenpattiResult = ({
       <div style="
         display:flex;
         justify-content:center;
-        font-size:12px;
-        margin-bottom:2px;
+       font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
       ">
         <span style="
           opacity:0.6;
@@ -168,8 +172,8 @@ const VvipteenpattiResult = ({
       <div style="
         display:flex;
         justify-content:center;
-        font-size:12px;
-        margin-bottom:2px;
+       font-size:${!isMobile?'16px':'12px'};
+         margin-bottom:${isMobile?'3px':'7px'};
       ">
         <span style="
           opacity:0.6;
@@ -185,6 +189,7 @@ const VvipteenpattiResult = ({
         </span>
       </div>
 
+    </div>
     </div>
   `;
 };

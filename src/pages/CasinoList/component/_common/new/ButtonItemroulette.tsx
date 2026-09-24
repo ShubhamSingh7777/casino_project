@@ -142,7 +142,7 @@ const ButtonItemroulette = ({
       selectionId: runner.i,
       stack: selectedCoin,
       currentMarketOdds: oddsVal,
-      eventId: liveMatchData.mid,
+      eventId: liveMatchData?.event_data?.match_id || 0,
       exposure: 0,
       pnl: 0,
       ipAddress: authService.getIpAddress(),
@@ -150,6 +150,8 @@ const ButtonItemroulette = ({
       matchName: liveMatchData.event_data.title,
       betOn: IBetOn.CASINO,
       gtype: gameCode,
+        minbet: liveMatchData.min,
+            maxbet: liveMatchData.max,
     };
 
     // Calculate PNL
