@@ -7121,6 +7121,9 @@ input:checked+.slider:before {
 .green {
   color: green;
 }
+.casino-container-box .green{
+    font-size: 12px !important;
+}
 
 .marquee-container {
   height: 25px;

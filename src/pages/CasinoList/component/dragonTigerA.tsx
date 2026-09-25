@@ -127,13 +127,13 @@ const DragonTigerA = (props: any) => {
                 />
               </div>
             </div>
-            {/* <div className='row'>
+            <div className='row'>
                 <div className='col-12 text-center'>
                   <div className='m-t-5' style={{ marginTop: '10px' }}>
                     <CasinoPnl sectionId={market.SelectionId} matchId={liveMatchData.match_id} />
                   </div>
                 </div>
-              </div> */}
+              </div>
           </div>
         </>
       );

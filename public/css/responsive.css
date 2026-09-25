@@ -622,7 +622,7 @@
 
     .baccarat .bet-odds {
         font-size: 11px !important;
-        margin: 0px 0px 25px 0px;
+        margin: 0px 0px 0px 0px;
     }
 
     .casino-name {
@@ -1901,6 +1901,9 @@ max-width: 100%;
  width: 100% !important;
 }
 .teen-section button .green,.teen-section button .red{
+    font-size: 10px !important;
+}
+.casino-container-box .green{
     font-size: 10px !important;
 }
 

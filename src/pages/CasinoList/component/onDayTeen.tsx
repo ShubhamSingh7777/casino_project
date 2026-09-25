@@ -119,10 +119,7 @@ const OneDayTeen = (props: any) => {
                     <tr>
                       <td style={{paddingLeft:!isMobile?'5px':''}}>
                         <b>Main</b>
-                        <CasinoPnl
-                          sectionId={runner.SelectionId}
-                          matchId={liveMatchData.match_id}
-                        />
+                       <CasinoPnl sectionId={runner.SelectionId} matchId={liveMatchData.match_id} />
                       </td>
 
                       <LayBackButton
@@ -158,8 +155,8 @@ const OneDayTeen = (props: any) => {
 
               return (
                 <div className="under-over-row" key={runner.SelectionId}>
-                  <div className="runner-name">{runner.RunnerName}</div>
-
+                  <div className="runner-name">{runner.RunnerName}<CasinoPnl sectionId={runner.SelectionId} matchId={liveMatchData.match_id} /></div>
+     
                   <BackButton
                     selectionid={runner.SelectionId}
                     lastOdds={lastOdds}

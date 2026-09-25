@@ -8,6 +8,7 @@ import authService from "../../../../../services/auth.service";
 import { useLocation, useParams } from 'react-router-dom'
 import { isMobile } from "react-device-detect";
 import { styled } from "@mui/material";
+import CasinoPnl from "../../casinoPnl";
 
 const ButtonItem = (props: any) => {
     const { selectionid,bs, title, lastOdds, liveMatchData } = props;
@@ -58,7 +59,13 @@ const ButtonItem = (props: any) => {
     
     const ItemMarket: any = lastOdds?.[selectionid] || {}
     const suspend = !ItemMarket.gstatus || ItemMarket.gstatus == 0 || ItemMarket.gstatus == "SUSPENDED" || ItemMarket.gstatus == "CLOSED" ? 'suspended' : '';
-
+   console.log("CasinoPnl data: dolidana", {
+  selectionid,
+  ItemMarket,
+  sid: ItemMarket?.sid,
+  matchId: liveMatchData?.event_data?.match_id,
+  directMatchId: liveMatchData?.match_id,
+});
     return <>
     {
   gameCode === "teen20c" || gameCode === "teen20" ? (
@@ -81,8 +88,16 @@ const ButtonItem = (props: any) => {
         onClick={() => onBet(true, ItemMarket)}
         style={{display:'flex',justifyContent:'space-between',alignItems:'center',background:'#72bbef'}}
       >
-        <b style={{fontSize:'23px'}}>{title}</b> <b className="text-table-color">{ItemMarket?.b || 0.0}</b>
+
+        <b style={{fontSize:'23px'}}>{title}</b> <CasinoPnl
+                          sectionId={ItemMarket.sid}
+                          matchId={liveMatchData.match_id}
+                          classData={"text-center"}
+                        /> <b className="text-table-color">{ItemMarket?.b || 0.0}</b>
+
+          
       </button>
+     
 
     </>
   ) : gameCode !== "dolidana" && gameCode !== "btable2" ? (
@@ -104,6 +119,12 @@ const ButtonItem = (props: any) => {
         onClick={() => onBet(true, ItemMarket)}
       >
         <b>{title}</b>
+        <CasinoPnl
+                          sectionId={ItemMarket.sid}
+                          matchId={liveMatchData.match_id}
+                          classData={"text-center"}
+                        />
+
       </button>
     </>
   ) :  gameCode == "btable2" ? (
@@ -125,6 +146,11 @@ const ButtonItem = (props: any) => {
         onClick={() => onBet(true, ItemMarket)}
       >
         <b>{title}</b>
+        <CasinoPnl
+                          sectionId={ItemMarket.sid}
+                          matchId={liveMatchData.match_id}
+                          classData={"text-center"}
+                        />
       </button>
     </>):(
     <button
@@ -138,6 +164,12 @@ const ButtonItem = (props: any) => {
           {ItemMarket.bs || 0}
         </small>
       )}
+      <CasinoPnl
+                          sectionId={ItemMarket.sid}
+                          matchId={liveMatchData.match_id}
+                          classData={"text-center"}
+                        />
+      
     </button>
   )
 }

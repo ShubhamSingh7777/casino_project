@@ -23,9 +23,9 @@ const Trio = (props: any) => {
               </span>
             </div>
             <LaybackBox selectionid={ItemNew.SelectionId} title={ItemNew.RunnerName} lastOdds={lastOdds} liveMatchData={liveMatchData} />
-            {/* <div className='tx-16 mt30'>
+            <div className='tx-16'>
               <CasinoPnl sectionId={ItemNew.SelectionId} matchId={liveMatchData.match_id} />
-            </div> */}
+            </div>
           </div>
         )
       })
@@ -109,9 +109,9 @@ const laylayoutmobile = (keyType: number) => {
               </span>
             </div>
             <LaybackBox selectionid={ItemNew.SelectionId} title={ItemNew.RunnerName} lastOdds={lastOdds} liveMatchData={liveMatchData} showLay={false} clsnamename={"box-4"}/>
-            {/* <div className='tx-16 mt30'>
+            <div className='tx-16'>
               <CasinoPnl sectionId={ItemNew.SelectionId} matchId={liveMatchData.match_id} />
-            </div> */}
+            </div>
           </div>
         )
       })
@@ -190,13 +190,13 @@ const laylayoutmobile = (keyType: number) => {
       </div>
 
       {/* ---------------- Row 2 ---------------- */}
-      <div className='row row5 mb-10'>
+      <div className='row row5 mb-10' style={{marginLeft:isMobile?'0px':'',marginRight:isMobile?'0px':''}}>
         {row2Markets.map((mIndex, i) => (
-          <div className="col-lg-3 col-md-3 col-6" key={i}>
+          <div className="col-lg-3 col-md-3 col-6" key={i} style={{paddingLeft:isMobile?'4px':'',paddingRight:isMobile?'4px':'',maxWidth:isMobile?'50%':'',width:isMobile?'50%':''}}>
             {/* <Limitinfo
               min={liveMatchData?.event_data?.min}
               max={liveMatchData?.event_data?.max}
-              nameString={"lbl3"}
+              nameString={"lbl3"} 
               clsName={"tx-right"}
             /> */}
 
@@ -205,9 +205,9 @@ const laylayoutmobile = (keyType: number) => {
         ))}
       </div>
        {/* ---------------- Row 2 ---------------- */}
-      <div className='row row5 mb-10'>
+      <div className='row row5 mb-10' style={{marginLeft:isMobile?'0px':'',marginRight:isMobile?'0px':''}}>
         {row3Markets.map((mIndex, i) => (
-          <div className="col-lg-2 col-md-2 col-4" key={i}>
+          <div className="col-lg-2 col-md-2 col-4" key={i}  style={{paddingLeft:isMobile?'4px':'',paddingRight:isMobile?'4px':'',maxWidth:isMobile?'50%':'',width:isMobile?'50%':''}}>
             {/* <Limitinfo
               min={liveMatchData?.event_data?.min}
               max={liveMatchData?.event_data?.max}

@@ -67,11 +67,12 @@ const Sixplayerpoker = (props: any) => {
                 {card && <span className="card-icon m-l-20">{replacecardstring(card)} {card.includes('CC') && <span className="card-black">{"}"}</span>} {card.includes('HH') && <span className="card-black">]</span>} {card.includes('DD') && <span className="card-red">{"{"}</span>} {card.includes('SS') && <span className="card-red">[</span>}</span>}
                 {card2 && <span className="card-icon m-l-5">{replacecardstring(card2)} {card2.includes('CC') && <span className="card-black">{"}"}</span>}{card2.includes('HH') && <span className="card-black">]</span>}  {card2.includes('DD') && <span className="card-red">{"{"}</span>} {card2.includes('SS') && <span className="card-red">[</span>}</span>}
               </span>
+ <CasinoPnl sectionId={ItemNew.SelectionId} matchId={liveMatchData.match_id} clsName={'float-left'} />
               <span className="point">{Item.b}</span>
               {/* {isMobile ? <p className="m-b-0 m-t-5 text-right min-max"><span ><b>Min:</b>{Item.min}</span> <span className="m-l-5"><b>Max:</b>{Item.max}</span></p> : ""} */}
             </button>
             {/* <div className={`limit-block ${isMobile ? 'mtc-0':'mtc-5'}`}> */}
-              {/* <CasinoPnl sectionId={ItemNew.SelectionId} matchId={liveMatchData.match_id} clsName={'float-left'} /> */}
+             
               {/* {!isMobile? <p className="m-b-0 m-t-5 text-right min-max"><span ><b>Min:</b>{Item.min}</span> <span className="m-l-5"><b>Max:</b>{Item.max}</span></p> : ""} */}
             {/* </div> */}
           </div>
@@ -96,11 +97,12 @@ const Sixplayerpoker = (props: any) => {
               <button className={`bt-action btn-theme ${clsstatus}  ${isMobile ? 'btn-width-six':''}`} onClick={() => onBet(true, Item)}>
                 <span className="patern-name">{ItemNew.RunnerName}
                 </span>
+                 <CasinoPnl sectionId={ItemNew.SelectionId} matchId={liveMatchData.match_id} clsName={'float-left'} />
                 <span className="point">{Item.b}</span>
                 {/* {isMobile ? <p className="m-b-0 m-t-5 text-right min-max"><span ><b>Min:</b>{Item.min}</span> <span className="m-l-5"><b>Max:</b>{Item.max}</span></p> : ""} */}
               </button>
               {/* <div className='limit-block  mtc-5'> */}
-                {/* <CasinoPnl sectionId={ItemNew.SelectionId} matchId={liveMatchData.match_id} clsName={'float-left'} /> */}
+               
                 {/* {!isMobile ? <p className="m-b-0 m-t-5 text-right min-max"><span ><b>Min:</b>{Item.min}</span> <span className="m-l-5"><b>Max:</b>{Item.max}</span></p> : ""} */}
               {/* </div> */}
             </div>

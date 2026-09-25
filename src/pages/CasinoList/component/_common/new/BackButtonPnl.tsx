@@ -81,6 +81,13 @@ const BackButtonPnl = (props: any) => {
     ItemMarket.gstatus === "CLOSED"
       ? "suspended"
       : "";
+      console.log("CasinoPnl data:", {
+  selectionid,
+  ItemMarket,
+  sid: ItemMarket?.sid,
+  matchId: liveMatchData?.event_data?.match_id,
+  directMatchId: liveMatchData?.match_id,
+});
   return (
     <>
       {gameCode === "mogambo" ? (
@@ -126,7 +133,14 @@ const BackButtonPnl = (props: any) => {
               style={{ fontSize: isMobile ? "16px" : "16px" }}
             >
               {titleStatus != undefined ? ItemMarket.runnerName : ItemMarket.b}
+
             </span>{" "}
+<CasinoPnl
+  sectionId={ItemMarket?.sid}
+  matchId={liveMatchData?.match_id}
+  marketId={ItemMarket?.mid}
+  classData="text-center"
+/>
             {/* 🔥 SHOW TEXTNAME HERE */}
        {!hideSpace.includes(currentSlug) && currentSlug == "admin/casino/dt6" && <br />}
             {textname && (
@@ -141,15 +155,10 @@ const BackButtonPnl = (props: any) => {
                 {textname}
               </span>
             )}
-            {/* 🔥 Hide this when URL = poison */}
-            {!hideSlugs.includes(currentSlug) && (
-              <span className="fw-12 laysize">
-                <CasinoPnl
-                  sectionId={selectionid}
-                  matchId={liveMatchData?.match_id}
-                />
-              </span>
-            )}
+              {/* <span className="fw-12 laysize">
+              
+              </span> */}
+            
           </button>
         </td>
       )}

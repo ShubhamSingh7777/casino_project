@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from "../../../../../redux/hooks";
 import authService from "../../../../../services/auth.service";
 import { nFormatter } from "../../../../../utils/helper";
 import { useLocation, useParams } from 'react-router-dom'
+import CasinoPnl from "../../casinoPnl";
 
 const BackButton = (props: any) => {
     const { selectionid, lastOdds, liveMatchData, clsnamename ,clsstatus} = props;
@@ -58,6 +59,11 @@ const BackButton = (props: any) => {
      <td className={`back teen-section ${clsnamename} ${clsstatus}`}>
               <button className='back' onClick={() => onBet(true, ItemMarket)}>
                 <span className='odd'>{ItemMarket.b}</span>{' '}
+                  <CasinoPnl
+                          sectionId={ItemMarket.sid}
+                          matchId={liveMatchData.match_id}
+                          classData={"text-center"}
+                        />
               {!hideSlugs.includes(currentSlug) && (
                   <span className='fw-12 laysize'>{nFormatter(ItemMarket.bs, 2)}</span>
                   )}

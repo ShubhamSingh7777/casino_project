@@ -52,13 +52,13 @@ const NumberLayout = (props: any) => {
   return <>
     <td className={`${clsstatus} text-center bet-action back`} onClick={() => onBet(true, ItemMarket)}>
       <span className="d-block card-number">{RunnerName}</span>
-      {/* <div> */}
-        {/* <div className="ubook text-danger">
+      <div>
+        <div className="ubook text-danger">
         <b style={{ color: "#000" }}>
           <CasinoPnl sectionId={ItemMarket.sid} matchId={liveMatchData?.match_id} />
         </b>
-        </div> */}
-      {/* </div> */}
+        </div>
+      </div>
     </td>
   </>
 }

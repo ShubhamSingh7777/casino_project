@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "../../../../../redux/hooks";
 import authService from "../../../../../services/auth.service";
 import { nFormatter } from "../../../../../utils/helper";
 import { useLocation, useParams } from "react-router-dom";
+import CasinoPnl from "../../casinoPnl";
 
 
 const LayBackButtonUnlimited = (props: any) => {
@@ -70,6 +71,12 @@ const LayBackButtonUnlimited = (props: any) => {
       <td className={`back teen-section ${clsnamename} ${clsstatus}`}>
         <button className="back" onClick={() => onBet(true, ItemMarket)}>
           <span className="odd">{ItemMarket.b}</span>
+                    <CasinoPnl
+                      sectionId={ItemMarket.sid}
+                      matchId={liveMatchData.match_id}
+                      classData={"text-center"}
+                    />
+          
           {/* 🔥 Hide this when URL = poison */}
             {!hideSlugs.includes(currentSlug) && (
             <span className="fw-12 laysize" style={{ display: "block" }}>
@@ -86,6 +93,12 @@ const LayBackButtonUnlimited = (props: any) => {
             <span className="odd">
               <b>{ItemMarket.l}</b>
             </span>
+                      <CasinoPnl
+            sectionId={ItemMarket.sid}
+            matchId={liveMatchData.match_id}
+            classData={"text-center"}
+          />
+
             {!hideSlugs.includes(currentSlug) && (
             <span className="fw-12 laysize" style={{ display: "block" }}>
               {nFormatter(ItemMarket.ls, 2)}

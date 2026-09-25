@@ -155,11 +155,11 @@ if (!hasGscode) {
                   }`}
                 >
                   <p className="m-b-0 tx-left">{ItemRunner.nat}</p>
-                  {/* <CasinoPnl
+                  <CasinoPnl
                     matchId={lastOdds.match_id}
                     sectionId={ItemRunner.sid}
                     clsName={'tx-left'}
-                  /> */}
+                  />
                 </div>
                 {isFancy1 || isTie ?(
                   <>

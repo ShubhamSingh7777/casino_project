@@ -84,15 +84,15 @@ const BookmakerMarket = (props: any) => {
               } tx-left`}
             >
               <span className="team-name tx-left" style={{fontWeight:isMobile?'400':''}}>{ItemRunner.nat}</span>
-              {!isSuperOver && (
-                <>
+              {/* {!isSuperOver && (
+                <> */}
                   {" "}
                   <CasinoPnl
                     matchId={lastOdds.match_id}
                     sectionId={ItemRunner.sid}
                   />
-                </>
-              )}
+                {/* </>
+              )} */}
             </div>
             {!isSuperOver && (
               <>
@@ -146,6 +146,8 @@ const BookmakerMarket = (props: any) => {
     ? Number(ItemRunner.bs1 || 0).toFixed(2)
     : nFormatter(ItemRunner.bs || 2, 2)}
 </span>
+
+  
 </div>
            <div
   className={`${
@@ -171,6 +173,8 @@ const BookmakerMarket = (props: any) => {
       ? Number(ItemRunner.ls1 || 0).toFixed(2)
       : nFormatter(ItemRunner.ls || 2, 2)}
   </span>
+
+   
 </div>
             {!isSuperOver && (
               <>

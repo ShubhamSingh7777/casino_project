@@ -204,7 +204,7 @@ const Odds = () => {
       return (
         <iframe
           style={{ width: '100%', height: 'auto' }}
-          src={urls?.score}
+          src={`https://tv.777exch.live/scorecard/?gmid=${currentMatch?.matchId}&etid=${currentMatch?.sportId}`}
         ></iframe>
       )
     }
@@ -245,7 +245,7 @@ const Odds = () => {
             <div className='card-body p0'>
               <iframe
                 style={{ width: '100%', height: '250px' }}
-                src={`${urls?.tv}`}
+                src={`https://tv.777exch.live/sports/${currentMatch?.matchId}`}
               ></iframe>
             </div>
           )}
@@ -253,7 +253,7 @@ const Odds = () => {
             <div className='card-body p0'>
               <iframe
                 style={{ width: '100%', height: '250px' }}
-                src={urls?.tv}
+                src={`https://tv.777exch.live/sports/${currentMatch?.matchId}`}
               ></iframe>
             </div>
           )}

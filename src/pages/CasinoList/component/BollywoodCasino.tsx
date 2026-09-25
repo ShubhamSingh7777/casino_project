@@ -20,7 +20,7 @@ const BollywoodCasino = (props: any) => {
         runner = ItemNew.RunnerName == 'Kis KisKo Pyaar Karoon' ? 'E' : runner
         runner = ItemNew.RunnerName == 'Ghulam' ? 'F' : runner
         return (
-          <div className={`${className} text-center mb-10`} key={index} style={{ paddingRight: '0px', paddingLeft: '0px' }}>
+          <div className={`${className} text-center mb-10`} key={index} style={{ paddingRight: '0px', paddingLeft: '0px'}}>
             <div>
               <span className='d-block'>
                 <b>

@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from "../../../../redux/hooks";
 import authService from "../../../../services/auth.service";
 import { isMobile } from "react-device-detect";
 import { useLocation } from "react-router-dom";
+import CasinoPnl from "../casinoPnl";
 
 const RaceSeventeen = ({ lastOdds, liveMatchData }: any) => {
   console.log(lastOdds, "live match data");
@@ -77,6 +78,11 @@ const RaceSeventeen = ({ lastOdds, liveMatchData }: any) => {
         >
           <span className="casino-odds-box-odd">{item.b}</span>
           {/* <span className="fw-12 laysize">{item.bs}</span> */}
+           <CasinoPnl
+                sectionId={item.SelectionId}
+                matchId={liveMatchData?.match_id}
+                classData={"text-center"}
+              />
         </div>
 
         <div
@@ -85,6 +91,11 @@ const RaceSeventeen = ({ lastOdds, liveMatchData }: any) => {
         >
           <span className="casino-odds-box-odd">{item.l}</span>
           {/* <span className="fw-12 laysize">{item.ls}</span> */}
+           <CasinoPnl
+                sectionId={item.SelectionId}
+                matchId={liveMatchData?.match_id}
+                classData={"text-center"}
+              />
         </div>
       </div>
     );

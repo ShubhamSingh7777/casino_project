@@ -331,6 +331,11 @@ const TwennineCard = (props: any) => {
                             }}
                           >
                             <span className="odd">{item.b || "-"}</span>
+                               <CasinoPnl
+                sectionId={item.SelectionId}
+                matchId={liveMatchData?.match_id}
+                classData={"text-center"}
+              />
                           </button>
                         </td>
 
@@ -352,7 +357,13 @@ const TwennineCard = (props: any) => {
                               fontSize: !isMobile ? "18px" : "",
                             }}
                           >
+
                             <span className="odd">{item.l || "-"}</span>
+                               <CasinoPnl
+                sectionId={item.SelectionId}
+                matchId={liveMatchData?.match_id}
+                classData={"text-center"}
+              />
                           </button>
                         </td>
                       </tr>
