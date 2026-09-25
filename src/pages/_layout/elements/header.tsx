@@ -154,7 +154,7 @@ const Header = () => {
       //   return navigate.go('/')
       // }
 
-      return isMobile ? navigate.go("/match/4") : navigate.go("/match/4");
+      // return isMobile ? navigate.go("/match/4") : navigate.go("/match/4");
     }
   }, [userState]);
 

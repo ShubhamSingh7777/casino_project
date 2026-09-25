@@ -59,7 +59,9 @@ const TeenpattiPoison1Day = (props: any) => {
     const clsnamehead = "box-4";
     return liveMatchData?.defaultMarkets?.[0]?.Runners.map(
       (ItemNew: any, key: number) => {
-        const ItemMarket: any = lastOdds?.[ItemNew.SelectionId] || {};
+         const ItemMarket: any =
+        lastOdds?.[ItemNew.SelectionId] || {};
+
         const clsstatus =
           !ItemMarket.gstatus ||
           ItemMarket.gstatus === "SUSPENDED" ||
@@ -75,11 +77,11 @@ const TeenpattiPoison1Day = (props: any) => {
               style={{ paddingLeft: "10px" }}
             >
               <b>{ItemNew.RunnerName}</b>
-              <CasinoPnl
-                sectionId={ItemMarket.sid}
-                matchId={ItemMarket.mid}
-                classData="text-center"
-              />
+             <CasinoPnl
+  sectionId={ItemMarket?.sid ?? ItemNew?.SelectionId}
+  matchId={liveMatchData?.match_id}
+  classData="text-center"
+/>
             </td>
             <LayBackButton
               selectionid={ItemNew.SelectionId}
@@ -93,71 +95,210 @@ const TeenpattiPoison1Day = (props: any) => {
       },
     );
   };
-  const oddeven = () => {
-    return ["Poison"].map((ItemNew: any, key: number) => {
-      const market1 =
-        liveMatchData?.defaultMarkets?.filter(
-          (ItemEven: any) => ItemEven.MarketName == `${ItemNew} Even`,
-        )?.[0]?.Runners?.[0] || {};
-      const market2 =
-        liveMatchData?.defaultMarkets?.filter(
-          (ItemEven: any) => ItemEven.MarketName == `${ItemNew} Odd`,
-        )?.[0]?.Runners?.[0] || {};
-      const market3 =
-        liveMatchData?.defaultMarkets?.filter(
-          (ItemEven: any) => ItemEven.MarketName == `${ItemNew} Red`,
-        )?.[0]?.Runners?.[0] || {};
-      const market4 =
-        liveMatchData?.defaultMarkets?.filter(
-          (ItemEven: any) => ItemEven.MarketName == `${ItemNew} Black`,
-        )?.[0]?.Runners?.[0] || {};
+  // const oddeven = () => {
+  //   return ["Poison"].map((ItemNew: any, key: number) => {
+  //     const market1 =
+  //       liveMatchData?.defaultMarkets?.filter(
+  //         (ItemEven: any) => ItemEven.MarketName == `${ItemNew} Even`,
+  //       )?.[0]?.Runners?.[0] || {};
+  //     const market2 =
+  //       liveMatchData?.defaultMarkets?.filter(
+  //         (ItemEven: any) => ItemEven.MarketName == `${ItemNew} Odd`,
+  //       )?.[0]?.Runners?.[0] || {};
+  //     const market3 =
+  //       liveMatchData?.defaultMarkets?.filter(
+  //         (ItemEven: any) => ItemEven.MarketName == `${ItemNew} Red`,
+  //       )?.[0]?.Runners?.[0] || {};
+  //     const market4 =
+  //       liveMatchData?.defaultMarkets?.filter(
+  //         (ItemEven: any) => ItemEven.MarketName == `${ItemNew} Black`,
+  //       )?.[0]?.Runners?.[0] || {};
 
-      return (
-        <tr key={key} style={{ display: "flex" }}>
-          <td
-            className="box-2"
-            style={{
-              paddingLeft: !isMobile ? "10px" : "5px",
-              display: "flex",
-              justifyContent: "start",
-              alignItems: "center",
-            }}
-          >
-            <b>{ItemNew}</b>
-          </td>
+  //     return (
+  //       <tr key={key} style={{ display: "flex" }}>
+  //         <td
+  //           className="box-2"
+  //           style={{
+  //             paddingLeft: !isMobile ? "10px" : "5px",
+  //             display: "flex",
+  //             justifyContent: "start",
+  //             alignItems: "center",
+  //           }}
+  //         >
+  //           <b>{ItemNew}</b>
+  //         </td>
+  //         <BackButtonPnl
+  //           key={key}
+  //           selectionid={market1.SelectionId}
+  //           lastOdds={lastOdds}
+  //           liveMatchData={liveMatchData}
+  //           clsnamename={"back twentypoker teen-section"}
+  //         />
+  //         <BackButtonPnl
+  //           key={key + 2}
+  //           selectionid={market2.SelectionId}
+  //           lastOdds={lastOdds}
+  //           liveMatchData={liveMatchData}
+  //           clsnamename={"back twentypoker teen-section"}
+  //         />
+  //         <BackButtonPnl
+  //           key={key}
+  //           selectionid={market3.SelectionId}
+  //           lastOdds={lastOdds}
+  //           liveMatchData={liveMatchData}
+  //           clsnamename={"back twentypoker teen-section"}
+  //         />
+  //         <BackButtonPnl
+  //           key={key + 2}
+  //           selectionid={market4.SelectionId}
+  //           lastOdds={lastOdds}
+  //           liveMatchData={liveMatchData}
+  //           clsnamename={"back twentypoker teen-section"}
+  //         />
+  //       </tr>
+  //     );
+  //   });
+  // };
+
+
+  const oddeven = () => {
+  return ["Poison"].map((ItemNew: any, key: number) => {
+    const market1 =
+      liveMatchData?.defaultMarkets?.filter(
+        (ItemEven: any) =>
+          ItemEven.MarketName === `${ItemNew} Even`
+      )?.[0]?.Runners?.[0] || {};
+
+    const market2 =
+      liveMatchData?.defaultMarkets?.filter(
+        (ItemEven: any) =>
+          ItemEven.MarketName === `${ItemNew} Odd`
+      )?.[0]?.Runners?.[0] || {};
+
+    const market3 =
+      liveMatchData?.defaultMarkets?.filter(
+        (ItemEven: any) =>
+          ItemEven.MarketName === `${ItemNew} Red`
+      )?.[0]?.Runners?.[0] || {};
+
+    const market4 =
+      liveMatchData?.defaultMarkets?.filter(
+        (ItemEven: any) =>
+          ItemEven.MarketName === `${ItemNew} Black`
+      )?.[0]?.Runners?.[0] || {};
+
+    // SAME PATTERN AS GOAL
+    const Item1: any =
+      lastOdds?.[market1?.SelectionId] || {};
+
+    const Item2: any =
+      lastOdds?.[market2?.SelectionId] || {};
+
+    const Item3: any =
+      lastOdds?.[market3?.SelectionId] || {};
+
+    const Item4: any =
+      lastOdds?.[market4?.SelectionId] || {};
+console.log("POISON PNL DEBUG", {
+  matchId: liveMatchData?.match_id,
+  market1SelectionId: market1?.SelectionId,
+  market1,
+  Item1,
+  Item1Sid: Item1?.sid,
+
+  market2SelectionId: market2?.SelectionId,
+  Item2,
+  Item2Sid: Item2?.sid,
+
+  market3SelectionId: market3?.SelectionId,
+  Item3,
+  Item3Sid: Item3?.sid,
+
+  market4SelectionId: market4?.SelectionId,
+  Item4,
+  Item4Sid: Item4?.sid,
+});
+    return (
+      <tr key={key} style={{ display: "flex" }}>
+        <td
+          className="box-2"
+          style={{
+            paddingLeft: !isMobile ? "10px" : "5px",
+            display: "flex",
+            justifyContent: "start",
+            alignItems: "center",
+          }}
+        >
+          <b>{ItemNew}</b>
+        </td>
+
+        {/* EVEN */}
+        <td className="box-2">
+          <CasinoPnl
+            sectionId={Item1.sid}
+            matchId={liveMatchData?.match_id}
+            classData="text-center"
+          />
+
           <BackButtonPnl
-            key={key}
             selectionid={market1.SelectionId}
             lastOdds={lastOdds}
             liveMatchData={liveMatchData}
             clsnamename={"back twentypoker teen-section"}
           />
+        </td>
+
+        {/* ODD */}
+        <td className="box-2">
+          <CasinoPnl
+            sectionId={Item2.sid}
+            matchId={liveMatchData?.match_id}
+            classData="text-center"
+          />
+
           <BackButtonPnl
-            key={key + 2}
             selectionid={market2.SelectionId}
             lastOdds={lastOdds}
             liveMatchData={liveMatchData}
             clsnamename={"back twentypoker teen-section"}
           />
+        </td>
+
+        {/* RED */}
+        <td className="box-2">
+          <CasinoPnl
+            sectionId={Item3.sid}
+            matchId={liveMatchData?.match_id}
+            classData="text-center"
+          />
+
           <BackButtonPnl
-            key={key}
             selectionid={market3.SelectionId}
             lastOdds={lastOdds}
             liveMatchData={liveMatchData}
             clsnamename={"back twentypoker teen-section"}
           />
+        </td>
+
+        {/* BLACK */}
+        <td className="box-2">
+          <CasinoPnl
+            sectionId={Item4.sid}
+            matchId={liveMatchData?.match_id}
+            classData="text-center"
+          />
+
           <BackButtonPnl
-            key={key + 2}
             selectionid={market4.SelectionId}
             lastOdds={lastOdds}
             liveMatchData={liveMatchData}
             clsnamename={"back twentypoker teen-section"}
           />
-        </tr>
-      );
-    });
-  };
-
+        </td>
+      </tr>
+    );
+  });
+};
   const redblack = () => {
     return ["Poison"].map((ItemNew: any, key: number) => {
       const market1 =
@@ -200,69 +341,191 @@ const TeenpattiPoison1Day = (props: any) => {
       );
     });
   };
-  const carditem = () => {
-    return ["Poison"].map((ItemNew: any, key: number) => {
-      const market1 =
-        liveMatchData?.defaultMarkets?.filter(
-          (ItemEven: any) => ItemEven.MarketName == `${ItemNew} Spade`,
-        )?.[0]?.Runners?.[0] || {};
-      const market2 =
-        liveMatchData?.defaultMarkets?.filter(
-          (ItemEven: any) => ItemEven.MarketName == `${ItemNew} Heart`,
-        )?.[0]?.Runners?.[0] || {};
-      const market3 =
-        liveMatchData?.defaultMarkets?.filter(
-          (ItemEven: any) => ItemEven.MarketName == `${ItemNew} Diamond`,
-        )?.[0]?.Runners?.[0] || {};
-      const market4 =
-        liveMatchData?.defaultMarkets?.filter(
-          (ItemEven: any) => ItemEven.MarketName == `${ItemNew} Club`,
-        )?.[0]?.Runners?.[0] || {};
-      return (
-        <tr key={key} style={{ display: "flex" }}>
-          <td
-            className="box-2 text-table-color"
-            style={{
-              paddingLeft: !isMobile ? "10px" : "5px",
-              display: "flex",
-              justifyContent: "start",
-              alignItems: "center",
-            }}
-          >
-            <b>{ItemNew}</b>
-          </td>
+  // const carditem = () => {
+  //   return ["Poison"].map((ItemNew: any, key: number) => {
+  //     const market1 =
+  //       liveMatchData?.defaultMarkets?.filter(
+  //         (ItemEven: any) => ItemEven.MarketName == `${ItemNew} Spade`,
+  //       )?.[0]?.Runners?.[0] || {};
+  //     const market2 =
+  //       liveMatchData?.defaultMarkets?.filter(
+  //         (ItemEven: any) => ItemEven.MarketName == `${ItemNew} Heart`,
+  //       )?.[0]?.Runners?.[0] || {};
+  //     const market3 =
+  //       liveMatchData?.defaultMarkets?.filter(
+  //         (ItemEven: any) => ItemEven.MarketName == `${ItemNew} Diamond`,
+  //       )?.[0]?.Runners?.[0] || {};
+  //     const market4 =
+  //       liveMatchData?.defaultMarkets?.filter(
+  //         (ItemEven: any) => ItemEven.MarketName == `${ItemNew} Club`,
+  //       )?.[0]?.Runners?.[0] || {};
+  //     return (
+  //       <tr key={key} style={{ display: "flex" }}>
+  //         <td
+  //           className="box-2 text-table-color"
+  //           style={{
+  //             paddingLeft: !isMobile ? "10px" : "5px",
+  //             display: "flex",
+  //             justifyContent: "start",
+  //             alignItems: "center",
+  //           }}
+  //         >
+  //           <b>{ItemNew}</b>
+  //         </td>
+  //         <BackButtonPnl
+  //           key={key}
+  //           selectionid={market1.SelectionId}
+  //           lastOdds={lastOdds}
+  //           liveMatchData={liveMatchData}
+  //           clsnamename={"back twentypoker teen-section"}
+  //         />
+  //         <BackButtonPnl
+  //           key={key + 4}
+  //           selectionid={market2.SelectionId}
+  //           lastOdds={lastOdds}
+  //           liveMatchData={liveMatchData}
+  //           clsnamename={"back twentypoker teen-section"}
+  //         />
+  //         <BackButtonPnl
+  //           key={key + 8}
+  //           selectionid={market3.SelectionId}
+  //           lastOdds={lastOdds}
+  //           liveMatchData={liveMatchData}
+  //           clsnamename={"back twentypoker teen-section"}
+  //         />
+  //         <BackButtonPnl
+  //           key={key + 12}
+  //           selectionid={market4.SelectionId}
+  //           lastOdds={lastOdds}
+  //           liveMatchData={liveMatchData}
+  //           clsnamename={"back twentypoker teen-section"}
+  //         />
+  //       </tr>
+  //     );
+  //   });
+  // };
+ 
+ 
+ const carditem = () => {
+  return ["Poison"].map((ItemNew: any, key: number) => {
+    const market1 =
+      liveMatchData?.defaultMarkets?.filter(
+        (ItemEven: any) =>
+          ItemEven.MarketName === `${ItemNew} Spade`
+      )?.[0]?.Runners?.[0] || {};
+
+    const market2 =
+      liveMatchData?.defaultMarkets?.filter(
+        (ItemEven: any) =>
+          ItemEven.MarketName === `${ItemNew} Heart`
+      )?.[0]?.Runners?.[0] || {};
+
+    const market3 =
+      liveMatchData?.defaultMarkets?.filter(
+        (ItemEven: any) =>
+          ItemEven.MarketName === `${ItemNew} Diamond`
+      )?.[0]?.Runners?.[0] || {};
+
+    const market4 =
+      liveMatchData?.defaultMarkets?.filter(
+        (ItemEven: any) =>
+          ItemEven.MarketName === `${ItemNew} Club`
+      )?.[0]?.Runners?.[0] || {};
+
+    // SAME AS GOAL
+    const Item1: any =
+      lastOdds?.[market1?.SelectionId] || {};
+
+    const Item2: any =
+      lastOdds?.[market2?.SelectionId] || {};
+
+    const Item3: any =
+      lastOdds?.[market3?.SelectionId] || {};
+
+    const Item4: any =
+      lastOdds?.[market4?.SelectionId] || {};
+
+    return (
+      <tr key={key} style={{ display: "flex" }}>
+        <td
+          className="box-2 text-table-color"
+          style={{
+            paddingLeft: !isMobile ? "10px" : "5px",
+            display: "flex",
+            justifyContent: "start",
+            alignItems: "center",
+          }}
+        >
+          <b>{ItemNew}</b>
+        </td>
+
+        {/* SPADE */}
+        <td className="box-2">
+          <CasinoPnl
+            sectionId={Item1.sid}
+            matchId={liveMatchData?.match_id}
+            classData="text-center"
+          />
+
           <BackButtonPnl
-            key={key}
             selectionid={market1.SelectionId}
             lastOdds={lastOdds}
             liveMatchData={liveMatchData}
             clsnamename={"back twentypoker teen-section"}
           />
+        </td>
+
+        {/* HEART */}
+        <td className="box-2">
+          <CasinoPnl
+            sectionId={Item2.sid}
+            matchId={liveMatchData?.match_id}
+            classData="text-center"
+          />
+
           <BackButtonPnl
-            key={key + 4}
             selectionid={market2.SelectionId}
             lastOdds={lastOdds}
             liveMatchData={liveMatchData}
             clsnamename={"back twentypoker teen-section"}
           />
+        </td>
+
+        {/* DIAMOND */}
+        <td className="box-2">
+          <CasinoPnl
+            sectionId={Item3.sid}
+            matchId={liveMatchData?.match_id}
+            classData="text-center"
+          />
+
           <BackButtonPnl
-            key={key + 8}
             selectionid={market3.SelectionId}
             lastOdds={lastOdds}
             liveMatchData={liveMatchData}
             clsnamename={"back twentypoker teen-section"}
           />
+        </td>
+
+        {/* CLUB */}
+        <td className="box-2">
+          <CasinoPnl
+            sectionId={Item4.sid}
+            matchId={liveMatchData?.match_id}
+            classData="text-center"
+          />
+
           <BackButtonPnl
-            key={key + 12}
             selectionid={market4.SelectionId}
             lastOdds={lastOdds}
             liveMatchData={liveMatchData}
             clsnamename={"back twentypoker teen-section"}
           />
-        </tr>
-      );
-    });
-  };
+        </td>
+      </tr>
+    );
+  });
+};
   return (
     <div
       className="container "

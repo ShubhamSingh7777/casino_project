@@ -90,11 +90,11 @@ const TwocardsTeen = (props: any) => {
           >
             <button className="back" onClick={() => onBet(true, item)}>
               <span className="odd">{item.b || "-"}</span>
-              <CasinoPnl
+              {/* <CasinoPnl
                 sectionId={r.SelectionId}
                 matchId={liveMatchData?.match_id}
                 classData={"text-center"}
-              />
+              /> */}
             </button>
           </td>
 
@@ -106,11 +106,11 @@ const TwocardsTeen = (props: any) => {
             >
               <button className="lay" onClick={() => onBet(false, item)}>
                 <span className="odd">{item.l || "0"}</span>
-                <CasinoPnl
+                {/* <CasinoPnl
                   sectionId={r.SelectionId}
                   matchId={liveMatchData?.match_id}
                   classData={"text-center"}
-                />
+                /> */}
               </button>
             </td>
           )}
@@ -217,6 +217,11 @@ const orderB = ['Player B', 'Mini Baccarat B', 'Total B'];
                       {/* COLUMN - RUNNER NAME */}
                       <td style={{ textAlign: "start", fontWeight: 600 ,width:'60%',maxWidth:'60%',fontSize:!isMobile?'16px':''}}>
                          {r.RunnerName}
+<CasinoPnl
+                  sectionId={r.SelectionId}
+                  matchId={liveMatchData?.match_id}
+                  classData={"text-center"}
+                />
                       </td>
 
                       {/* COLUMN - BACK/LAY FOR THIS RUNNER */}
@@ -260,6 +265,11 @@ const orderB = ['Player B', 'Mini Baccarat B', 'Total B'];
                       {/* COLUMN - RUNNER NAME */}
                       <td style={{ textAlign: "start", fontWeight: 600 ,width:'60%',maxWidth:'60%',fontSize:!isMobile?'16px':''}}>
                          {r.RunnerName}
+                         <CasinoPnl
+                  sectionId={r.SelectionId}
+                  matchId={liveMatchData?.match_id}
+                  classData={"text-center"}
+                />
                       </td>
 
                       {/* COLUMN - BACK/LAY FOR THIS RUNNER */}
@@ -341,6 +351,11 @@ const orderB = ['Player B', 'Mini Baccarat B', 'Total B'];
       >
         Color Plus
       </button>
+      <CasinoPnl
+                  sectionId={colorPlusRunner.SelectionId}
+                  matchId={liveMatchData?.match_id}
+                  classData={"text-center"}
+                />
     </div>
   );
 })()}

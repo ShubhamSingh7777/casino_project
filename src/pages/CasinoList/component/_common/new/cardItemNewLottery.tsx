@@ -1,6 +1,6 @@
 import React from "react";
+import CasinoPnl from "../../casinoPnl";
 
-// Card images mapping
 const cardMap: Record<string, string> = {
   "1": "https://g1ver.sprintstaticdata.com/v73/static/front/img/cards/A.png",
   "2": "https://g1ver.sprintstaticdata.com/v73/static/front/img/cards/2.png",
@@ -20,23 +20,55 @@ interface CardItemProps {
   title: string;
   onClick: () => void;
   isSelected: boolean;
+  lastOdds?: any;
+  liveMatchData?: any;
 }
 
-const CardItemLotteryNew: React.FC<CardItemProps> = ({ title, onClick, isSelected }) => {
+const CardItemLotteryNew: React.FC<CardItemProps> = ({
+  title,
+  onClick,
+  isSelected,
+  lastOdds,
+  liveMatchData,
+}) => {
   const cardImage = cardMap[title] || fallbackImage;
+
+  const ItemMarket = lastOdds || {};
+
+  console.log("Lottery Card ItemMarket:", ItemMarket);
+  console.log("Lottery Card SID:", ItemMarket?.sid);
+  console.log(
+    "Lottery Card matchId:",
+    liveMatchData?.event_data?.match_id
+  );
 
   return (
     <div className="lucky7card">
+
       <img
         onClick={onClick}
         src={cardImage}
-        className={`m-r-5 m-l-5 wd-casino ${isSelected ? "selected-card" : ""}`}
-        style={{ width: "100%", height: "auto", cursor: "pointer" }}
+        className={`m-r-5 m-l-5 wd-casino ${
+          isSelected ? "selected-card" : ""
+        }`}
+        style={{
+          width: "100%",
+          height: "auto",
+          cursor: "pointer",
+        }}
         alt={`Card ${title}`}
         onError={(e) => {
-          (e.currentTarget as HTMLImageElement).src = fallbackImage;
+          e.currentTarget.src = fallbackImage;
         }}
       />
+
+      <CasinoPnl
+        sectionId={ItemMarket?.sid}
+
+                    matchId={liveMatchData.match_id}
+                           classData={"text-center"}
+      />
+
     </div>
   );
 };

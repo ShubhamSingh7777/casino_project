@@ -26,15 +26,25 @@ const UnlimitedJoker2020 = (props: any) => {
   const renderRows = (data: any[], showLay = true) => {
     return data.map((item: any, i: number) => {
       const odds = lastOdds?.[item.sid] || {};
+      
       const status =
         !odds.gstatus || ["SUSPENDED", "CLOSED"].includes(odds.gstatus)
           ? "suspended"
           : "";
-
+console.log("🔥 UNLIMITED JOKER PNL", {
+      itemSid: item?.sid,
+      matchId: liveMatchData?.match_id,
+      pnlKey: `${liveMatchData?.match_id}_${item?.sid}`,
+    });
       return (
         <tr key={i} style={{width:!isMobile?'50%':''}}>
           <td className="box-6" style={{ paddingLeft: 10 ,width:!isMobile?'62%':'',maxWidth:!isMobile?'62%':'',fontSize:!isMobile?'16px':''}}>
             <b>{item.nat}</b>
+                <CasinoPnl
+                    sectionId={odds.sid}
+                    matchId={liveMatchData.match_id}
+                    classData={"text-center"}
+                  />
           </td>
 
           <LayBackButtonUnlimited

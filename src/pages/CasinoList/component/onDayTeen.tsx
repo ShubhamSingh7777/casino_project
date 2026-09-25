@@ -119,7 +119,10 @@ const OneDayTeen = (props: any) => {
                     <tr>
                       <td style={{paddingLeft:!isMobile?'5px':''}}>
                         <b>Main</b>
-                       <CasinoPnl sectionId={runner.SelectionId} matchId={liveMatchData.match_id} />
+                     <CasinoPnl
+  sectionId={runner.SelectionId}
+  matchId={liveMatchData.match_id}
+/>
                       </td>
 
                       <LayBackButton
@@ -155,7 +158,10 @@ const OneDayTeen = (props: any) => {
 
               return (
                 <div className="under-over-row" key={runner.SelectionId}>
-                  <div className="runner-name">{runner.RunnerName}<CasinoPnl sectionId={runner.SelectionId} matchId={liveMatchData.match_id} /></div>
+                  <div className="runner-name">{runner.RunnerName}<CasinoPnl
+  sectionId={runner.SelectionId}
+  matchId={liveMatchData.match_id}
+/></div>
      
                   <BackButton
                     selectionid={runner.SelectionId}
@@ -199,7 +205,10 @@ const OneDayTeen = (props: any) => {
 
               return (
                 <div className="mobile-half-card" key={item.SelectionId}>
-                  <div className="market-name">{item.RunnerName}</div>
+                  <div className="market-name" style={{display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'start'}}>{item.RunnerName} <br></br> <CasinoPnl
+  sectionId={runner.SelectionId}
+  matchId={liveMatchData.match_id}
+/></div>
 
                   {/* <LayBackButton
                     selectionid={item.SelectionId}
@@ -242,7 +251,10 @@ const OneDayTeen = (props: any) => {
           </div>
 
           <div className="mobile-body">
-            <div className="main-title">Main</div>
+            <div className="main-title" style={{display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'start'}}>Main <br></br> <CasinoPnl
+  sectionId={runner.SelectionId}
+  matchId={liveMatchData.match_id}
+/></div>
 
             <LayBackButton
               selectionid={runner.SelectionId}

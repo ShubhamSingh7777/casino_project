@@ -29,13 +29,7 @@ const BackButtonPnl = (props: any) => {
   const hidebackcls = location.pathname === "/casino/teen1";
   // list of slugs for which we WANT TO HIDE the size span
   const hideSlugs = [
-    "poison",
-    "poison20",
-    "joker20",
-    "teen1",
-    "poker",
-    "poker20",
-    "dt6",
+  "poker20"
   ]; // add more slugs here
   const hideSpace = ["poker20"];
   const onBet = (isBack = false, item: any) => {
@@ -135,12 +129,13 @@ const BackButtonPnl = (props: any) => {
               {titleStatus != undefined ? ItemMarket.runnerName : ItemMarket.b}
 
             </span>{" "}
+            {!hideSlugs.includes(currentSlug) && (
 <CasinoPnl
   sectionId={ItemMarket?.sid}
   matchId={liveMatchData?.match_id}
   marketId={ItemMarket?.mid}
   classData="text-center"
-/>
+/>)}
             {/* 🔥 SHOW TEXTNAME HERE */}
        {!hideSpace.includes(currentSlug) && currentSlug == "admin/casino/dt6" && <br />}
             {textname && (

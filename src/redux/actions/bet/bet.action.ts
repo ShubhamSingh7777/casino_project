@@ -22,6 +22,13 @@ export const getPlaceBetAction = createAsyncThunk(
       .then((res) => {
         // console.log('api call------>')
         // console.log('data from placebet ----->',res.data.data.bet);
+  //        console.log("========== PLACE BET RESPONSE ==========");
+  // console.log("Bet response:", res.data);
+  // console.log("Profitlist:", res.data?.data?.profitlist);
+  // console.log(
+  //   "Profitlist keys:",
+  //   Object.keys(res.data?.data?.profitlist || {})
+  // );
         dispatch(setExposer(res.data.data.exposer))
         dispatch(setBookMarketList(res.data.data.profitlist))
         dispatch(setbetlist(res.data.data.bet))

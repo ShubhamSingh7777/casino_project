@@ -10,7 +10,17 @@ const UnlimitedJoker1Day = (props: any) => {
   const markets =
     liveMatchData?.event_data?.market?.[0]?.Runners || [];
   // console.log("MARKETS →", markets);
-
+// console.log("🔥 JOKER MARKET", {
+//   liveMatchId: liveMatchData?.match_id,
+//   eventDataMatchId: liveMatchData?.event_data?.match_id,
+//   market: liveMatchData?.event_data?.market?.[0],
+//   runners: liveMatchData?.event_data?.market?.[0]?.Runners,
+// });
+// console.log("🔥 FULL JOKER MARKET", JSON.stringify(
+//   liveMatchData?.event_data?.market?.[0],
+//   null,
+//   2
+// ));
   // Selected card state
   const [selectedCard, setSelectedCard] = useState<string | null>(null);
 
@@ -29,11 +39,17 @@ const UnlimitedJoker1Day = (props: any) => {
         !odds.gstatus || ["SUSPENDED", "CLOSED"].includes(odds.gstatus)
           ? "suspended"
           : "";
+console.log("JOKER 1 DAY ITEM", item);
 
       return (
         <tr key={i}>
           <td className="box-6" style={{ paddingLeft: 10 }}>
             <b>{item.nat}</b>
+            {/* <CasinoPnl sectionId={item.sid} matchId={liveMatchData?.match_id} /> */}
+            <CasinoPnl
+  sectionId={item.SelectionId}
+  matchId={liveMatchData.match_id}
+/>
           </td>
 
           <LayBackButtonUnlimited

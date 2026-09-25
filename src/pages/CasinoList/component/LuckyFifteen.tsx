@@ -113,6 +113,7 @@ const formatIndianNumber = (num:any) => {
            <tr key={`${keyLink}-${key}`} className={` ${heightdata} `}>
                <td className={`clsnamehead`} style={{ paddingLeft:isMobile? "5px":"10px",verticalAlign:!isMobile?'unset':''}}>
                   {ItemNew.RunnerName}
+                   <CasinoPnl sectionId={Item.sid} matchId={liveMatchData.match_id} classData={'text-center'} />
                   {cards && cards[keyLink] && cards[keyLink].map((ItemCard: any, keyCard: any) => (
                       <span key={keyCard} className={`card-icon ${keyCard === 0 ? 'm-l-20' : 'm-l-1'}`}>
                          <span>{replacecardstring(ItemCard)}</span>
@@ -123,7 +124,7 @@ const formatIndianNumber = (num:any) => {
                  <button className='back' style={{height:!isMobile?'36px':'',padding:!isMobile?'0px':''}} onClick={() => onBet(true, Item)}>
                       <span className='odd' style={{fontSize:isMobile?'15px':''}}>{Item.b}</span>
                        <b style={{color:'#333',fontWeight:isMobile?'100':'100',fontSize:isMobile?'11px':'12px'}}> {(Item?.max)}</b>
-                      <CasinoPnl sectionId={Item.sid} matchId={liveMatchData.match_id} classData={'text-center'} />
+                      {/* <CasinoPnl sectionId={Item.sid} matchId={liveMatchData.match_id} classData={'text-center'} /> */}
                  </button>
               </td>
               <td className="box-3 text-center" style={{paddingRight:isMobile?'3px':''}}>

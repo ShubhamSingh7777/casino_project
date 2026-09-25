@@ -51,6 +51,10 @@ const LayBackButton = (props: any) => {
     "teen",
     "teen32",
   ]; // add more slugs here
+  const hideCasinoPnlSlugs = [
+  "btable2",
+  "poker","card32eu","card32","poison20","joker20","teen3","aaa","aaa2","dt6","dum10","teen1","trap","teen41","teen42","teen33","teen32","teen"
+];
 
   const onBet = (isBack = false, item: any) => {
     const ipAddress = authService.getIpAddress();
@@ -105,11 +109,13 @@ const LayBackButton = (props: any) => {
       >
         <button className="back" onClick={() => onBet(true, ItemMarket)}>
           <span className="odd">{ItemMarket.b}</span>
-          <CasinoPnl
-            sectionId={ItemMarket.sid}
-            matchId={liveMatchData.match_id}
-            classData={"text-center"}
-          />
+        {!hideCasinoPnlSlugs.includes(currentSlug) && (
+  <CasinoPnl
+    sectionId={ItemMarket.sid}
+    matchId={liveMatchData.match_id}
+    classData={"text-center"}
+  />
+)}
           {/* 🔥 Hide this when URL = poison */}
           {!hideSlugs.includes(currentSlug) && (
             <span className="fw-12 laysize" style={{ display: "block" }}>
@@ -129,11 +135,13 @@ const LayBackButton = (props: any) => {
             <span className="odd">
               <b>{ItemMarket.l}</b>
             </span>
-            <CasinoPnl
-              sectionId={ItemMarket.sid}
-              matchId={liveMatchData.match_id}
-              classData={"text-center"}
-            />
+        {!hideCasinoPnlSlugs.includes(currentSlug) && (
+  <CasinoPnl
+    sectionId={ItemMarket.sid}
+    matchId={liveMatchData.match_id}
+    classData={"text-center"}
+  />
+)}
             {!hideSlugs.includes(currentSlug) && (
               <span className={`fw-12 laysize`} style={{ display: "block" }}>
                 {nFormatter(ItemMarket.ls, 2)}

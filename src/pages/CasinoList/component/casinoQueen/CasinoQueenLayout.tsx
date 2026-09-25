@@ -90,11 +90,11 @@ const CasinoQueenLayout = (props: any) => {
                       </div>
                     </div>
                     {marketRow(Item)}
-                    {/* <div className='col-12 casino-odds-book'>
+                    <div className='col-12 casino-odds-book'>
                       <span className='d-block m-t-5'>
                         <CasinoPnl matchId={liveMatchData.match_id} sectionId={Item.SelectionId} />
                       </span>
-                    </div> */}
+                    </div>
                   </div>
                 </div>
               )

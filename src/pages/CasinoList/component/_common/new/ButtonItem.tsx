@@ -19,8 +19,11 @@ const ButtonItem = (props: any) => {
     const currentSlug =
     gameCode ||
     (location?.pathname ? location.pathname.split("/").filter(Boolean)[0] : "");
+    const hidePnlSlugs = ["dt20","dt6","dt202","lucky5","teen120","lucky7eu2","lucky7"];
+    const hideCasinoPnl = hidePnlSlugs.includes(currentSlug);
      // list of slugs for which we WANT TO HIDE the size span
     const hideSlugs = ["teen20"]; // add more slugs here
+    
     const onBet = (isBack = false, item: any) => {
         const ipAddress = authService.getIpAddress()
         if (userState.user.role === RoleType.user) {
@@ -117,14 +120,17 @@ const ButtonItem = (props: any) => {
       <button
         className={`text-capitalize btn-theme ${suspend}`}
         onClick={() => onBet(true, ItemMarket)}
+        style={{border:'1px solid red'}}
       >
         <b>{title}</b>
+{!hideCasinoPnl && (
+
         <CasinoPnl
                           sectionId={ItemMarket.sid}
                           matchId={liveMatchData.match_id}
                           classData={"text-center"}
                         />
-
+)}
       </button>
     </>
   ) :  gameCode == "btable2" ? (
@@ -146,11 +152,11 @@ const ButtonItem = (props: any) => {
         onClick={() => onBet(true, ItemMarket)}
       >
         <b>{title}</b>
-        <CasinoPnl
+        {/* <CasinoPnl
                           sectionId={ItemMarket.sid}
                           matchId={liveMatchData.match_id}
                           classData={"text-center"}
-                        />
+                        /> */}
       </button>
     </>):(
     <button

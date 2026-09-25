@@ -46,10 +46,12 @@ const LuckSeven = (props: any) => {
             <div className={`row ${!isMobile?'mt-0':'mt-3'} mb-3`} style={{ marginLeft: isMobile ? '0px' : '0px', marginRight: isMobile ? '0px' : '0px', gap: isMobile ? '8px' : '8px', flexWrap: isMobile ? 'nowrap' : 'nowrap',justifyContent:"center" }}>
                 <div className={`${isMobile ? 'col-6' : 'col-6Luckyseven'} text-center`} style={{ paddingLeft: isMobile ? '0px' : '', paddingRight: isMobile ? '0px' : '' }}>
                     <ButtonItem selectionid={market.SelectionId} title={title} lastOdds={lastOdds} liveMatchData={liveMatchData} />
+                     <CasinoPnl matchId={liveMatchData.match_id} sectionId={market.SelectionId} />
 
                 </div>
                 <div className={`${isMobile ? 'col-6' : 'col-6Luckyseven'} text-center`} style={{ paddingLeft: isMobile ? '0px' : '', paddingRight: isMobile ? '0px' : '' }}>
                     <ButtonItem selectionid={market2.SelectionId} title={title2} lastOdds={lastOdds} liveMatchData={liveMatchData} />
+                     <CasinoPnl matchId={liveMatchData.match_id} sectionId={market.SelectionId} />
                 </div>
             </div>
             {/* <div className="row">

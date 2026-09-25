@@ -4,8 +4,7 @@ import { selectMarketBook } from '../../../redux/actions/bet/betSlice';
 const CasinoPnl = (props: any) => {
   const { sectionId, matchId, clsName } = props
   const getMarketBook: any = useAppSelector(selectMarketBook);
-  console.log(getMarketBook, 'get market_book', matchId, sectionId)
-
+  
   if (!getMarketBook[`${matchId}_${sectionId}`]) {
     return null;
   }

@@ -71,6 +71,7 @@ const RaceSeventeen = ({ lastOdds, liveMatchData }: any) => {
       item.gstatus !== "OPEN" || item.visible !== 1 ? "suspended" : "";
 
     return (
+      <>
       <div className="casino-odds-box casino-yn mogambo-suspended">
         <div
           className={`back  ${suspended}`}
@@ -78,11 +79,11 @@ const RaceSeventeen = ({ lastOdds, liveMatchData }: any) => {
         >
           <span className="casino-odds-box-odd">{item.b}</span>
           {/* <span className="fw-12 laysize">{item.bs}</span> */}
-           <CasinoPnl
-                sectionId={item.SelectionId}
-                matchId={liveMatchData?.match_id}
-                classData={"text-center"}
-              />
+            {/* <CasinoPnl
+                  sectionId={item.sid ?? item.SelectionId}
+                  matchId={liveMatchData?.match_id}
+                  classData={"text-center"}
+                /> */}
         </div>
 
         <div
@@ -91,13 +92,20 @@ const RaceSeventeen = ({ lastOdds, liveMatchData }: any) => {
         >
           <span className="casino-odds-box-odd">{item.l}</span>
           {/* <span className="fw-12 laysize">{item.ls}</span> */}
-           <CasinoPnl
-                sectionId={item.SelectionId}
+           {/* <CasinoPnl
+                 sectionId={item.sid ?? item.SelectionId}
+                matchId={liveMatchData?.match_id}
+                classData={"text-center"}
+              /> */}
+        </div>
+        
+      </div>
+       <CasinoPnl
+                 sectionId={item.sid ?? item.SelectionId}
                 matchId={liveMatchData?.match_id}
                 classData={"text-center"}
               />
-        </div>
-      </div>
+              </>
     );
   };
  const location = useLocation();

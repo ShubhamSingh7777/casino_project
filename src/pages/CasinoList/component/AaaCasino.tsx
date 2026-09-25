@@ -69,7 +69,7 @@ console.log("LIVE MATCH DATA:", liveMatchData);
                 ItemMarket.gstatus == 'SUSPENDED' || ItemMarket.gstatus == 'CLOSED' ? 'suspended' : ''
               return <tr data-title="SUSPENDED" key={key}>
                 <td className={"box-6 "}><b ><span className="">{runner}.</span> {Item.RunnerName}</b>
-                  {/* <CasinoPnl sectionId={Item.SelectionId} matchId={liveMatchData.match_id} /> */}
+                  <CasinoPnl sectionId={Item.SelectionId} matchId={liveMatchData.match_id} />
                 </td>
                 <LayBackButton selectionid={Item.SelectionId} lastOdds={lastOdds} liveMatchData={liveMatchData} clsnamename={'box-2'} clsstatus={clsstatus} />
               </tr>

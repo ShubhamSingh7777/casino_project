@@ -93,6 +93,7 @@ const Teenpatti2O = (props: any) => {
     <>
       {runnerList.map((r: any, i: number) => {
         const item: any = lastOdds?.[r.SelectionId] || {};
+  
         const clsstatus =
           !item.gstatus ||
           item.gstatus === "SUSPENDED" ||
@@ -110,11 +111,11 @@ const Teenpatti2O = (props: any) => {
             >
               <button className="back" onClick={() => onBet(true, item)}>
                 <span className="odd">{item.b || "0"}</span>
-                 <CasinoPnl
-                sectionId={item.SelectionId}
-                matchId={liveMatchData?.match_id}
-                classData={"text-center"}
-              />
+               <CasinoPnl
+  sectionId={item.sid}
+  matchId={liveMatchData?.match_id}
+  classData={"text-center"}
+/>
               </button>
             </td>
 
@@ -126,11 +127,11 @@ const Teenpatti2O = (props: any) => {
               >
                 <button className="lay" onClick={() => onBet(false, item)} style={{border:'1px solid red'}}>
                   <span className="odd">{item.l || "0"}</span>
-                   <CasinoPnl
-                sectionId={item.SelectionId}
-                matchId={liveMatchData?.match_id}
-                classData={"text-center"}
-              />
+                <CasinoPnl
+  sectionId={item.sid}
+  matchId={liveMatchData?.match_id}
+  classData={"text-center"}
+/>
                 </button>
               </td>
             )}

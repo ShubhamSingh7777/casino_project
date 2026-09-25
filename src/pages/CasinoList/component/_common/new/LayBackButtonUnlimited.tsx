@@ -71,11 +71,11 @@ const LayBackButtonUnlimited = (props: any) => {
       <td className={`back teen-section ${clsnamename} ${clsstatus}`}>
         <button className="back" onClick={() => onBet(true, ItemMarket)}>
           <span className="odd">{ItemMarket.b}</span>
-                    <CasinoPnl
-                      sectionId={ItemMarket.sid}
-                      matchId={liveMatchData.match_id}
-                      classData={"text-center"}
-                    />
+                  {/* <CasinoPnl
+    sectionId={ItemMarket.sid}
+    matchId={liveMatchData.match_id}
+    classData={"text-center"}
+  /> */}
           
           {/* 🔥 Hide this when URL = poison */}
             {!hideSlugs.includes(currentSlug) && (
@@ -93,11 +93,11 @@ const LayBackButtonUnlimited = (props: any) => {
             <span className="odd">
               <b>{ItemMarket.l}</b>
             </span>
-                      <CasinoPnl
-            sectionId={ItemMarket.sid}
-            matchId={liveMatchData.match_id}
-            classData={"text-center"}
-          />
+                     {/* <CasinoPnl
+    sectionId={ItemMarket.sid}
+    matchId={liveMatchData.match_id}
+    classData={"text-center"}
+  /> */}
 
             {!hideSlugs.includes(currentSlug) && (
             <span className="fw-12 laysize" style={{ display: "block" }}>

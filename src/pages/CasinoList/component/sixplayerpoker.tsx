@@ -58,7 +58,15 @@ const Sixplayerpoker = (props: any) => {
       const clsstatus = !Item.gstatus || Item.gstatus === '0' || Item.gstatus === "SUSPENDED" ? 'suspended' : ''
       const card = cards[`C${key + 1}`] && cards[`C${key + 1}`] != '1' && cards[`C${key + 1}`];
       const card2 = cards[`C${key + 7}`] && cards[`C${key + 7}`] != 1 && cards[`C${key + 7}`];
-      return (
+    
+    console.log("SIX PLAYER PNL", {
+  player: ItemNew.RunnerName,
+  selectionId: ItemNew.SelectionId,
+  sid: Item?.sid,
+  mid: Item?.mid,
+  matchId: liveMatchData?.match_id,
+  pnlItem: Item,
+});  return (
         (
           <div className='col-lg-6 col-12 mb-0' style={{ paddingRight: key % 2 == 0 ? "0px" : "0px",paddingLeft: key % 2 == 0 ? "0px" : "0px",maxWidth:!isMobile?'49%':''}} key={key}>
             <button className={`bt-action btn-theme ${clsstatus}`} onClick={() => onBet(true, Item)}>

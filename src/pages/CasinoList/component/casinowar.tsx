@@ -101,6 +101,11 @@ const Casinowar = (props: any) => {
                     matchId={liveMatchData.match_id}
                     clsName={'text-center'}
                   />}
+                   <CasinoPnl
+                      sectionId={Item.sid}
+                      matchId={liveMatchData.match_id}
+                      classData="text-center"
+                    />
                 </button>
               </td> : ""
             )

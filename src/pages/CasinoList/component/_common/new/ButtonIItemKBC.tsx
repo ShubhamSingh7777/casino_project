@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from "../../../../../redux/hooks";
 import authService from "../../../../../services/auth.service";
 import { useLocation, useParams } from 'react-router-dom'
 import { isMobile } from "react-device-detect";
+import CasinoPnl from "../../casinoPnl";
 
 const ButtonIitemKBC = (props: any) => {
     const { selectionid, title, lastOdds, liveMatchData } = props;
@@ -54,7 +55,7 @@ const ButtonIitemKBC = (props: any) => {
             )
         }
     }
-//    const ItemMarket = lastOdds; // already the odd object
+   const ItemMarket = lastOdds; // already the odd object
 //    console.log(ItemMarket,'asdfghjkasdfgh',liveMatchData)
 
    const suspend =
@@ -72,6 +73,11 @@ const ButtonIitemKBC = (props: any) => {
                     onBet(true, lastOdds)
                 }
                 } style={{ fontSize: isMobile ? '12px' : '16px' }}><b >{title}</b>
+                 <CasinoPnl
+  sectionId={lastOdds?.sid}
+  matchId={liveMatchData?.match_id}
+  classData="text-center"
+/>
                 </button >
     ):(
          <div className='row'>
@@ -81,6 +87,12 @@ const ButtonIitemKBC = (props: any) => {
                     console.log("<-------Button Clicked----->");
                     onBet(true, lastOdds)}
                 }><b >{title}</b>
+
+                 <CasinoPnl
+  sectionId={lastOdds?.sid}
+  matchId={liveMatchData?.match_id}
+  classData="text-center"
+/>
               </button>
           </div>
       </div>

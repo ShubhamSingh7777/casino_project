@@ -16,6 +16,13 @@ const Goal = (props: any) => {
   const userState = useAppSelector(selectUserData);
   const { gameCode } = useParams();
 
+//   console.log("🔥 Goal MARKET", {
+//   liveMatchId: liveMatchData?.match_id,
+//   eventDataMatchId: liveMatchData?.event_data?.match_id,
+//   market: liveMatchData?.event_data?.market?.[0],
+//   runners: liveMatchData?.event_data?.market?.[0]?.Runners,
+// });
+
   const pushDataToPositions = React.useCallback(
     (data: string) => {
       const positions = [0, 1, 2, 3, 4, 5, 6, 7];
@@ -144,6 +151,11 @@ const Goal = (props: any) => {
                 }}
               >
                 {ItemNew.RunnerName}
+                     <CasinoPnl
+                    sectionId={Item.sid}
+                    matchId={liveMatchData.match_id}
+                    classData={"text-center"}
+                  />
                 {cards &&
                   cards[keyLink] &&
                   cards[keyLink].map((ItemCard: any, keyCard: any) => (
@@ -174,11 +186,7 @@ const Goal = (props: any) => {
                     {" "}
                      {(Item?.max)}{" "}
                   </b>
-                  <CasinoPnl
-                    sectionId={Item.sid}
-                    matchId={liveMatchData.match_id}
-                    classData={"text-center"}
-                  />
+                
                 </button>
               </td>
               {gameCode === "goal2" && (
@@ -292,7 +300,11 @@ const Goal = (props: any) => {
                   ["SUSPENDED", "CLOSED", "0"].includes(Item.gstatus)
                     ? "suspended"
                     : "";
-
+console.log("🔥 UNLIMITED Goal PNL", {
+      itemSid: Item?.sid,
+      matchId: liveMatchData?.match_id,
+      pnlKey: `${liveMatchData?.match_id}_${Item?.sid}`,
+    });
                 return (
                   <tr key={runner.SelectionId}>
                     <td
@@ -302,6 +314,11 @@ const Goal = (props: any) => {
                       style={{ color: "#333",fontSize:isMobile?'13px':'' }}
                     >
                       {runner.RunnerName}
+                        <CasinoPnl
+                    sectionId={Item.sid}
+                    matchId={liveMatchData.match_id}
+                    classData={"text-center"}
+                  />
                     </td>
 
                     <td
@@ -319,11 +336,11 @@ const Goal = (props: any) => {
                     {" "}
                    {(Item?.bs)}{" "}
                   </span>
-                        <CasinoPnl
+                        {/* <CasinoPnl
                           sectionId={Item.sid}
                           matchId={liveMatchData?.match_id}
                           classData="text-center"
-                        />
+                        /> */}
                       </button>
                     </td>
 
@@ -361,11 +378,11 @@ const Goal = (props: any) => {
                     {" "}
                    {(Item?.bs)}{" "}
                   </span>
-                          <CasinoPnl
+                          {/* <CasinoPnl
                             sectionId={Item.sid}
                             matchId={liveMatchData?.match_id}
                             classData="text-center"
-                          />
+                          /> */}
                         </button>
                       </td>
                     )}
@@ -414,6 +431,11 @@ const renderCombinationMarket = () => {
               {/* NAME */}
               <div className="combination-name">
                 {runner.RunnerName}
+                  <CasinoPnl
+                    sectionId={Item.sid}
+                    matchId={liveMatchData.match_id}
+                    classData={"text-center"}
+                  />
 
                 <span className="combination-info">i</span>
               </div>

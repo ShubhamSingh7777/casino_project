@@ -1,6 +1,7 @@
 import { isMobile } from "react-device-detect";
 import Limitinfo from "./_common/limitinfo";
 import BackButtonPnl from "./_common/new/BackButtonPnl";
+import CasinoPnl from "./casinoPnl";
 
 const Twentydaypoker = (props: any) => {
   const { lastOdds, liveMatchData } = props;
@@ -60,6 +61,7 @@ const Twentydaypoker = (props: any) => {
                 >
                   <td className={clsnamehead} style={{ paddingLeft: "10px" }}>
                     <b>{name}</b>
+                     <CasinoPnl sectionId={ItemMarket.sid} matchId={liveMatchData.match_id} classData={'text-center'} />
                   </td>
                   {setItem(ItemData, clsnamename)}
                   {KeyData >= 0 && setItem(fancydata[KeyData + 1], clsnamename)}

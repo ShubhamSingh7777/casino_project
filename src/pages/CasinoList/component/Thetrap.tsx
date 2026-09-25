@@ -79,6 +79,10 @@ const laybacklayoutPlayer = () => {
           <tr key={`${mIndex}-${rIndex}`}>
             <td className={`clsnamehead trapBox60`} style={{ paddingLeft:!isMobile? "6px":"10px",maxWidth:!isMobile?"60%":"",width:!isMobile?"60%":"",fontSize:!isMobile?"16px":"",verticalAlign:!isMobile?"unset":"" ,paddingTop:!isMobile?"5px":"",borderLeft:!isMobile?"none":"" }}>
               <b>{runner.RunnerName}</b>
+              <CasinoPnl
+  sectionId={runner.SelectionId}
+  matchId={liveMatchData.match_id}
+/>
             </td>
 
             <LayBackButton
@@ -116,6 +120,10 @@ const laybacklayoutDealer = () => {
           <tr key={`${mIndex}-${rIndex}`}>
             <td className={`clsnamehead trapBox60`} style={{ paddingLeft:!isMobile? "6px":"10px",maxWidth:!isMobile?"60%":"",width:!isMobile?"60%":"",fontSize:!isMobile?"16px":"",verticalAlign:!isMobile?"unset":"" ,paddingTop:!isMobile?"5px":"" ,borderLeft:!isMobile?"none":""}}>
               <b>{runner.RunnerName}</b>
+              <CasinoPnl
+  sectionId={runner.SelectionId}
+  matchId={liveMatchData.match_id}
+/>
             </td>
 
             <LayBackButton

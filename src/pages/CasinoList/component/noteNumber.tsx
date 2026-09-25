@@ -177,6 +177,12 @@ const NoteNumber = (props: any) => {
                     liveMatchData={liveMatchData}
                     showLay={false}
                   />
+                  <div className="tx-16 mt30">
+      <CasinoPnl
+        sectionId={runner.SelectionId}
+        matchId={liveMatchData.match_id}
+      />
+    </div>
                 </span>
 
                 {/* Baccarat 2 */}
@@ -190,7 +196,14 @@ const NoteNumber = (props: any) => {
                       liveMatchData={liveMatchData}
                       showLay={false}
                     />
+                    <div className="tx-16 mt30">
+      <CasinoPnl
+        sectionId={runner.SelectionId}
+        matchId={liveMatchData.match_id}
+      />
+    </div>
                   </span>
+                  
                 )}
               </div>
             </div>
@@ -248,6 +261,7 @@ const NoteNumber = (props: any) => {
         <div className={`${gridClass} text-center mb-10`} key={idx}>
           <span className="d-block">
             <b>{title}</b>
+
           </span>
 
           <LaybackBoxNote
@@ -256,6 +270,12 @@ const NoteNumber = (props: any) => {
             title={market.MarketName}
             liveMatchData={liveMatchData}
           />
+          <div className="tx-16 mt30">
+      <CasinoPnl
+        sectionId={runner.SelectionId}
+        matchId={liveMatchData.match_id}
+      />
+    </div>
         </div>
       );
     });
@@ -277,7 +297,10 @@ const NoteNumber = (props: any) => {
     );
   };
 
-  return <>{!isMobile ? layoutForDesktop() : ""}</>;
+  return <>
+       {layoutForDesktop()}
+  {/* {!isMobile ? layoutForDesktop() : ""} */}
+  </>;
 };
 
 export default NoteNumber;

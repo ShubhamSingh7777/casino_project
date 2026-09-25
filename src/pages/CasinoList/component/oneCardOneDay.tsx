@@ -76,6 +76,10 @@ const laybacklayoutPlayer = () => {
           <tr key={`${mIndex}-${rIndex}`}>
             <td className={`clsnamehead  box4Onecard`} style={{ paddingLeft:!isMobile? "5px":"10px",fontSize:!isMobile?'16px':'' ,color:'#333',verticalAlign:'unset',paddingTop:!isMobile?'2px':'' }}>
               <b>{runner.RunnerName}</b>
+              <CasinoPnl
+  sectionId={runner.SelectionId}
+  matchId={liveMatchData.match_id}
+/>
             </td>
 
             <LayBackButton
@@ -111,7 +115,10 @@ const laybacklayoutDealer = () => {
         return (
           <tr key={`${mIndex}-${rIndex}`}>
             <td className={`clsnamehead  box4Onecard`} style={{ paddingLeft:!isMobile? "5px":"10px",fontSize:!isMobile?'16px':'' ,color:'#333',verticalAlign:'unset',paddingTop:!isMobile?'2px':'' }}>
-              <b>{runner.RunnerName}</b>
+              <b>{runner.RunnerName}</b><CasinoPnl
+  sectionId={runner.SelectionId}
+  matchId={liveMatchData.match_id}
+/>
             </td>
 
             <LayBackButton

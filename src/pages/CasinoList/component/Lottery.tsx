@@ -170,28 +170,41 @@ const Lottery = ({ lastOdds, liveMatchData }: any) => {
             </div>
             {/* Cards */}
             <div className={`col-12 d-flex flex-wrap justify-content-around ${suspend}`}>
-              {cardNumbers.map((num) => {
-                const selectionId = `${activeIndex}-${num}`;
-                const ItemMarket: any = lastOdds?.[selectionId] || {
-                  gstatus: 1,
-                  b: 1.0,
-                };
-                const isSuspended =
-                  !ItemMarket ||
-                  ItemMarket.gstatus === 0 ||
-                  ItemMarket.gstatus === "SUSPENDED" ||
-                  ItemMarket.gstatus === "0" ||
-                  ItemMarket.gstatus === "CLOSED";
+         {cardNumbers.map((num) => {
+  const marketKey = activeIndex + 1;
 
-                return (
-                  <CardItemLotteryNew
-                    key={selectionId}
-                    title={String(num)}
-                    onClick={() => !isSuspended && onCardClick(String(num))}
-                    isSelected={selection.cards.includes(String(num))}
-                  />
-                );
-              })}
+  // Single = 1
+  // Double = 2
+  // Triple = 3
+  const ItemMarket: any = lastOdds?.[marketKey];
+
+  const isSuspended =
+    !ItemMarket ||
+    ItemMarket.gstatus === 0 ||
+    ItemMarket.gstatus === "SUSPENDED" ||
+    ItemMarket.gstatus === "0" ||
+    ItemMarket.gstatus === "CLOSED";
+console.log(
+  "ACTIVE LOTTERY MARKET:",
+  activeIndex,
+  lastOdds?.market?.[activeIndex]
+);
+
+console.log(
+  "LOTTERY RUNNERS:",
+  lastOdds?.market?.[activeIndex]?.Runners
+);
+  return (
+    <CardItemLotteryNew
+      key={`${activeIndex}-${num}`}
+      title={String(num)}
+      onClick={() => !isSuspended && onCardClick(String(num))}
+      isSelected={selection.cards.includes(String(num))}
+      lastOdds={ItemMarket}
+      liveMatchData={liveMatchData}
+    />
+  );
+})}
             </div>
           </div>
         </div>
