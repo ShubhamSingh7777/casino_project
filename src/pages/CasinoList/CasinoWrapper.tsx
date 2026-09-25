@@ -653,7 +653,7 @@ const CasinoWrapper = (props: any) => {
                       width="100%"
                       height={isMobile ? "220" : "420"}
                       style={{ border: "0px" }}
-                     src={`https://tv.betsclub.online/${gameCode}`}
+                     src={`https://tv.777exch.online/${gameCode}`}
                     ></iframe>
                   )}
                 {casinoMatchData && gameCode !== 'worli3' && <CasinoTimer lastOdds={casinoMatchData} />}
@@ -791,7 +791,7 @@ const CasinoWrapper = (props: any) => {
                         width="100%"
                        
                         style={{ border: "0px" , height:isMobile ? "212": "250px",}}
-                        src={`https://tv.betsclub.online/${gameCode}`}
+                        src={`https://tv.777exch.live/${gameCode}`}
                         sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
                         seamless
                       />
