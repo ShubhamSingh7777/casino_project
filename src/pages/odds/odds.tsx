@@ -155,13 +155,13 @@ const Odds = () => {
     }
   }, [initApp])
 
-    React.useEffect(() => {
-      if (matchId) {
-        (window as any).oddsStartTime = Date.now();
-        socket.emit('joinRoom', matchId);
-      }
-      fetchOddsDetail()
-    }, [matchId, socket])
+  React.useEffect(() => {
+    if (matchId) {
+      (window as any).oddsStartTime = Date.now();
+      socket.emit('joinRoom', matchId);
+    }
+    fetchOddsDetail()
+  }, [matchId, socket])
 
   const fetchT10Stream = async () => {
     if (currentMatch?.isT10) {
@@ -204,7 +204,7 @@ const Odds = () => {
       return (
         <iframe
           style={{ width: '100%', height: 'auto' }}
-         src={`https://tv.777exch.live/scorecard/?gmid=${currentMatch.matchId}&etid=${currentMatch.sportId}`}
+          src={`https://tv.777exch.live/scorecard/?gmid=${currentMatch.matchId}&etid=${currentMatch.sportId}`}
         ></iframe>
       )
     }

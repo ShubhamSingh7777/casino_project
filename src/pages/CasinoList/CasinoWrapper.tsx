@@ -92,6 +92,8 @@ import RouletteFrame from "./component/RouletteFrame";
 import Worli3 from "./component/worli3";
 import MarketStrip from "./component/MarketStrip";
 import Sicbo from "./component/Sicbo";
+import FiveCricket from "./component/fiveCricket";
+import UniqueTeenpatti from "./component/uniqueTeenpatti";
 // import datajson from './Casinojson'
 
 type MarketData = {
@@ -106,12 +108,12 @@ const CasinoWrapper = (props: any) => {
   const dispatch = useDispatch();
   const [liveMatchData, setLiveMatchData] = React.useState<any>({} as any);
   const [marketDataList, setMarketDataList] = React.useState<MarketData>(
-    {} as MarketData
+    {} as MarketData,
   );
   // worli 3
-  const [worli3Data, setWorli3Data] = React.useState<any[]>([])
-  const [worli3Results, setWorli3Results] = React.useState<any[]>([])
-  const [selectedMarket, setSelectedMarket] = useState<any | null>(null)
+  const [worli3Data, setWorli3Data] = React.useState<any[]>([]);
+  const [worli3Results, setWorli3Results] = React.useState<any[]>([]);
+  const [selectedMarket, setSelectedMarket] = useState<any | null>(null);
   const [updateOdds, setUpdateOdds] = React.useState<any>(undefined);
   const betValues = useAppSelector(selectBetPopup);
   const userState = useAppSelector(selectUserData);
@@ -119,25 +121,30 @@ const CasinoWrapper = (props: any) => {
   const [tv, setTv] = React.useState("");
   const isFetching = React.useRef(false);
   const [showBetPopup, setShowBetPopup] = React.useState(false);
-  const key = btoa(`https://stream-s-43.uhdmovies.online/casino-stream?id=${gameCode}`);
+  const key = btoa(
+    `https://stream-s-43.uhdmovies.online/casino-stream?id=${gameCode}`,
+  );
 
   const marketList = React.useMemo<any[]>(() => {
-    if (Array.isArray(worli3Data)) return worli3Data
-    if (Array.isArray((worli3Data as any)?.data)) return (worli3Data as any).data
-    return []
-  }, [worli3Data])
+    if (Array.isArray(worli3Data)) return worli3Data;
+    if (Array.isArray((worli3Data as any)?.data))
+      return (worli3Data as any).data;
+    return [];
+  }, [worli3Data]);
 
   React.useEffect(() => {
     if (!selectedMarket && marketList.length > 0) {
-      setSelectedMarket(marketList[0])
+      setSelectedMarket(marketList[0]);
     }
-  }, [marketList, selectedMarket])
+  }, [marketList, selectedMarket]);
 
   const [checkRoundIdChange, setCheckRoundIdChange] = useState("");
 
   const isMobileRoulette =
     isMobile &&
-    ["roulette11", "roulette12", "roulette13","ourroullete"].includes(String(gameCode));
+    ["roulette11", "roulette12", "roulette13", "ourroullete"].includes(
+      String(gameCode),
+    );
 
   let interValCasino: any = null;
   ///const [interVal, setIntervalObj] = React.useState<any>(null)
@@ -153,12 +160,12 @@ const CasinoWrapper = (props: any) => {
     if (userState.user._id) {
       socketUser.emit(
         "joinRoomMatchIdWUserId",
-        `${userState.user._id}-${parseInt(casinoMatchData?.match_id)}`
+        `${userState.user._id}-${parseInt(casinoMatchData?.match_id)}`,
       );
       socketUser.on("connect", () => {
         socketUser.emit(
           "joinRoomMatchIdWUserId",
-          `${userState.user._id}-${parseInt(casinoMatchData?.match_id)}`
+          `${userState.user._id}-${parseInt(casinoMatchData?.match_id)}`,
         );
       });
     }
@@ -177,21 +184,21 @@ const CasinoWrapper = (props: any) => {
         isFetching.current = false;
         const fullMarketData = res?.data?.data;
         /* ================== ✅ ADD THIS BLOCK ================== */
-      if (gameCode === 'worli3') {
-        const apiData = fullMarketData?.data
-        const results = fullMarketData?.results
-        setWorli3Data(apiData || [])
-        setWorli3Results(results || [])
-        isFetching.current = false
-        return
-      }
-      /* ================== ✅ END ADD ================== */
+        if (gameCode === "worli3") {
+          const apiData = fullMarketData?.data;
+          const results = fullMarketData?.results;
+          setWorli3Data(apiData || []);
+          setWorli3Results(results || []);
+          isFetching.current = false;
+          return;
+        }
+        /* ================== ✅ END ADD ================== */
         if (casinoMatchData?.match_id != fullMarketData.match_id) {
           dispatch(
             betPopup({
               isOpen: false,
               betData: { ...betValues.betData, stack: 0, pnl: 0 },
-            })
+            }),
           );
           dispatch(setBookMarketList({}));
           setLiveMatchData(fullMarketData);
@@ -208,7 +215,7 @@ const CasinoWrapper = (props: any) => {
               data["MarketName"] = m.MarketName;
               data["mid"] = fullMarketData.match_id;
               run[r?.sid || r?.sectionId] = data;
-            })
+            }),
           );
         }
         run["market"] = liveMarket?.market;
@@ -351,12 +358,12 @@ const CasinoWrapper = (props: any) => {
       case "lucky7":
       case "lucky5":
       case "lucky7eu2":
-      case"plucky7":  
+      case "plucky7":
       case "vlucky7":
         return (
           <LuckSeven lastOdds={updateOdds} liveMatchData={liveMatchData} />
         );
-      case "teen120":  //done
+      case "teen120": //done
         return (
           <OneCard2020 lastOdds={updateOdds} liveMatchData={liveMatchData} />
         );
@@ -364,24 +371,24 @@ const CasinoWrapper = (props: any) => {
         return <Cmeter1 lastOdds={updateOdds} liveMatchData={liveMatchData} />;
       case "dt20": //done
       case "dt202": //done
-      case "pdt20":  
+      case "pdt20":
         return (
           <DragonTigerA lastOdds={updateOdds} liveMatchData={liveMatchData} />
         );
       case "aaa":
       case "aaa2":
-      case "vaaa":  
+      case "vaaa":
         return (
           <AaaCasino lastOdds={updateOdds} liveMatchData={liveMatchData} />
         );
       case "dum10":
         return <Duskadum lastOdds={updateOdds} liveMatchData={liveMatchData} />;
       case "trio":
-      case "vtrio":  
+      case "vtrio":
         return <Trio lastOdds={updateOdds} liveMatchData={liveMatchData} />;
       case "pokerle": //done
       case "btable2": //done
-      case "vbtable":          
+      case "vbtable":
         return (
           <BollywoodCasino
             lastOdds={updateOdds}
@@ -390,25 +397,26 @@ const CasinoWrapper = (props: any) => {
         );
       case "kbc":
         return <Kbc lastOdds={updateOdds} liveMatchData={liveMatchData} />;
-      case "teen": 
-      case "teen3":   //done
-      case "teen32":  //done
-      case "teen33":  //done
-      case "teen41":  //done
-      case "teen42":  //done
-      case "pteen": 
+      case "teen":
+      case "teen3": //done
+      case "teen32": //done
+      case "teen33": //done
+      case "teen41": //done
+      case "teen42": //done
+      case "pteen":
       case "vteen":
         return (
           <OneDayTeen lastOdds={updateOdds} liveMatchData={liveMatchData} />
         );
       case "mogambo":
-        return(
-          <Mogambo lastOdds={updateOdds} liveMatchData={liveMatchData}/>
-        )  
-      case "teen62" :
-        return(
-          <VipTeenPattiOneDay lastOdds={updateOdds} liveMatchData={liveMatchData}/>
-        ) 
+        return <Mogambo lastOdds={updateOdds} liveMatchData={liveMatchData} />;
+      case "teen62":
+        return (
+          <VipTeenPattiOneDay
+            lastOdds={updateOdds}
+            liveMatchData={liveMatchData}
+          />
+        );
       case "joker1":
         return (
           <UnlimitedJoker1Day
@@ -425,23 +433,26 @@ const CasinoWrapper = (props: any) => {
         );
       case "baccarat":
       case "baccarat2":
-        case "pbaccarat":
+      case "pbaccarat":
         return <Baccarat lastOdds={updateOdds} liveMatchData={liveMatchData} />;
       case "poker6": //done
         return (
           <Sixplayerpoker lastOdds={updateOdds} liveMatchData={liveMatchData} />
         );
       case "superover":
-      case "cricketv3":
-        case "superover2":
-          case "superover3":  
+      case "superover2":
+      case "superover3":
         return (
           <SuperOver lastOdds={updateOdds} liveMatchData={liveMatchData} />
+        );
+      case "cricketv3":
+        return (
+          <FiveCricket lastOdds={updateOdds} liveMatchData={liveMatchData} />
         );
       case "trap": //done
         return <TheTrap lastOdds={updateOdds} liveMatchData={liveMatchData} />;
       case "card32":
-        case "pcard32":
+      case "pcard32":
         return <Card32A lastOdds={updateOdds} liveMatchData={liveMatchData} />;
       case "race20": //done
         return <Race20 lastOdds={updateOdds} liveMatchData={liveMatchData} />;
@@ -466,12 +477,10 @@ const CasinoWrapper = (props: any) => {
           <Twentydaypoker lastOdds={updateOdds} liveMatchData={liveMatchData} />
         );
       case "sicbo":
-      case "sicbo2":  
-        return(
-          <Sicbo lastOdds={updateOdds} liveMatchData={liveMatchData} />
-        )  
+      case "sicbo2":
+        return <Sicbo lastOdds={updateOdds} liveMatchData={liveMatchData} />;
       case "goal":
-      case "goal2":  //done
+      case "goal2": //done
         return <Goal lastOdds={updateOdds} liveMatchData={liveMatchData} />;
       case "lucky15":
         return (
@@ -486,7 +495,7 @@ const CasinoWrapper = (props: any) => {
       case "teen9": //done
         return <TestTp lastOdds={updateOdds} liveMatchData={liveMatchData} />;
       case "dt6": //done
-      case "pdt6":  
+      case "pdt6":
       case "vdt6":
         return (
           <Dragontiger1Day
@@ -511,7 +520,7 @@ const CasinoWrapper = (props: any) => {
           <Card3JLayout lastOdds={updateOdds} liveMatchData={liveMatchData} />
         );
       case "dtl20": //done
-      case "vdtl20":  
+      case "vdtl20":
         return (
           <Dtl20Layout lastOdds={updateOdds} liveMatchData={liveMatchData} />
         );
@@ -521,7 +530,16 @@ const CasinoWrapper = (props: any) => {
         );
       case "lottcard":
         return <Lottery lastOdds={updateOdds} liveMatchData={liveMatchData} />;
+      case "teenunique":
+        return (
+          <UniqueTeenpatti
+            lastOdds={updateOdds}
+            liveMatchData={liveMatchData}
+          />
+        );
       case "ab20":
+      case "ab4":
+      case "ab3":
         return (
           <AndarBhar lastOdds={updateOdds} liveMatchData={casinoMatchData} />
         );
@@ -533,8 +551,8 @@ const CasinoWrapper = (props: any) => {
       case "teen20c": //done
       case "teen20b": //done
       case "teenmuf": //done
-      case "pteen20":  
-      case "vteenmuf":  
+      case "pteen20":
+      case "vteenmuf":
       case "vteen20":
         return (
           <TeenPatti20 lastOdds={updateOdds} liveMatchData={liveMatchData} />
@@ -551,10 +569,8 @@ const CasinoWrapper = (props: any) => {
         return (
           <TwocardsTeen lastOdds={updateOdds} liveMatchData={liveMatchData} />
         );
-        case "dolidana":
-             return (
-          <Dolidana lastOdds={updateOdds} liveMatchData={liveMatchData} />
-        );
+      case "dolidana":
+        return <Dolidana lastOdds={updateOdds} liveMatchData={liveMatchData} />;
       case "teen6":
         return (
           <Teenpatti2O lastOdds={updateOdds} liveMatchData={liveMatchData} />
@@ -565,13 +581,11 @@ const CasinoWrapper = (props: any) => {
         return (
           <NoteNumber lastOdds={updateOdds} liveMatchData={liveMatchData} />
         );
-        case "roulette12":
+      case "roulette12":
       case "roulette13":
       case "roulette11":
-        case "ourroullete":
-        return(
-         <Roulette lastOdds={updateOdds} liveMatchData={liveMatchData} />
-        );
+      case "ourroullete":
+        return <Roulette lastOdds={updateOdds} liveMatchData={liveMatchData} />;
       case "worli2":
         return (
           <Instantworli
@@ -580,46 +594,58 @@ const CasinoWrapper = (props: any) => {
             checkRoundIdChange={checkRoundIdChange}
           />
         );
-        case 'worli3':
-        return <Worli3 markets={worli3Data} selectedMarket={selectedMarket} />
+      case "worli3":
+        return <Worli3 markets={worli3Data} selectedMarket={selectedMarket} />;
       default:
         break;
     }
   };
+
   return (
     <>
       {!isMobile ? (
         <div
-          className={`row mtc-5 row5 casino-container-box ${
-            gameCode === "cricket2020" ? "cc-20" : ""
-          }`}
+          className={`row mtc-5 row5 casino-container-box ${gameCode === "cricket2020" ? "cc-20" : ""
+            }`}
         >
-                   {/* CENTER PLACE BET */}
-  <div className="center-place-bet">
-  {marketDataList.stake && (
-    <PlaceBetBox stake={marketDataList.stake} />
-  )}
-</div>
+          {/* CENTER PLACE BET */}
+          <div className="center-place-bet">
+            {marketDataList.stake && (
+              <PlaceBetBox stake={marketDataList.stake} />
+            )}
+          </div>
           <div className="col-8 col-lg-8">
             <div className="card my-bet">
               <div className="card-header casino">
                 <h6 className="card-title d-inline-block">
-                 <b style={{textTransform: 'uppercase'}}>{gameCode === 'worli3' ? 'Matka Market' : liveMatchData?.title || ''}</b> 
+                  <b style={{ textTransform: "uppercase" }}>
+                    {gameCode === "worli3"
+                      ? "Matka Market"
+                      : liveMatchData?.title || ""}
+                  </b>
                   <span
                     className="fw-12 text-underlin"
                     onClick={showRules}
-                    style={{ marginLeft: "5px",textDecoration: 'underline',fontSize:'12px'}}
+                    style={{
+                      marginLeft: "5px",
+                      textDecoration: "underline",
+                      fontSize: "12px",
+                    }}
                   >
-                   Rules
+                    Rules
                   </span>
-                  <span className="float-right" style={{marginTop:'5px'}}>
-                   {gameCode === 'worli3' ? '' : <small> Round ID: {casinoMatchData.match_id} </small>}
+                  <span className="float-right" style={{ marginTop: "5px" }}>
+                    {gameCode === "worli3" ? (
+                      ""
+                    ) : (
+                      <small> Round ID: {casinoMatchData.match_id} </small>
+                    )}
                     {/* | Min:{" "}
                     {casinoMatchData.min} | Max: {casinoMatchData.max} */}
                   </span>
                 </h6>
               </div>
-              {gameCode === 'worli3' && (
+              {gameCode === "worli3" && (
                 <MarketStrip
                   markets={marketList}
                   selectedMarketId={selectedMarket?.mid ?? null}
@@ -653,15 +679,20 @@ const CasinoWrapper = (props: any) => {
                       width="100%"
                       height={isMobile ? "220" : "420"}
                       style={{ border: "0px" }}
-                     src={`https://tv.777exch.online/${gameCode}`}
+                      // src={`https://tv.777exch.online/${gameCode}`}
+                      src={`https://tv.777exch.live/${gameCode}`}
+                      sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+                      seamless
                     ></iframe>
                   )}
-                {casinoMatchData && gameCode !== 'worli3' && <CasinoTimer lastOdds={casinoMatchData} />}
+                  {casinoMatchData && gameCode !== "worli3" && (
+                    <CasinoTimer lastOdds={casinoMatchData} />
+                  )}
                   {casinoMatchData && (
                     <CasinoTitle lastResult={casinoMatchData} />
                   )}
                   {(gameCode == "onedaypoker" && casinoMatchData?.desc != "") ||
-                  (gameCode == "onedaypoker20" && casinoMatchData?.desc != "")
+                    (gameCode == "onedaypoker20" && casinoMatchData?.desc != "")
                     ? oneDayPokerDescription(casinoMatchData.desc)
                     : ""}
 
@@ -677,16 +708,20 @@ const CasinoWrapper = (props: any) => {
             </div>
             <div
               className={`card-body ${gameCode}`}
-              style={{ padding: "0px", position: "relative", marginTop: isMobile ? "4px" : "4px" }}
+              style={{
+                padding: "0px",
+                position: "relative",
+                marginTop: isMobile ? "4px" : "4px",
+              }}
             >
               {renderUiData(gameCode)}
 
               {(liveMatchData.remark != "" &&
                 liveMatchData?.slug != "Superover" &&
                 liveMatchData?.slug != "fivewicket") ||
-              (liveMatchData?.event_data?.remark != "" &&
-                liveMatchData?.slug != "Superover" &&
-                liveMatchData?.slug != "fivewicket") ? (
+                (liveMatchData?.event_data?.remark != "" &&
+                  liveMatchData?.slug != "Superover" &&
+                  liveMatchData?.slug != "fivewicket") ? (
                 <div className="notice-casino-odds">
                   <div className="marqueeN">
                     <p>
@@ -699,8 +734,11 @@ const CasinoWrapper = (props: any) => {
                 ""
               )}
             </div>
-          {gameCode === 'worli3' ? (
-              <LastResults lastResult={{ results: worli3Results }} gameId={gameCode} />
+            {gameCode === "worli3" ? (
+              <LastResults
+                lastResult={{ results: worli3Results }}
+                gameId={gameCode}
+              />
             ) : (
               casinoMatchData?.id && (
                 <LastResults lastResult={casinoMatchData} gameId={gameCode} />
@@ -712,11 +750,13 @@ const CasinoWrapper = (props: any) => {
               <div className="ps">
                 <div className="sidebar-right-inner">
                   <div className="sidebar-place-bet">
-                  {marketDataList.stake && (
-                    <PlaceBetBox stake={marketDataList.stake} />
-                  )}
+                    {marketDataList.stake && (
+                      <PlaceBetBox stake={marketDataList.stake} />
+                    )}
                   </div>
-                  <div className={`card  my-bet ${isMobile ? "m-b-5" : "m-b-10"}`}>
+                  <div
+                    className={`card  my-bet ${isMobile ? "m-b-5" : "m-b-10"}`}
+                  >
                     <div className="card-header">
                       <h6 className="card-title d-inline-block">My Bet</h6>
                       <a
@@ -731,6 +771,49 @@ const CasinoWrapper = (props: any) => {
                       <MyBetComponent />
                     </div>
                   </div>
+                  {gameCode === "ourroullete" && (
+                    <div
+                      className="roulette-rules"
+                      style={{ height: "auto" }}
+                    >
+                      <div className="card-header-rouletterule">
+                        <h4>Rates</h4>
+                      </div>
+                      <div className="table-responsive">
+
+                        <table className="table table-bordered">
+                          <thead>
+                            <tr>
+                              <th className="text-center" style={{ fontSize: "12px" }}>Single</th>
+
+                              <th className="text-center" style={{ fontSize: "12px" }}>Split</th>
+
+                              <th className="text-center" style={{ fontSize: "12px" }}>Street</th>
+
+                              <th className="text-center" style={{ fontSize: "12px" }}>Corner</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td className="text-center" style={{ fontSize: "22px" }}>
+                                <b>{liveMatchData?.rateR?.Single ?? "-"}</b>
+                              </td>
+                              <td className="text-center" style={{ fontSize: "22px" }}>
+                                <b>{liveMatchData?.rateR?.Split ?? "-"}</b>
+                              </td>
+                              <td className="text-center" style={{ fontSize: "22px" }}>
+                                <b>{liveMatchData?.rateR?.Street ?? "-"}</b>
+                              </td>
+                              <td className="text-center" style={{ fontSize: "22px" }}>
+                                <b>{liveMatchData?.rateR?.Corner ?? "-"}</b>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+
+                  )}
                   {gameCode == "onedaypoker" && <OnedaypokerRules />}
                   {gameCode == "Superover" && <SoRules />}
                   {gameCode == "opentp" && <Openteenpatti />}
@@ -746,26 +829,32 @@ const CasinoWrapper = (props: any) => {
           <Tabs>
             <Tab eventKey="home" title="Game">
               <div className={`card m-b-${isMobileRoulette ? 5 : 0} my-bet`}>
-                {gameCode === 'worli3' && (
-                <MarketStrip
-                  markets={marketList}
-                  selectedMarketId={selectedMarket?.mid ?? null}
-                  onSelect={(m) => setSelectedMarket(m)}
-                />
-              )}
+                {gameCode === "worli3" && (
+                  <MarketStrip
+                    markets={marketList}
+                    selectedMarketId={selectedMarket?.mid ?? null}
+                    onSelect={(m) => setSelectedMarket(m)}
+                  />
+                )}
                 <div className="card-header casino d-flex">
-                  <h6 className="card-title d-inline-block">  
-                    {gameCode === 'worli3' ? 'Matka Market' : liveMatchData?.title || ''}
+                  <h6 className="card-title d-inline-block">
+                    {gameCode === "worli3"
+                      ? "Matka Market"
+                      : liveMatchData?.title || ""}
                     {gameCode == "race2020" &&
                       casinoMatchData &&
                       race2020Mobile()}
                   </h6>
-                    <span
+                  <span
                     className="fw-12 text-underlin"
                     onClick={showRules}
-                    style={{ marginLeft: "5px",textDecoration: 'underline',fontSize:'12px'}}
+                    style={{
+                      marginLeft: "5px",
+                      textDecoration: "underline",
+                      fontSize: "12px",
+                    }}
                   >
-                   Rules
+                    Rules
                   </span>
                 </div>
                 <div
@@ -781,7 +870,7 @@ const CasinoWrapper = (props: any) => {
                     style={{
                       padding: "0px",
                       position: "relative",
-                      minHeight:isMobile?"212": "250",
+                      minHeight: isMobile ? "212" : "250",
                       background: "#000",
                     }}
                   >
@@ -789,14 +878,16 @@ const CasinoWrapper = (props: any) => {
                       <iframe
                         title="stream"
                         width="100%"
-                       
-                        style={{ border: "0px" , height:isMobile ? "212": "250px",}}
+
+                        style={{ border: "0px", height: isMobile ? "212" : "250px", }}
                         src={`https://tv.777exch.live/${gameCode}`}
                         sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
                         seamless
                       />
                     )}
-                    {casinoMatchData && gameCode !== 'worli3' && <CasinoTimer lastOdds={casinoMatchData} />}
+                    {casinoMatchData && gameCode !== "worli3" && (
+                      <CasinoTimer lastOdds={casinoMatchData} />
+                    )}
                     {casinoMatchData && (
                       <CasinoTitle lastResult={casinoMatchData} />
                     )}
@@ -806,7 +897,7 @@ const CasinoWrapper = (props: any) => {
                       ""
                     )}
                     {(gameCode == "onedaypoker" && casinoMatchData?.desc) ||
-                    (gameCode == "onedaypoker20" && casinoMatchData?.desc)
+                      (gameCode == "onedaypoker20" && casinoMatchData?.desc)
                       ? oneDayPokerDescription(casinoMatchData.desc)
                       : ""}
                     {gameCode == "cricket2020" && (
@@ -818,17 +909,17 @@ const CasinoWrapper = (props: any) => {
                     )}
                   </div>
                 </div>
-               {isMobileRoulette && casinoMatchData && (
+                {isMobileRoulette && casinoMatchData && (
                   <div
                     style={{
-                      position: 'absolute',
-                      top: '12vh',
-                      left: '-4vw',
+                      position: "absolute",
+                      top: "12vh",
+                      left: "-4vw",
                       zIndex: 10,
                       width: "30%",
                       display: "flex",
                       justifyContent: "center",
-                      backgroundColor: "red"
+                      backgroundColor: "red",
                     }}
                   >
                     <CasinoTimer lastOdds={casinoMatchData} />
@@ -837,13 +928,15 @@ const CasinoWrapper = (props: any) => {
               </div>
               <div
                 className={`card-body ${gameCode}`}
-                style={{ padding:isMobile ? "0px 0px" : "0px", position: "relative" }}
+                style={{
+                  padding: isMobile ? "0px 0px" : "0px",
+                  position: "relative",
+                }}
               >
-         
                 {renderUiData(gameCode)}
                 {(liveMatchData.remark != "" && gameCode != "Cards3J") ||
-                (liveMatchData?.event_data?.remark != "" &&
-                  gameCode != "Cards3J") ? (
+                  (liveMatchData?.event_data?.remark != "" &&
+                    gameCode != "Cards3J") ? (
                   <div
                     className="notice-casino-odds"
                     style={{ display: isMobileRoulette ? "none" : "block" }}
@@ -862,20 +955,27 @@ const CasinoWrapper = (props: any) => {
               {marketDataList.stake && (
                 <PlaceBetBox stake={marketDataList.stake} />
               )}
-              
+
               {isMobileRoulette ? (
-                <div className='d-flex justify-content-end'>
-                  <RouletteFrame liveMatchData={liveMatchData} lastOdds={updateOdds} />
+                <div className="d-flex justify-content-end">
+                  <RouletteFrame
+                    liveMatchData={liveMatchData}
+                    lastOdds={updateOdds}
+                  />
                   <div>
-                    <LastResults lastResult={casinoMatchData} gameId={gameCode} />
+                    <LastResults
+                      lastResult={casinoMatchData}
+                      gameId={gameCode}
+                    />
                   </div>
                 </div>
+              ) : gameCode === "worli3" ? (
+                <LastResults
+                  lastResult={{ results: worli3Results }}
+                  gameId={gameCode}
+                />
               ) : (
-               gameCode === 'worli3' ? (
-                  <LastResults lastResult={{ results: worli3Results }} gameId={gameCode} />
-                ) : (
-                  <LastResults lastResult={casinoMatchData} gameId={gameCode} />
-                )
+                <LastResults lastResult={casinoMatchData} gameId={gameCode} />
               )}
               {gameCode == "onedaypoker" && <OnedaypokerRules />}
               {gameCode == "opentp" && <Openteenpatti />}
@@ -895,17 +995,25 @@ const CasinoWrapper = (props: any) => {
             </Tab>
           </Tabs>
           <div className="csmobileround">
-            {!isMobile?(
+            {!isMobile ? (
               <span
-              className="fw-12 text-underlin"
-              onClick={showRules}
-              style={{ marginLeft: "10px" }}
+                className="fw-12 text-underlin"
+                onClick={showRules}
+                style={{ marginLeft: "10px" }}
               >
-              RULES
-            </span>
-            ):''}
-           
-           {gameCode === 'worli3' ? '' : <span>Round ID: {casinoMatchData.match_id}</span>}
+                RULES
+              </span>
+            ) : (
+              ""
+            )}
+
+            {gameCode === "worli3" ? (
+              ""
+            ) : (
+              <span>
+                Round ID: {casinoMatchData.match_id || casinoMatchData.gmid}
+              </span>
+            )}
           </div>
         </div>
       )}

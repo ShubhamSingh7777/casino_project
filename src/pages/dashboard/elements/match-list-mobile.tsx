@@ -327,6 +327,7 @@ const MatchListMobile = (props: any) => {
                             }}
                           />
                         )}
+                        {match.inPlay && (
                         <div
                           style={{
                             width: "20px",
@@ -341,7 +342,7 @@ const MatchListMobile = (props: any) => {
                             className="icon-tv"
                             style={{ width: "10px", height: "10px" }}
                           />
-                        </div>
+                        </div>)}
                         {match.isFancy && (
                           <div
                             style={{

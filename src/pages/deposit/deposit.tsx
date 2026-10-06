@@ -94,7 +94,7 @@ function handlewhatsappclick() {
                         onChange={handleChange}
                       />
                     </div>
-                    {amount && amount < 300 && <div style={{margin:'-0.6rem auto 0 auto',textAlign:'justify',color:'red'}}>Minimum amount must 300 or more</div>}
+                    {amount && amount < 100 && <div style={{margin:'-0.6rem auto 0 auto',textAlign:'justify',color:'red'}}>Minimum amount must 100 or more</div>}
                   </div>
                 </div>
               </div>
@@ -137,7 +137,7 @@ function handlewhatsappclick() {
           </div>
 
           <div className='deposit-options'>
-            <div className={`bank-detail ${amount && amount >= 300 ? '' : 'payment-disable'}`}>
+            <div className={`bank-detail ${amount && amount >= 100 ? '' : 'payment-disable'}`}>
               <div className='payment-detail-box'>
                 <p>
                   {selectedUpi?.upiId}
@@ -167,7 +167,7 @@ function handlewhatsappclick() {
               type="number"
               className='form-control'
               placeholder='Enter UTR No'
-              disabled={amount && amount >= 300 ? false : true}
+              disabled={amount && amount >= 100 ? false : true}
               {...register('utrno_upi')}
               value={preview.utrno_upi}
               onChange={(e) => handleUploadedUTR(e, 'upi')}
@@ -176,11 +176,11 @@ function handlewhatsappclick() {
 
           {/* Upload + Pay */}
           <div className='p-2 w-100 d-flex align-items-center justify-content-between'>
-            <div className={`upload-ss ${amount && amount >= 300 ? '' : 'pay-disable'}`}>
+            <div className={`upload-ss ${amount && amount >= 100 ? '' : 'pay-disable'}`}>
               <input
                 type='file'
                 id='upload-upi'
-                disabled={!(amount && amount >= 300)}
+                disabled={!(amount && amount >= 100)}
                 hidden
                 accept='image/png, image/jpg, image/jpeg'
                 {...register('imageUrl_upi')}
@@ -198,7 +198,7 @@ function handlewhatsappclick() {
               <div className='w-100 text-center'>
                 <span>Pay Now</span>
               </div>
-              <small>(Range: 300 - 100000)</small>
+              <small>(Range: 100 - 100000)</small>
             </button>
           </div>
                      </div>
@@ -251,7 +251,7 @@ function handlewhatsappclick() {
           <div className="deposit-options">
             <div
               className={`bank-detail ${
-                amount && amount >= 300 ? "" : "payment-disable"
+                amount && amount >= 100 ? "" : "payment-disable"
               }`}
             >
               <div className="payment-detail-box">
@@ -308,7 +308,7 @@ function handlewhatsappclick() {
               type="number"
               className="form-control"
               placeholder="Enter UTR No"
-              disabled={amount && amount >= 300 ? false : true}
+              disabled={amount && amount >= 100 ? false : true}
               {...register("utrno_bank")}
               value={preview.utrno_bank}
               onChange={(e) => handleUploadedUTR(e, "bank")}
@@ -318,12 +318,12 @@ function handlewhatsappclick() {
           {/* Upload + Pay */}
           <div className="p-2 w-100 d-flex align-items-center justify-content-between">
             <div
-              className={`upload-ss ${amount && amount >= 300 ? "" : "pay-disable"}`}
+              className={`upload-ss ${amount && amount >= 100 ? "" : "pay-disable"}`}
             >
               <input
                 type="file"
                 id="upload-bank"
-                disabled={!(amount && amount >= 300)}
+                disabled={!(amount && amount >= 100)}
                 hidden
                 accept="image/png, image/jpg, image/jpeg"
                 {...register("imageUrl_bank")}

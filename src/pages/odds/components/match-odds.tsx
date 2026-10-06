@@ -408,9 +408,9 @@ class MatchOdds extends React.PureComponent<
             //   setVisibleMarketStatus = !!oddsData?.['runners']?.[0]?.ex
             // }
             const classforheadingfirst =
-              isMobile && market.oddsType != OddsType.BM ? "box-6" : "box-60";
+              isMobile && market.oddsType != OddsType.BM ? "box-6" : "box-60odd";
             const classforheading =
-              isMobile && market.oddsType != OddsType.BM ? "box-2" : "box-1";
+              isMobile && market.oddsType != OddsType.BM ? "box-2" : "box-1Odd";
             if (!setVisibleMarketStatus) return null;
             const hasExposure = Object.keys(getMarketBook || {}).some(
               (key) =>
@@ -491,7 +491,7 @@ class MatchOdds extends React.PureComponent<
                     Cashout
                   </button>
                 </div>
-                <div className="table-header">
+                <div className="table-header" style={{width:'100%'}}>
                   <div
                     className={`float-left country-name d-flex ${classforheadingfirst} min-max`}
                   >
@@ -518,14 +518,18 @@ class MatchOdds extends React.PureComponent<
                   market.oddsType == OddsType.BM ? (
                     <>
                       <div
-                        className="box-1 float-left"
+                        className={`${isMobile ? "box-1" : "box-1Odd"} float-left`}
                         style={{
-                          width: isMobile ? "" : "40%",
-                          maxWidth: isMobile ? "" : "48.3%",
-                          minWidth: isMobile ? "" : "48.3%",
+                          width: isMobile ? "12%" : "8.3%",
+                          maxWidth: isMobile ? "12%" : "8.3%",
+                          minWidth: isMobile ? "12%" : "8.3%",
                         }}
                       />
-                      <div className="box-1 float-left" />
+                      <div  className={`${isMobile ? "box-1" : "box-1Odd"} float-left`}  style={{
+                          width: isMobile ? "12%" : "8.3%",
+                          maxWidth: isMobile ? "12%" : "8.3%",
+                          minWidth: isMobile ? "12%" : "8.3%",
+                        }}/>
                     </>
                   ) : (
                     ""
@@ -547,8 +551,8 @@ class MatchOdds extends React.PureComponent<
                   </div>
                   {!isMobile ? (
                     <>
-                      <div className="box-1 float-left" />
-                      <div className="box-1 float-left" />
+                      <div className={`${isMobile ? "box-1" : "box-1Odd"} float-left`}/>
+                      <div className={`${isMobile ? "box-1" : "box-1Odd"} float-left`}/>
                     </>
                   ) : (
                     ""
@@ -584,9 +588,9 @@ class MatchOdds extends React.PureComponent<
                             <div
                               className={`${countryClass} ${classforheadingfirst}`}
                               style={{
-                                width: isMobile ? "" : "40%",
-                                maxWidth: isMobile ? "" : "40%",
-                                minWidth: isMobile ? "" : "40%",
+                                width: isMobile ? "" : "50%",
+                                maxWidth: isMobile ? "" : "50%",
+                                minWidth: isMobile ? "" : "50%",
                               }}
                             >
                               <span className="team-name">

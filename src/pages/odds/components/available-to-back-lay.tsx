@@ -184,7 +184,7 @@ export const AvailableToBackLay = React.memo(
     ? "box-single"
     : ((!isMobile && market.oddsType !== OddsType.BM) ||
        market.oddsType === OddsType.BM)
-      ? "box-1"
+      ? "box-1Odd"
       : "box-2";
 
     return (
@@ -264,7 +264,7 @@ const availableToLay = () => {
     ? "box-single"
     : ((!isMobile && market.oddsType !== OddsType.BM) ||
        market.oddsType === OddsType.BM)
-      ? "box-1"
+      ? "box-1Odd"
       : "box-2";
 
     return (

@@ -16,6 +16,7 @@ const Login = () => {
 
   const navigate = useNavigateCustom()
 
+  const [showPassword, setShowPassword] = React.useState(false)
   const [loginForm, setLoginForm] = React.useState<User>({
     username: '',
     password: '',
@@ -53,13 +54,13 @@ const Login = () => {
     setLoginForm({ ...loginForm, [e.target.name]: e.target.value })
   }
   const handleSubmitDemoLogin = () => {
-      const loginFormNew = { ...loginForm, isDemo: true };
-      setLoginForm(loginFormNew);
-      localStorage.setItem("isDemo", "true");
-      dispatch(loginAction(loginFormNew)); // directly call action with updated form
-        return isMobile ? navigate.go('/match/4') : navigate.go('/match/4')
-  
-    };
+    const loginFormNew = { ...loginForm, isDemo: true };
+    setLoginForm(loginFormNew);
+    localStorage.setItem("isDemo", "true");
+    dispatch(loginAction(loginFormNew)); // directly call action with updated form
+    return isMobile ? navigate.go('/match/4') : navigate.go('/match/4')
+
+  };
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     dispatch(loginAction(loginForm))
@@ -71,7 +72,7 @@ const Login = () => {
           <div className={`log-logo  text-center ${isMobile ? 'm-b-0' : 'm-b-20'}`}>
             <img src='/imgs/logo.png' className='logo-login' />
           </div>
-          <div className={`featured-box-login ${isMobile ?'mt-4':''} featured-box-secundary default`}>
+          <div className={`featured-box-login ${isMobile ? 'mt-4' : ''} featured-box-secundary default`}>
             <h4 className='text-center'>
               Login <i className='fas fa-hand-point-down'></i>
             </h4>
@@ -80,7 +81,7 @@ const Login = () => {
               role='form'
               autoComplete='off'
               method='post'
-              style={{marginBottom:'0'}}
+              style={{ marginBottom: '0' }}
             >
               <div className='form-group mb-4'>
                 <input
@@ -100,14 +101,18 @@ const Login = () => {
                 <input
                   name='password'
                   placeholder='Password'
-                  type='password'
+                  type={showPassword ? 'text' : 'password'}
                   className='form-control'
                   aria-required='true'
                   aria-invalid='false'
                   onChange={handleForm}
                   required
                 />
-                <i className='fas fa-key user-icon-new'></i>
+                <i
+                  className={`fas ${showPassword ? 'fa-unlock' : 'fa-key'} user-icon-new`}
+                  onClick={() => setShowPassword(!showPassword)}
+                  style={{ cursor: 'pointer' }}
+                ></i>
                 {userState.error ? (
                   <small className='text-danger'>{userState.error}</small>
                 ) : (
@@ -120,7 +125,7 @@ const Login = () => {
                   {userState.status === 'loading' ? (
                     <i className='ml-2 fas fa-spinner fa-spin'></i>
                   ) : (
-                    <i className='ml-2 fas fa-sign-in-alt' style={{color:'white !important'}}></i>
+                    <i className='ml-2 fas fa-sign-in-alt' style={{ color: 'white !important' }}></i>
                   )}
                 </SubmitButton>
                 {/* <div className='text-end w-100 forgot-password-new'>
@@ -128,21 +133,21 @@ const Login = () => {
                 </div> */}
                 <SubmitButton type='submit' formNoValidate onClick={() => handleSubmitDemoLogin()} className='btn btn-submit demo-btnLogin btn-login mt-2 mb-10'>
                   Login with Demo ID
-                   {userState.status === 'loading' ? (
+                  {userState.status === 'loading' ? (
                     <i className='ml-2 fas fa-spinner fa-spin'></i>
                   ) : (
-                    <i className='ml-2 fas fa-sign-in-alt' style={{color:'white !important'}}></i>
+                    <i className='ml-2 fas fa-sign-in-alt' style={{ color: 'white !important' }}></i>
                   )}
                 </SubmitButton>
-               {/* <div style={{margin:'10px 0'}}>Or</div> */}
-                    <small className='recaptchaTerms mt-1'>
+                {/* <div style={{margin:'10px 0'}}>Or</div> */}
+                <small className='recaptchaTerms mt-1'>
                   This site is protected by reCAPTCHA and the Google
                   <a
                     target={'_blank'}
                     rel='noopener noreferrer'
                     href='https://policies.google.com/privacy'
-                    style={{textDecoration:'none'}}
-                  > 
+                    style={{ textDecoration: 'none' }}
+                  >
                     Privacy Policy
                   </a>{' '}
                   and
@@ -150,21 +155,21 @@ const Login = () => {
                     target={'_blank'}
                     rel='noopener noreferrer'
                     href='https://policies.google.com/terms'
-                    style={{textDecoration:'none'}}
+                    style={{ textDecoration: 'none' }}
                   >
                     Terms of Service
                   </a>{' '}
                   apply.
                 </small>
-                {/* <SubmitButton type='submit' formNoValidate onClick={() => navigate.go('/register')} className='btn btn-submit btn-register-new btn-login mb-0'>
-                   <span style={{color:'black',fontWeight:'bold'}}>Don't have User ?</span> <b> Register here</b>  
+                <SubmitButton type='submit' formNoValidate onClick={() => navigate.go('/register')} className='btn btn-submit btn-register-new btn-login mb-0'>
+                  <span style={{ color: 'black', fontWeight: 'bold' }}>Don't have User ?</span> <b> Register here</b>
                   {userState.status === 'loading' ? (
                     <i className='ml-2 fas fa-spinner fa-spin'></i>
                   ) : (
-                    <i className='ml-2 fas fa-sign-in-alt' style={{color:'white !important'}}></i>
+                    <i className='ml-2 fas fa-sign-in-alt' style={{ color: 'white !important' }}></i>
                   )}
-                </SubmitButton> */}
-           
+                </SubmitButton>
+
               </div>
               {/* <div className='mt-2 text-center download-apk'></div> */}
             </form>
@@ -176,9 +181,9 @@ const Login = () => {
           <div className="footer-links">
             <nav className="navbar navbar-expand-sm navbar-login-div">
               <ul className="navbar-nav">
-                <li className={`nav-item ${isMobile ? 'mt-2':''}`} style={{display:'flex',alignItems:'center'}}>
+                <li className={`nav-item ${isMobile ? 'mt-2' : ''}`} style={{ display: 'flex', alignItems: 'center' }}>
                   <a className="nav-link" href="/terms-and-conditions" target="_blank"> Terms and Conditions </a>
-                 <a className="nav-link" href="/responsible-gaming" target="_blank"> Responsible Gaming </a>
+                  <a className="nav-link" href="/responsible-gaming" target="_blank"> Responsible Gaming </a>
                 </li>
               </ul>
             </nav>
@@ -186,10 +191,10 @@ const Login = () => {
           <div className="support-detail">
             <h2>24X7 Support</h2>
           </div>
-          
+
           {/* <div className="social-icons-box"></div> */}
         </div>
-     </section>
+      </section>
     </div>
   )
 }

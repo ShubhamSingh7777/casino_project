@@ -28,7 +28,7 @@ const Welcome = (props: any) => {
           setIsOpen(false)
         }}
         contentLabel='Set Max Bet Limit'
-        className={'modal-dialog modal-lg margin-modal'}
+       className="modal-dialog modal-lg margin-modal welcome-modal-slide"
         ariaHideApp={false}
         >
         <div className='modal-content' style={{margin:!isMobile?"0px 8px":"0px"}}>
@@ -39,7 +39,7 @@ const Welcome = (props: any) => {
               <img className='closeIconModalWelcome' src='/imgs/closeIcon.svg' alt='' style={{width:isMobile?'12px':'16px',height:isMobile?'12px':'16px'}}/>
             </button>
           </div>
-          <div className='modal-body p0' style={{ height:"89vh"}}>
+          <div className='modal-body p0' style={{ height:"91vh"}}>
             <img  src={images[currentImage]} className="img-fluid" style={{width:'100%'}}></img>
           </div>
         </div>

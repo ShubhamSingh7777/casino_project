@@ -710,6 +710,7 @@ const LastResults = (props: any) => {
           shortName = gameWiseResultStyle["superover2"][Item.win]["shortName"];
           break;
             case "superover3":
+              case "cricketv3":
           clsname = gameWiseResultStyle["superover3"][Item.win]["clsname"];
           shortName = gameWiseResultStyle["superover3"][Item.win]["shortName"];
           break;
@@ -749,6 +750,9 @@ const LastResults = (props: any) => {
         case "joker1":
         case "joker120":
         case "vtrio":  
+        case "ab3":
+        case "ab4": 
+        case "teenunique":
           clsname = gameWiseResultStyle["other"][1]["clsname"];
           shortName = gameWiseResultStyle["other"][1]["shortName"];
           break;

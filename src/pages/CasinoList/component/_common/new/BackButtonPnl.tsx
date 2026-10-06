@@ -18,6 +18,7 @@ const BackButtonPnl = (props: any) => {
     needSuspend,
     titleStatus,
     textname,
+    sectionId,
   } = props;
   const { gameCode } = useParams();
   const dispatch = useAppDispatch();
@@ -68,6 +69,16 @@ const BackButtonPnl = (props: any) => {
     }
   };
   const ItemMarket: any = lastOdds?.[selectionid] || {};
+  const eventMarkets = liveMatchData?.event_data?.market || [];
+
+const eventRunner = eventMarkets
+  .flatMap((market: any) => market?.Runners || [])
+  .find(
+    (runner: any) =>
+      String(runner?.sid) === String(selectionid)
+  );
+
+const eventSid = eventRunner?.sid;
   const clsstatus =
     !ItemMarket.gstatus ||
     ItemMarket.gstatus === "0" ||
@@ -75,13 +86,25 @@ const BackButtonPnl = (props: any) => {
     ItemMarket.gstatus === "CLOSED"
       ? "suspended"
       : "";
-      console.log("CasinoPnl data:", {
+//       console.log("CasinoPnl data:", {
+//   selectionid,
+//   ItemMarket,
+//   sid: ItemMarket?.sid,
+//   matchId: liveMatchData?.event_data?.match_id,
+//   directMatchId: liveMatchData?.match_id,
+// });
+
+console.log("BACKBUTTON PNL DATA-------------", {
   selectionid,
-  ItemMarket,
-  sid: ItemMarket?.sid,
-  matchId: liveMatchData?.event_data?.match_id,
+  sid: eventSid,
+  mid: ItemMarket?.mid,
+  eventMatchId: liveMatchData?.event_data?.match_id,
   directMatchId: liveMatchData?.match_id,
+  finalMatchId:
+    liveMatchData?.event_data?.match_id ??
+    liveMatchData?.match_id,
 });
+
   return (
     <>
       {gameCode === "mogambo" ? (
@@ -131,11 +154,17 @@ const BackButtonPnl = (props: any) => {
             </span>{" "}
             {!hideSlugs.includes(currentSlug) && (
 <CasinoPnl
-  sectionId={ItemMarket?.sid}
+  sectionId={
+    gameCode === "sicbo"
+      ? sectionId
+      : ItemMarket?.sectionId ?? ItemMarket?.sectionid ?? 1
+  }
   matchId={liveMatchData?.match_id}
   marketId={ItemMarket?.mid}
-  classData="text-center"
-/>)}
+  clsName="text-center"
+/>
+
+)}
             {/* 🔥 SHOW TEXTNAME HERE */}
        {!hideSpace.includes(currentSlug) && currentSlug == "admin/casino/dt6" && <br />}
             {textname && (

@@ -42,7 +42,7 @@ const Roulette = ({ lastOdds, liveMatchData }: any) => {
   const hasPendingBets = selectedButtons.size > 0;
   const hasPreviousBets = previousBets.size > 0;
 
-   const repeatBet = () => {
+  const repeatBet = () => {
     if (isBetActionLoading) return;
 
     // Add these two lines here
@@ -83,28 +83,28 @@ const Roulette = ({ lastOdds, liveMatchData }: any) => {
       const cal = calculatePnlF(betObj);
       betObj.pnl = cal.pnl;
       betObj.exposure = cal.exposure;
-    setSelectedButtons((prev) => {
-  console.log("Before:", Array.from(prev.entries()));
+      setSelectedButtons((prev) => {
+        console.log("Before:", Array.from(prev.entries()));
 
-  const map = new Map(prev);
+        const map = new Map(prev);
 
-  map.set(numbers, (map.get(numbers) || 0) + stack);
+        map.set(numbers, (map.get(numbers) || 0) + stack);
 
-  console.log("After:", Array.from(map.entries()));
+        console.log("After:", Array.from(map.entries()));
 
-  return map;
-});
-console.log("Repeating:", {
-  numbers,
-  stack,
-  odds: oddsVal,
-});
-   dispatch(getPlaceBetAction(betObj)).then((result: any) => {
-  console.log("Repeat Result:", result);
-});
+        return map;
+      });
+      console.log("Repeating:", {
+        numbers,
+        stack,
+        odds: oddsVal,
+      });
+      dispatch(getPlaceBetAction(betObj)).then((result: any) => {
+        console.log("Repeat Result:", result);
+      });
     });
   };
-   const undoBet = async () => {
+  const undoBet = async () => {
     if (isBetActionLoading) return;
 
     try {
@@ -260,14 +260,27 @@ console.log("Repeating:", {
     `${Math.min(a, b)},${Math.max(a, b)}`;
 
   // ✅ Real-time market sync
+  // useEffect(() => {
+  //   const firstRunnerStatus = lastOdds?.market?.[0]?.Runners?.[0]?.s;
+  //   if (firstRunnerStatus === 1) {
+  //     setMarketStatus("active");
+  //   } else if (firstRunnerStatus === 0) {
+  //     setMarketStatus("locked");
+  //   }
+  // }, [lastOdds]);
   useEffect(() => {
-    const firstRunnerStatus = lastOdds?.market?.[0]?.Runners?.[0]?.s;
-    if (firstRunnerStatus === 1) {
-      setMarketStatus("active");
-    } else if (firstRunnerStatus === 0) {
-      setMarketStatus("locked");
-    }
-  }, [lastOdds]);
+  const firstRunnerStatus = lastOdds?.market?.[0]?.Runners?.[0]?.s;
+
+  if (firstRunnerStatus === 1) {
+    setMarketStatus("active");
+  } else if (firstRunnerStatus === 0) {
+    setMarketStatus("locked");
+
+    // 🔥 Round cleared / market suspended
+    // Remove all selected betting coins from UI
+    setSelectedButtons(new Map());
+  }
+}, [lastOdds]);
   return (
     <>
       <style>
@@ -364,7 +377,7 @@ console.log("Repeating:", {
                     }}
                   />
                 ))}
-                  <div>
+                <div>
                   <button
                     className="btn btn-coins-btn-roulette btn-danger"
                     onClick={undoBet}
@@ -378,7 +391,7 @@ console.log("Repeating:", {
                   <button
                     className="btn btn-coins-btn-roulette btn-inforedo"
                     onClick={repeatBet}
-                   disabled={isBetActionLoading || !hasPreviousBets}
+                    disabled={isBetActionLoading || !hasPreviousBets}
                   >
                     <i className="fas fa-redo"></i>
                     <span>Repeat</span>

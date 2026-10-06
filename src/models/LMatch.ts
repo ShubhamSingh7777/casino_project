@@ -15,4 +15,5 @@ export default interface LMatch {
   isBookMaker: boolean
   isT10: boolean
   markets?: IMarket[]
+  inPlay?: boolean
 }

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 
 import { Tree } from "antd";
 import axios, { AxiosResponse } from "axios";
@@ -46,6 +47,13 @@ const Header = () => {
   const [openDropdown, setOpenDropdown] = React.useState<string | null>(null);
     //changesfordropdown
   const dropdownWrapperRef = useRef<HTMLUListElement | null>(null);
+  const userDropdownRef = useRef<HTMLLIElement | null>(null);
+  const location = useLocation();
+
+  useEffect(() => {
+    setOpenDropdown(null);
+    setShowMenu(false);
+  }, [location.pathname]);
 
   React.useEffect(() => {
     axios
@@ -160,6 +168,12 @@ const Header = () => {
         !dropdownWrapperRef.current.contains(event.target as Node)
       ) {
         setOpenDropdown(null);
+      }
+      if (
+        userDropdownRef.current &&
+        !userDropdownRef.current.contains(event.target as Node)
+      ) {
+        setShowMenu(false);
       }
     };
 
@@ -429,6 +443,14 @@ const Header = () => {
                               <b>{"Casino List"}</b>
                             </CustomLink>
                           </li>
+                          <li onClick={() => setOpenDropdown(null)}>
+                            <CustomLink
+                              to="/system-logs"
+                              className="dropdown-item"
+                            >
+                              <b>{"System Logs"}</b>
+                            </CustomLink>
+                          </li>
                         </>
                       )}
 
@@ -468,7 +490,7 @@ const Header = () => {
               </div>
             </nav>
             <ul className="user-search list-unstyled">
-              <li className="username">
+              <li className="username" ref={userDropdownRef}>
                 <span onClick={() => setShowMenu(!showMenu)}>
                   {userState?.user?.username} <i className="fa fa-caret-down" />
                 </span>

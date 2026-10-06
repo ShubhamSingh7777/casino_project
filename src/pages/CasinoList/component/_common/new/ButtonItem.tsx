@@ -62,13 +62,13 @@ const ButtonItem = (props: any) => {
     
     const ItemMarket: any = lastOdds?.[selectionid] || {}
     const suspend = !ItemMarket.gstatus || ItemMarket.gstatus == 0 || ItemMarket.gstatus == "SUSPENDED" || ItemMarket.gstatus == "CLOSED" ? 'suspended' : '';
-   console.log("CasinoPnl data: dolidana", {
-  selectionid,
-  ItemMarket,
-  sid: ItemMarket?.sid,
-  matchId: liveMatchData?.event_data?.match_id,
-  directMatchId: liveMatchData?.match_id,
-});
+//    console.log("CasinoPnl data: dolidana", {
+//   selectionid,
+//   ItemMarket,
+//   sid: ItemMarket?.sid,
+//   matchId: liveMatchData?.event_data?.match_id,
+//   directMatchId: liveMatchData?.match_id,
+// });
     return <>
     {
   gameCode === "teen20c" || gameCode === "teen20" ? (

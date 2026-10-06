@@ -34,6 +34,9 @@ import LuckySixResult from "./component/_common/ResultList/Lucky6Result";
 import RouletteResult from "./component/_common/ResultList/RouletteResult";
 import { isMobile } from "react-device-detect";
 import AndarBaharResult from "./component/_common/ResultList/AndarbaharResult";
+import UniqueTeenpattiResult from "./component/_common/ResultList/UniqueTeenpattiResult";
+import CricketFiveResult from "./component/_common/ResultList/CricketfiveResult";
+import SicboResult from "./component/_common/ResultList/SicboResult";
 
 const CasinoResultDetail = (props: any) => {
   const { popupdata, setPopStatus, popupstatus } = props;
@@ -220,6 +223,16 @@ console.log("NORMALIZED ENAME:", ename);
           setData(cardjudgeHtml);
           return;
         }
+          if (resultHtml.ename === "Unique Teenpatti") {
+          setCasinoResult(resultHtml);
+
+          const uniqueteenResultHtml = UniqueTeenpattiResult({
+            resultHtml,
+          });
+
+          setData(uniqueteenResultHtml);
+          return;
+        }
           if (resultHtml.ename === "Casino War"
 ) {
           setCasinoResult(resultHtml);
@@ -274,6 +287,26 @@ console.log("NORMALIZED ENAME:", ename);
           });
 
           setData(superOverHtml);
+
+          return;
+        }
+        console.log("SLUG VALUE:", popupdata?.slug);
+console.log("SLUG TYPE:", typeof popupdata?.slug);
+console.log("SLUG JSON:", JSON.stringify(popupdata?.slug));
+console.log(
+  "SLUG MATCH:",
+  popupdata?.slug?.trim().toLowerCase() === "cricketv3"
+);
+         if (popupdata.slug === "cricketv3") {
+          console.log("🔥🔥 ENTERED CRICKET FIVE CONDITION");
+          setCasinoResult(resultHtml);
+
+          const cricketfiveHtml = CricketFiveResult({
+            resultHtml,
+          });
+            console.log("🔥 Cricket Five HTML:", cricketfiveHtml);
+
+          setData(cricketfiveHtml);
 
           return;
         }
@@ -415,6 +448,19 @@ console.log("NORMALIZED ENAME:", ename);
           });
 
           setData(pokerHtml);
+
+          return;
+        }
+           if (
+          resultHtml.ename === "Sic Bo"
+        ) {
+          setCasinoResult(resultHtml);
+
+          const sicboHtml = SicboResult({
+            resultHtml,
+          });
+
+          setData(sicboHtml);
 
           return;
         }

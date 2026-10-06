@@ -1,5 +1,6 @@
 import React from "react";
 import CasinoPnl from "../../casinoPnl";
+import { isMobile } from "react-device-detect";
 
 const cardMap: Record<string, string> = {
   "1": "https://g1ver.sprintstaticdata.com/v73/static/front/img/cards/A.png",
@@ -22,6 +23,7 @@ interface CardItemProps {
   isSelected: boolean;
   lastOdds?: any;
   liveMatchData?: any;
+  gameCode?: string;
 }
 
 const CardItemLotteryNew: React.FC<CardItemProps> = ({
@@ -30,6 +32,7 @@ const CardItemLotteryNew: React.FC<CardItemProps> = ({
   isSelected,
   lastOdds,
   liveMatchData,
+  gameCode,
 }) => {
   const cardImage = cardMap[title] || fallbackImage;
 
@@ -37,38 +40,36 @@ const CardItemLotteryNew: React.FC<CardItemProps> = ({
 
   console.log("Lottery Card ItemMarket:", ItemMarket);
   console.log("Lottery Card SID:", ItemMarket?.sid);
-  console.log(
-    "Lottery Card matchId:",
-    liveMatchData?.event_data?.match_id
-  );
+  console.log("Lottery Card matchId:", liveMatchData?.event_data?.match_id);
 
   return (
-    <div className="lucky7card">
-
-      <img
-        onClick={onClick}
-        src={cardImage}
-        className={`m-r-5 m-l-5 wd-casino ${
-          isSelected ? "selected-card" : ""
-        }`}
-        style={{
-          width: "100%",
-          height: "auto",
-          cursor: "pointer",
-        }}
-        alt={`Card ${title}`}
-        onError={(e) => {
-          e.currentTarget.src = fallbackImage;
-        }}
-      />
+    <div className={`${gameCode !=="teenunique"? "lucky7card" : ""}`}>
+     <img
+  onClick={onClick}
+  src={
+    gameCode === "teenunique" && lastOdds?.gstatus !== "OPEN"
+      ? "/imgs/card/patti_back.jpg"
+      : cardImage
+  }
+ className={`wd-casino ${
+  gameCode !== "teenunique" ? "m-r-5 m-l-5" : ""
+} ${isSelected ? "selected-card" : ""}`}
+  style={{
+  width: gameCode === "teenunique" ? (isMobile ? "40px" : "80px") : "100%",
+  height: "auto",
+  cursor: "pointer",
+}}
+  alt={`Card ${title}`}
+  onError={(e) => {
+    e.currentTarget.src = fallbackImage;
+  }}
+/>
 
       <CasinoPnl
         sectionId={ItemMarket?.sid}
-
-                    matchId={liveMatchData.match_id}
-                           classData={"text-center"}
+        matchId={liveMatchData.match_id}
+        classData={"text-center"}
       />
-
     </div>
   );
 };

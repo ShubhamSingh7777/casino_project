@@ -4,6 +4,7 @@ import CasinoPnl from "./casinoPnl";
 import ButtonItem from "./_common/new/ButtonItem";
 import Minmax from "./_common/minmax";
 import CardItem from "./_common/new/CardItem";
+import PnlCalculate from "../../odds/components/pnl-calculate";
 
 const DragonTigerA = (props: any) => {
   const { lastOdds, liveMatchData } = props;
@@ -60,6 +61,7 @@ const DragonTigerA = (props: any) => {
                     <CasinoPnl
                       sectionId={market.SelectionId}
                       matchId={liveMatchData.match_id}
+                      slug="dt20"
                     />
                   </div>
                 </div>
@@ -70,6 +72,7 @@ const DragonTigerA = (props: any) => {
       </>
     );
   };
+  
   const buttonLayout = (classData: string, marketIndex: any) => {
     const finalMarketList =
       liveMatchData?.defaultMarkets?.filter(
@@ -77,6 +80,11 @@ const DragonTigerA = (props: any) => {
       ) || [];
     return finalMarketList.map((Item: any, key: number) => {
       const market = Item?.Runners?.[0] || {};
+      let displayRunnerName = market.RunnerName || "";
+
+displayRunnerName = displayRunnerName
+  .replace("Dragon ", "")
+  .replace("Tiger ", "");
       let title =
         market.RunnerName == "Dragon Red" ? (
           <span className="card-icon">
@@ -84,7 +92,7 @@ const DragonTigerA = (props: any) => {
             <span className={"card-red"}>{"[{"}</span>{" "}
           </span>
         ) : (
-          market.RunnerName
+          displayRunnerName
         );
       title =
         market.RunnerName == "Dragon Black" ? (
@@ -113,6 +121,7 @@ const DragonTigerA = (props: any) => {
         ) : (
           title
         );
+        
       return (
         <>
           {" "}
@@ -130,7 +139,12 @@ const DragonTigerA = (props: any) => {
             <div className='row'>
                 <div className='col-12 text-center'>
                   <div className='m-t-5' style={{ marginTop: '10px' }}>
-                    <CasinoPnl sectionId={market.SelectionId} matchId={liveMatchData.match_id} />
+                    <CasinoPnl sectionId={market.SelectionId} matchId={liveMatchData.match_id} slug="dt20"/>
+                    {/* <PnlCalculate
+  selectionId={market.SelectionId}
+  marketId={liveMatchData.match_id}
+  slug="dt20"
+/> */}
                   </div>
                 </div>
               </div>

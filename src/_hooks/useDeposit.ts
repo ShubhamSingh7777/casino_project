@@ -28,7 +28,7 @@ const useDeposit = () => {
     return Yup.object().shape({
        amount: Yup.number()
   .required('Amount is required')
-  .min(300, 'Amount must be at least 300'),
+  .min(100, 'Amount must be at least 100'),
 
 
       utrno_upi: Yup.mixed().when([], {

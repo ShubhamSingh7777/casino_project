@@ -15,7 +15,7 @@ const LazyCasinoItem = ({
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [loaded, setLoaded] = useState(false);
-   
+   const DEFAULT_CASINO_IMAGE = "/imgs/virtual/default.jpg";
   useEffect(() => {
     setLoaded(false); // Reset when image changes
   }, [Item.image]);
@@ -172,11 +172,43 @@ const LazyCasinoItem = ({
                 ref.current.style.backgroundImage = "url(/imgs/trio.jpg)";
               }else if (Item.title == "2 Cards Teenpatti") {
                 ref.current.style.backgroundImage = "url(/imgs/twocardsteenpatti.jpg)";
-              }else {   
-                ref.current.style.backgroundImage = `url('${
-                  Item.image + Item.slug + ".jpg"
-                }')`;
               }
+               else if (Item.title == "Andar Bahar 150 Cards") {
+                ref.current.style.backgroundImage = "url(/imgs/andarbahar150.jpg)";
+              }
+               else if (Item.title == "Sic Bo 2") {
+                ref.current.style.backgroundImage = "url(/imgs/sicbo2.jpg)";
+              }
+               else if (Item.title == "Andar Bahar 50 Cards") {
+                ref.current.style.backgroundImage = "url(/imgs/andarbahar50.jpg)";
+              } else {
+  const imageUrl = `${Item.image}${Item.slug}.jpg`;
+
+  // Show default image immediately while actual image is loading
+  ref.current.style.backgroundImage = `url('${DEFAULT_CASINO_IMAGE}')`;
+
+  const img = new Image();
+
+  img.onload = () => {
+    if (ref.current) {
+      ref.current.style.backgroundImage = `url('${imageUrl}')`;
+      setLoaded(true);
+    }
+  };
+
+  img.onerror = () => {
+    if (ref.current) {
+      // Keep default image if actual image fails
+      ref.current.style.backgroundImage = `url('${DEFAULT_CASINO_IMAGE}')`;
+      setLoaded(true);
+    }
+  };
+
+  img.src = imageUrl;
+
+  observerInstance.unobserve(entry.target);
+  return;
+}
               setLoaded(true);
               observerInstance.unobserve(entry.target);
             }
@@ -232,7 +264,7 @@ const CasinoListItem = () => {
     "Roulette",
     "Golden Roulette",
     "Teenpatti Poison One Day",
-    "Unique Teenpatti",
+    "Teen Unique",
     "Teenpatti Poison 20-20",
     "Unlimited Joker 20-20",
     "Teenpatti Joker 20-20",
@@ -242,14 +274,14 @@ const CasinoListItem = () => {
     "Unique Roulette",
     "Mini Superover",
     "Goal",
-    "ANDAR BAHAR 150 cards",
+    "Andar Bahar 150 Cards",
     "Lucky 15",
     "Super Over 2",
-    
     "Queen Top Open Teenpatti",
     "Jack Top Open Teenpatti",
-    "Sic Bo2",
+    "Sic Bo 2",
     "Instant Teenpatti 3.0",
+    "Sic Bo",
     "Ball by Ball",
     "Instant Teenpatti 2.0",
     "1 Day Teenpatti",
@@ -296,7 +328,7 @@ const CasinoListItem = () => {
     "Note Number",
     "1 Card 20-20",
     "1 CARD ONE-DAY",
-    "ANDAR BAHAR 50 cards",
+    "Andar Bahar 50 Cards",
     "Amar Akbar Anthony 2.0",
     "Race to 2nd",
     "Instant Teenpatti",

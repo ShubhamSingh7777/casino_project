@@ -42,6 +42,7 @@ const CasinoList = React.lazy(() => import('./pages/casino-list/casino-list'))
 const GameReportAdmin = React.lazy(() => import('./pages/GameReports/GameReportAdmin'))
 const AgentManagement = React.lazy(() => import('./pages/agent-management/AgentManagement'))
 const AgentLogin = React.lazy(() => import('./pages/agent-login/AgentLogin'))
+const SystemLogs = React.lazy(() => import('../admin-app/pages/logs/SystemLogs'))
 
 
 const AdminRoutes = () => {
@@ -99,7 +100,8 @@ const AdminRoutes = () => {
             { path: 'depositstatement', element: <DepositStatementAdmin /> },
             { path: 'withdrawstatement', element: <WithdrawStatementAdmin /> },
             { path: 'payment-method', element: <Paymethod /> },
-              { path: 'Contact-details', element: <Contact /> },
+            { path: 'Contact-details', element: <Contact /> },
+            { path: 'system-logs', element: <SystemLogs /> },
           ]
         },
       ],

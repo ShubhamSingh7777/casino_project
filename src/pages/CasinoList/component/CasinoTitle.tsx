@@ -1092,7 +1092,7 @@ const CasinoTitle = (props: any) => {
   const andarbahar = () => {
     const andarData = lastResult?.aall?.split(",") || [];
     const baharData = lastResult?.ball?.split(",") || [];
-    // console.log('andarData', andarData);
+    console.log('andarData', andarData);
     if (lastResult?.aall == "") return;
     return (
       <div className="video-overlay">
@@ -1167,6 +1167,121 @@ const CasinoTitle = (props: any) => {
       </div>
     );
   };
+
+
+const andarbahar150 = () => {
+  const cards = lastResult?.cards?.split(",") || [];
+
+  if (!cards.length) return null;
+
+  // First card is the opening/common card
+  const openingCard = cards[0];
+
+  // Remaining cards are distributed alternately:
+  // 1st -> Andar
+  // 2nd -> Bahar
+  // 3rd -> Andar
+  // 4th -> Bahar ...
+  const gameCards = cards.slice(1);
+
+  const andarData = gameCards.filter(
+    (_: string, index: number) => index % 2 === 0,
+  );
+
+  const baharData = gameCards.filter(
+    (_: string, index: number) => index % 2 !== 0,
+  );
+
+  // Next card information
+  const nextCardCount = gameCards.length + 1;
+
+  const nextCardSide =
+    nextCardCount % 2 === 1 ? "Andar" : "Bahar";
+
+  // console.log("Opening Card:", openingCard);
+  // console.log("Andar:", andarData);
+  // console.log("Bahar:", baharData);
+  // console.log("Next Card Count:", nextCardCount);
+  // console.log("Next Card Side:", nextCardSide);
+
+  return (
+    <div className="video-overlay">
+      <div className="videoCards">
+        <div>
+
+          {/* Next Card */}
+          <div
+            className="text-white"
+            style={{
+              textTransform: "capitalize",
+              fontWeight: "400",
+              fontSize:"12px"
+            }}
+          >
+            Next Card Count:<span style={{color:'rgb(255 193 7)'}}>  {nextCardCount} / {nextCardSide}</span>
+          </div>
+
+          {/* ================= ANDAR ================= */}
+          <div className="mr-20">
+            <p className="m-b-0 text-white">
+              <b>
+                <span>Andar</span>
+              </b>
+            </p>
+
+            <div className="imgspace d-flex">
+              {andarData.length > 0 && (
+                // @ts-ignore
+                <Carousel
+                  ref={refAndarBahar}
+                  breakPoints={breakPoints}
+                  pagination={false}
+                >
+                  {andarData.map((Item: string, key: number) => (
+                    <img
+                      alt=""
+                      key={key}
+                      src={`https://g1ver.sprintstaticdata.com/v73/static/front/img/cards/${Item}.jpg`}
+                    />
+                  ))}
+                </Carousel>
+              )}
+            </div>
+          </div>
+
+          {/* ================= BAHAR ================= */}
+          <div className="mr-20">
+            <p className="m-b-0 text-white">
+              <b>
+                <span>Bahar</span>
+              </b>
+            </p>
+
+            <div className="imgspace d-flex">
+              {baharData.length > 0 && (
+                // @ts-ignore
+                <Carousel
+                  ref={refAndarBaharB}
+                  breakPoints={breakPoints}
+                  pagination={false}
+                >
+                  {baharData.map((Item: string, key: number) => (
+                    <img
+                      alt=""
+                      key={key}
+                      src={`https://g1ver.sprintstaticdata.com/v73/static/front/img/cards/${Item}.jpg`}
+                    />
+                  ))}
+                </Carousel>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 
   const andarbahar2 = () => {
     const andarData = pushDataToPositionsAndarBhar(lastResult?.cards); // FIXED
@@ -1704,11 +1819,13 @@ const CasinoTitle = (props: any) => {
       <div className="video-overlay">
         <div className="videoCards">
           <div className="">
-            <p className="m-b-0 text-white">
-              <b>
-                <span className="">Total</span>
-              </b>
-            </p>
+          {getCurrentMatch?.slug !== "teenunique" && (
+  <p className="m-b-0 text-white">
+    <b>
+      <span>Total</span>
+    </b>
+  </p>
+)}
             <div className="mr-20">
               <div
                 className="imgspace d-flex"
@@ -1825,7 +1942,7 @@ const CasinoTitle = (props: any) => {
           {getCurrentMatch.slug == "race17" || getCurrentMatch.slug == "kbc"
             ? raceTo17()
             : ""}
-          {getCurrentMatch.slug == "notenum" && noteNumber()}
+          {getCurrentMatch.slug == "notenum" || getCurrentMatch.slug == "teenunique" && noteNumber()}
           {getCurrentMatch.slug == "race20" ? race2020() : ""}
           {(getCurrentMatch.slug == "lucky7B" ||
             getCurrentMatch.slug == "lucky7" ||
@@ -1887,12 +2004,15 @@ const CasinoTitle = (props: any) => {
             Cards3J()}
           {getCurrentMatch.slug == "lottcard" && Lottery()}
         {getCurrentMatch.slug == "superover" || getCurrentMatch.slug == "superover2" || getCurrentMatch.slug == "superover3" && Superover()}
-          {getCurrentMatch.slug == "fivewicket" && fivecricket()}
+          {getCurrentMatch.slug == "fivewicket" || getCurrentMatch.slug == "cricketv3" && fivecricket()}
           {getCurrentMatch.slug == "cricket2020" && Cricket2020()}
           {getCurrentMatch.slug == "warcasino" && warcasino()}
           {(getCurrentMatch.slug == "Andarbahar" ||
             getCurrentMatch.slug == "ab20") &&
             andarbahar()}
+              {(getCurrentMatch.slug == "ab4" || getCurrentMatch.slug == "ab3") &&
+            andarbahar150()}
+
           {(getCurrentMatch.slug == "Andarbahar2" ||
             getCurrentMatch.slug == "abj") &&
             andarbahar2()}

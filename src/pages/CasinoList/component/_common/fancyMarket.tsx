@@ -13,35 +13,31 @@ import Limitinfo from "./limitinfo";
 import { useParams } from "react-router-dom";
 
 const FancyMarket = (props: any) => {
-  const { oddsMarket, lastOdds, max} = props;
+  const { oddsMarket, lastOdds, max, isFiveCricket } = props;
   const dispatch = useAppDispatch();
   const userState = useAppSelector(selectUserData);
   const isSuperOver = window.location.pathname.includes("superover");
   const getCurrentMatch = useAppSelector(selectCasinoCurrentMatch);
-    const { matchId } = useParams();
+  const useB1Odds = isSuperOver || isFiveCricket;
+  const isFiveCricketGame = !!isFiveCricket;
+  const { matchId } = useParams();
   const onBet = (isBack = false, item: any) => {
     const ipAddress = authService.getIpAddress();
     const oddVal = parseFloat(
-      isSuperOver ? (isBack ? item.b1 : item.l1) : isBack ? item.b : item.l,
+      useB1Odds ? (isBack ? item.b1 : item.l1) : isBack ? item.b : item.l,
     );
     const odds = oddVal.toString();
     console.log("Bet Payload:", {
       isBack,
       odds: parseFloat(odds),
       volume: parseFloat(
-        isSuperOver
-          ? isBack
-            ? item.bs1
-            : item.ls1
-          : isBack
-          ? item.bs
-          : item.ls,
+        useB1Odds ? (isBack ? item.bs1 : item.ls1) : isBack ? item.bs : item.ls,
       ),
       marketId: item.mid,
       marketName: oddsMarket.MarketName,
       selectionId: item.sid,
       selectionName: item.nat,
-      currentMarketOdds: isSuperOver
+      currentMarketOdds: useB1Odds
         ? isBack
           ? item.b1
           : item.l1
@@ -52,7 +48,13 @@ const FancyMarket = (props: any) => {
       gtype: lastOdds.slug,
     });
     if (userState.user.role === RoleType.user) {
-      if (parseFloat(odds) <= 0 || item.status === "SUSPENDED") return;
+      if (
+        parseFloat(odds) <= 0 ||
+        (!isFiveCricketGame &&
+          (item.gstatus === "SUSPENDED" || item.gstatus === "CLOSED"))
+      ) {
+        return;
+      }
       dispatch(
         betPopup({
           isOpen: true,
@@ -60,7 +62,7 @@ const FancyMarket = (props: any) => {
             isBack,
             odds: parseFloat(odds),
             volume: parseFloat(
-              isSuperOver 
+              isSuperOver
                 ? isBack
                   ? item.bs1
                   : item.ls1
@@ -96,52 +98,47 @@ const FancyMarket = (props: any) => {
     }
   };
   // Add here 👇
+
   const isFancy1 = oddsMarket?.MarketName?.includes("Fancy1");
   const isSuperOver3 = window.location.pathname.includes("superover3");
- const marketName =
-  oddsMarket?.MarketName?.trim()?.toLowerCase() || "";
+  const marketName = oddsMarket?.MarketName?.trim()?.toLowerCase() || "";
 
+  const isTie = marketName === "tie";
 
-const isTie = marketName === "tie";
+  // SuperOver3:
+  // Fancy1 + Tie => Back/Lay
+  // Fancy => No/Yes
+  const showBackLay = isSuperOver3 ? isFancy1 || isTie : isFancy1;
 
-// SuperOver3:
-// Fancy1 + Tie => Back/Lay
-// Fancy => No/Yes
-const showBackLay = isSuperOver3 ? (isFancy1 || isTie) : isFancy1;
+  const hasAnyGscode = oddsMarket?.Runners?.some(
+    (runner: any) => runner.gscode !== undefined && runner.gscode !== null,
+  );
 
-const hasAnyGscode = oddsMarket?.Runners?.some(
-  (runner: any) =>
-    runner.gscode !== undefined &&
-    runner.gscode !== null
-);
+  if (!hasAnyGscode) {
+    return null; // Hide full table
+  }
 
-if (!hasAnyGscode) {
-  return null; // Hide full table
-}
-
-// if (!hasAnyValidGscode) return null;
+  // if (!hasAnyValidGscode) return null;
   const layoutRunner = () => {
-    
     return (
       oddsMarket &&
       oddsMarket.Runners &&
       oddsMarket.Runners.length > 0 &&
       oddsMarket.Runners.map((ItemRunner: any, keyRunner: number) => {
-        const noValue = Number(isSuperOver ? ItemRunner.l1 : ItemRunner.l) || 0;
-        const yesValue =
-          Number(isSuperOver ? ItemRunner.b1 : ItemRunner.b) || 0;
-const hasGscode =
-  ItemRunner.gscode !== undefined &&
-  ItemRunner.gscode !== null;
+        const noValue = Number(useB1Odds ? ItemRunner.l1 : ItemRunner.l) || 0;
+        const yesValue = Number(useB1Odds ? ItemRunner.b1 : ItemRunner.b) || 0;
+        const hasGscode =
+          ItemRunner.gscode !== undefined && ItemRunner.gscode !== null;
 
-if (!hasGscode) {
-  return null;
-}
-  
+        if (!hasGscode) {
+          return null;
+        }
+
         const gstatus =
-          ItemRunner.gstatus == "SUSPENDED" || ItemRunner.gstatus == "CLOSED"
-            ? "suspended"
-            : "";
+  ItemRunner.gstatus === "SUSPENDED" ||
+  ItemRunner.gstatus === "CLOSED"
+    ? "suspended"
+    : "";
         return (
           <div className="table-body" key={keyRunner}>
             <div className="fancy-tripple">
@@ -158,10 +155,10 @@ if (!hasGscode) {
                   <CasinoPnl
                     matchId={lastOdds.match_id}
                     sectionId={ItemRunner.sid}
-                    clsName={'tx-left'}
+                    clsName={"tx-left"}
                   />
                 </div>
-                {isFancy1 || isTie ?(
+                {isFancy1 || isTie ? (
                   <>
                     <div
                       className={`back ${
@@ -169,20 +166,23 @@ if (!hasGscode) {
                       } float-left back text-center`}
                       onClick={() => onBet(true, ItemRunner)}
                     >
-                      <span className="odd d-block" style={{fontSize:!isMobile?'16px':''}}>
-                        {(isSuperOver ? ItemRunner.b1 : ItemRunner.b) == 0
+                      <span
+                        className="odd d-block"
+                        style={{ fontSize: !isMobile ? "16px" : "" }}
+                      >
+                        {(useB1Odds ? ItemRunner.b1 : ItemRunner.b) == 0
                           ? "-"
-                          : isSuperOver
+                          : useB1Odds
                           ? ItemRunner.b1
                           : ItemRunner.b}
                       </span>
+
                       <span>
-                           {(isSuperOver ? ItemRunner.bs1 : ItemRunner.bs) == 0
+                        {(useB1Odds ? ItemRunner.bs1 : ItemRunner.bs) == 0
                           ? "-"
-                          : isSuperOver
+                          : useB1Odds
                           ? ItemRunner.bs1
                           : ItemRunner.bs}
-                        {/* {isSuperOver ? ItemRunner.bs1 : ItemRunner.bs} */}
                       </span>
                     </div>
                     <div
@@ -191,21 +191,23 @@ if (!hasGscode) {
                       } float-left text-center`}
                       onClick={() => onBet(false, ItemRunner)}
                     >
-                      <span className="odd d-block" style={{fontSize:!isMobile?'16px':''}}>
-                           {(isSuperOver ? ItemRunner.l1 : ItemRunner.l) == 0
+                      <span
+                        className="odd d-block"
+                        style={{ fontSize: !isMobile ? "16px" : "" }}
+                      >
+                        {(useB1Odds ? ItemRunner.l1 : ItemRunner.l) == 0
                           ? "-"
-                          : isSuperOver
+                          : useB1Odds
                           ? ItemRunner.l1
                           : ItemRunner.l}
-                        {/* {isSuperOver ? ItemRunner.l1 : ItemRunner.l} */}
                       </span>
+
                       <span>
-                           {(isSuperOver ? ItemRunner.ls1 : ItemRunner.ls) == 0
+                        {(useB1Odds ? ItemRunner.ls1 : ItemRunner.ls) == 0
                           ? "-"
-                          : isSuperOver
+                          : useB1Odds
                           ? ItemRunner.ls1
                           : ItemRunner.ls}
-                        {/* {isSuperOver ? ItemRunner.ls1 : ItemRunner.ls} */}
                       </span>
                     </div>
                     <div
@@ -229,18 +231,21 @@ if (!hasGscode) {
                       } float-left  text-center`}
                       onClick={() => onBet(false, ItemRunner)}
                     >
-                      <span className="odd d-block" style={{fontSize:!isMobile?'16px':''}}>
-                           {(isSuperOver ? ItemRunner.l1 : ItemRunner.l) == 0
+                      <span
+                        className="odd d-block"
+                        style={{ fontSize: !isMobile ? "16px" : "" }}
+                      >
+                        {(useB1Odds ? ItemRunner.l1 : ItemRunner.l) == 0
                           ? "-"
-                          : isSuperOver
+                          : useB1Odds
                           ? ItemRunner.l1
                           : ItemRunner.l}
                         {/* {isSuperOver ? ItemRunner.l1 : ItemRunner.l} */}
                       </span>
                       <span>
-                           {(isSuperOver ? ItemRunner.ls1 : ItemRunner.ls) == 0
+                        {(useB1Odds ? ItemRunner.ls1 : ItemRunner.ls) == 0
                           ? "-"
-                          : isSuperOver
+                          : useB1Odds
                           ? ItemRunner.ls1
                           : ItemRunner.ls}
                         {/* {isSuperOver ? ItemRunner.ls1 : ItemRunner.ls} */}
@@ -255,16 +260,16 @@ if (!hasGscode) {
                     >
                       <span className="odd d-block">
                         {/* {isSuperOver ? ItemRunner.b1 : ItemRunner.b} */}
-                           {(isSuperOver ? ItemRunner.b1 : ItemRunner.b) == 0
+                        {(useB1Odds ? ItemRunner.b1 : ItemRunner.b) == 0
                           ? "-"
-                          : isSuperOver
+                          : useB1Odds
                           ? ItemRunner.b1
                           : ItemRunner.b}
                       </span>
                       <span>
-                           {(isSuperOver ? ItemRunner.bs1 : ItemRunner.bs) == 0
+                        {(useB1Odds ? ItemRunner.bs1 : ItemRunner.bs) == 0
                           ? "-"
-                          : isSuperOver
+                          : useB1Odds
                           ? ItemRunner.bs1
                           : ItemRunner.bs}
                         {/* {isSuperOver ? ItemRunner.bs1 : ItemRunner.bs} */}
@@ -275,7 +280,10 @@ if (!hasGscode) {
                         !isMobile ? "box-1" : "box-2"
                       } float-left text-center`}
                     >
-                      <span className="fancy-max" style={{fontWeight:'bold'}}>
+                      <span
+                        className="fancy-max"
+                        style={{ fontWeight: "bold" }}
+                      >
                         Min: {isSuperOver ? ItemRunner.min : ""}
                       </span>
                       <span className="odd d-block fancy-max">
@@ -299,16 +307,22 @@ if (!hasGscode) {
   };
   return (
     <div>
-      <div className="table-header" style={{display:!isMobile?'flex':'unset'}}>
+      <div
+        className="table-header"
+        style={{ display: !isMobile ? "flex" : "unset" }}
+      >
         <div
           className={`float-left country-name ${
             isMobile ? "bg-theme2 tx-white text-left box-6Fancy " : "box-6New"
           }`}
         >
           {isMobile && (
-            <h6 className="card-title d-inline-block" style={{ width: "100%",padding:isMobile?'2px 6px':'' }}>
+            <h6
+              className="card-title d-inline-block"
+              style={{ width: "100%", padding: isMobile ? "2px 6px" : "" }}
+            >
               {/* {oddsMarket.MarketName} */}
-               {oddsMarket.MarketName.replace(" Market", "")}
+              {oddsMarket.MarketName.replace(" Market", "")}
               <span className="float-right">
                 <Limitinfo
                   max={lastOdds.max}
@@ -319,7 +333,7 @@ if (!hasGscode) {
             </h6>
           )}
         </div>
-       
+
         {/* {isFancy1 && (
           <>
           <div style={{display:isMobile?'flex':'',flexDirection:isMobile?'row':'row',padding:isMobile?'0px':''}}>
@@ -351,68 +365,71 @@ if (!hasGscode) {
             </div>
           </>
         )} */}
-       {isFancy1 || isTie ? (
+        {isFancy1 || isTie ? (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              width: isMobile ? "100%" : "24%",
+              padding: 0,
+              borderBottom: isMobile ? "0.01em solid #c7c8ca" : "",
+            }}
+          >
+            {isMobile ? (
+              <div
+                className="text-center"
+                style={{
+                  width: isMobile ? "60%" : "8%",
+                  flex: isMobile ? "0 0 60%" : "8%",
+                  fontSize: isMobile ? "16px" : "14px",
+                  padding: isMobile ? "5px 0px" : "5px 0px",
+                  whiteSpace: "nowrap",
+                }}
+              ></div>
+            ) : (
+              ""
+            )}
 
-  <div
-    style={{
-      display: "flex",
-      flexDirection: "row",
-      width:isMobile? "100%":"24%",
-      padding: 0,
-      borderBottom:isMobile?"0.01em solid #c7c8ca":""
-    }}
-  >
-      
-    {isMobile?(
- <div
-      className="text-center"
-      style={{
-        width:isMobile? "60%":"8%",
-        flex:isMobile? "0 0 60%":"8%",
-        fontSize: isMobile ? "16px" : "14px",
-        padding: isMobile ? "5px 0px" : "5px 0px",
-        whiteSpace: "nowrap",
-      }}
-    >
-      
-    </div>
-    ):''}
+            <div
+              className="back text-center"
+              style={{
+                width: isMobile ? "20%" : "8%",
+                flex: isMobile ? "0 0 20%" : "8%",
+                fontSize: isMobile ? "16px" : "14px",
+                padding: isMobile ? "5px 0px" : "5px 0px",
+                whiteSpace: "nowrap",
+              }}
+            >
+              <b>Back</b>
+            </div>
 
-    <div
-      className="back text-center"
-      style={{
-        width:isMobile? "20%":"8%",
-        flex:isMobile? "0 0 20%":"8%",
-        fontSize: isMobile ? "16px" : "14px",
-        padding: isMobile ? "5px 0px" : "5px 0px",
-        whiteSpace: "nowrap",
-      }}
-    >
-      <b>Back</b>
-    </div>
-
-    <div
-      className="lay text-center"
-      style={{
-       width:isMobile? "20%":"8%",
-        flex:isMobile? "0 0 20%":"8%",
-        fontSize: isMobile ? "16px" : "14px",
-        padding: isMobile ? "5px 0px" : "5px 0px",
-        whiteSpace: "nowrap",
-      }}
-    >
-      <b>Lay</b>
-    </div>
-{!isMobile?(  <div
-      className="text-center"
-      style={{
-         width:isMobile? "33.33%":"8%",
-        flex:isMobile? "0 0 33.33%":"8%",
-      }}
-    />):''}
-  
-  </div>
-):('')}
+            <div
+              className="lay text-center"
+              style={{
+                width: isMobile ? "20%" : "8%",
+                flex: isMobile ? "0 0 20%" : "8%",
+                fontSize: isMobile ? "16px" : "14px",
+                padding: isMobile ? "5px 0px" : "5px 0px",
+                whiteSpace: "nowrap",
+              }}
+            >
+              <b>Lay</b>
+            </div>
+            {!isMobile ? (
+              <div
+                className="text-center"
+                style={{
+                  width: isMobile ? "33.33%" : "8%",
+                  flex: isMobile ? "0 0 33.33%" : "8%",
+                }}
+              />
+            ) : (
+              ""
+            )}
+          </div>
+        ) : (
+          ""
+        )}
         {/* {isFancy1 && (
           <>
             <div
@@ -429,74 +446,72 @@ if (!hasGscode) {
             ></div>
           </>
         )} */}
- {!isFancy1 && !isTie && (
-  <div
-    style={{
-      display: "flex",
-      width: isMobile ? "100%" : "30%",
-      marginLeft: isMobile ? "0" : "auto",
-      padding: 0,
-      height: isMobile ? "32px" : "auto",
-      overflow: "visible",
-      borderBottom: isMobile
-        ? "1px solid #c7c8ca"
-        : "none",
-    }}
-  >
-      {/* Empty desktop space */}
-    {isMobile && (
-      <div
-        className="text-center"
-        style={{
-          width: "60%",
-          flex: "0 0 60%",
-        }}
-      />
-    )}
-    {/* NO */}
-    <div
-      className="lay text-center"
-      style={{
-        width: isMobile ? "20%" : "33.33%",
-        flex: isMobile ? "0 0 20%" : "0 0 33.33%",
-        fontSize: isMobile ? "16px" : "14px",
-        padding: "5px 0",
-        whiteSpace: "nowrap",
-        display: "block",
-        visibility: "visible",
-      }}
-    >
-      <b>No</b>
-    </div>
+        {!isFancy1 && !isTie && (
+          <div
+            style={{
+              display: "flex",
+              width: isMobile ? "100%" : "30%",
+              marginLeft: isMobile ? "0" : "auto",
+              padding: 0,
+              height: isMobile ? "32px" : "auto",
+              overflow: "visible",
+              borderBottom: isMobile ? "1px solid #c7c8ca" : "none",
+            }}
+          >
+            {/* Empty desktop space */}
+            {isMobile && (
+              <div
+                className="text-center"
+                style={{
+                  width: "60%",
+                  flex: "0 0 60%",
+                }}
+              />
+            )}
+            {/* NO */}
+            <div
+              className="lay text-center"
+              style={{
+                width: isMobile ? "20%" : "33.33%",
+                flex: isMobile ? "0 0 20%" : "0 0 33.33%",
+                fontSize: isMobile ? "16px" : "14px",
+                padding: "5px 0",
+                whiteSpace: "nowrap",
+                display: "block",
+                visibility: "visible",
+              }}
+            >
+              <b>No</b>
+            </div>
 
-    {/* YES */}
-    <div
-      className="back text-center"
-      style={{
-        width: isMobile ? "20%" : "33.33%",
-        flex: isMobile ? "0 0 20%" : "0 0 33.33%",
-        fontSize: isMobile ? "16px" : "14px",
-        padding: "5px 0",
-        whiteSpace: "nowrap",
-        display: "block",
-        visibility: "visible",
-      }}
-    >
-      <b>Yes</b>
-    </div>
+            {/* YES */}
+            <div
+              className="back text-center"
+              style={{
+                width: isMobile ? "20%" : "33.33%",
+                flex: isMobile ? "0 0 20%" : "0 0 33.33%",
+                fontSize: isMobile ? "16px" : "14px",
+                padding: "5px 0",
+                whiteSpace: "nowrap",
+                display: "block",
+                visibility: "visible",
+              }}
+            >
+              <b>Yes</b>
+            </div>
 
-    {/* Empty desktop space */}
-    {!isMobile && (
-      <div
-        className="text-center"
-        style={{
-          width: "33.33%",
-          flex: "0 0 33.33%",
-        }}
-      />
-    )}
-  </div>
-)}
+            {/* Empty desktop space */}
+            {!isMobile && (
+              <div
+                className="text-center"
+                style={{
+                  width: "33.33%",
+                  flex: "0 0 33.33%",
+                }}
+              />
+            )}
+          </div>
+        )}
 
         {/* {!isMobile ? <div className="box-2 float-left"></div> : ""} */}
       </div>

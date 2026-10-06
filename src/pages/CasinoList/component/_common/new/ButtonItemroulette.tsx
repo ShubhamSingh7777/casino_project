@@ -96,26 +96,52 @@ const ButtonItemroulette = ({
   };
 
   // ✅ EXTRACTED: API Response Handler
-  const handleApiResponse = (result: any) => {
-    const getApiMessage = (data: any): string => {
-      if (typeof data === 'string') return data;
-      if (data?.message) return data.message;
-      if (data?.payload?.message) return data.payload.message;
-      return 'Bet Failed';
-    };
+  // const handleApiResponse = (result: any) => {
+  //   const getApiMessage = (data: any): string => {
+  //     if (typeof data === 'string') return data;
+  //     if (data?.message) return data.message;
+  //     if (data?.payload?.message) return data.payload.message;
+  //     return 'Bet Failed';
+  //   };
 
-    const apiResponse = result?.payload || result;
-    const hasError = apiResponse?.error || apiResponse?.payload?.error || apiResponse?.code === 500 || result?.error;
+  //   const apiResponse = result?.payload || result;
+  //   const hasError = apiResponse?.error || apiResponse?.payload?.error || apiResponse?.code === 500 || result?.error;
 
-    if (!hasError) {
-      addToast(`✅ Bet Placed: ${selectedCoin} on ${numbers}`, 'success');
-    } else {
-      setForceHideCoin(true);
-      addToast(`❌ ${getApiMessage(apiResponse)}`, 'error');
-      setTimeout(() => cleanBet?.(), 200);
-    }
+  //   if (!hasError) {
+  //     addToast(`✅ Bet Placed: ${selectedCoin} on ${numbers}`, 'success');
+  //   } else {
+  //     setForceHideCoin(true);
+  //     addToast(`❌ ${getApiMessage(apiResponse)}`, 'error');
+  //     setTimeout(() => cleanBet?.(), 200);
+  //   }
+  // };
+const handleApiResponse = (result: any) => {
+  const getApiMessage = (data: any): string => {
+    if (typeof data === 'string') return data;
+    if (data?.message) return data.message;
+    if (data?.payload?.message) return data.payload.message;
+    return 'Bet Failed';
   };
 
+  const apiResponse = result?.payload || result;
+
+  const hasError =
+    apiResponse?.error ||
+    apiResponse?.payload?.error ||
+    apiResponse?.code === 500 ||
+    result?.error;
+
+  if (!hasError) {
+    // Don't show local "Bet Placed" popup.
+    // Your existing/global bet popup will handle success.
+    return;
+  }
+
+  setForceHideCoin(true);
+
+  // Keep error handling if you need it
+  setTimeout(() => cleanBet?.(), 200);
+};
 
   const onBet = () => {
     setForceHideCoin(false);

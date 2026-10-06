@@ -221,8 +221,8 @@ const Header = () => {
   };
   // const mainBalance = balance?.balance ?? tempBalance ?? 0;
   const mainBalance = Math.floor(
-  Number(balance?.balance ?? tempBalance ?? 0)
-);
+    Number(balance?.balance ?? tempBalance ?? 0)
+  );
   // console.log(mainBalance,'mainbalance--------------------')
   const exposure = balance?.exposer ?? tempExposer ?? 0;
   // console.log(exposure,'exposure--------------------')
@@ -326,9 +326,8 @@ const Header = () => {
                         className='search-input-show'
                         /> */}
                             <AutocompleteComponent<IMatch>
-                              className={`search-input-show ${
-                                showAuto ? "show" : ""
-                              }`}
+                              className={`search-input-show ${showAuto ? "show" : ""
+                                }`}
                               label={"Search"}
                               optionKey={"name"}
                               api={suggestion}
@@ -385,7 +384,7 @@ const Header = () => {
                         {!selectHideBal.balance ? (
                           <div
                             className="mby-5 mby-8"
-                            style={{ marginBottom: isMobile ? "8px" : "" ,}}
+                            style={{ marginBottom: isMobile ? "8px" : "", }}
                           >
                             <span className={isMobile ? "balanceTxt" : ""}>
                               Balance:
@@ -420,7 +419,7 @@ const Header = () => {
                                 <b>
                                   <span>
                                     {balance?.exposer !== null &&
-                                    balance?.exposer !== undefined
+                                      balance?.exposer !== undefined
                                       ? balance.exposer.toFixed(0)
                                       : tempExposer || "0"}
                                   </span>
@@ -448,7 +447,7 @@ const Header = () => {
                               style={{
                                 paddingRight: sessionId ? "3px" : "0px",
                                 width: isMobile ? "" : "",
-                                
+
                               }}
                             >
                               <a href="#" onClick={getExposer}>
@@ -460,7 +459,7 @@ const Header = () => {
                                     className={isMobile ? "balanceTxt" : ""}
                                   >
                                     {balance?.exposer !== null &&
-                                    balance?.exposer !== undefined
+                                      balance?.exposer !== undefined
                                       ? balance.exposer.toFixed(0)
                                       : tempExposer || "0"}
                                   </span>
@@ -787,12 +786,12 @@ const Header = () => {
               >
                 <div
                   style={{
-                    width: isDemo ? "100%" : sessionId ? "100%" : "100%",
+                    width: isDemo ? "100%" : sessionId ? "65%" : "100%",
                   }}
                 >
                   <Marqueemessge message={userMessage} />
                 </div>
-                <div style={{ width: !isDemo ? "0%" : "0" }}>
+                <div style={{ width: !isDemo ? "35%" : "0" }}>
                   {sessionId && !isDemo && (
                     <div className="d-flex gap-2 py-1">
                       <button
@@ -944,16 +943,16 @@ const Header = () => {
                         onClick={() => {
                           window.location.href =
                             exposer.sportId &&
-                            Number.isInteger(+exposer.sportId) &&
-                            exposer.sportId != 5000
+                              Number.isInteger(+exposer.sportId) &&
+                              exposer.sportId != 5000
                               ? `/odds/${exposer._id}`
                               : `/casino/${casinoSlug}/${exposer._id}`;
                           setIsOpen(false);
                         }}
                         to={
                           exposer.sportId &&
-                          Number.isInteger(+exposer.sportId) &&
-                          exposer.sportId != 5000
+                            Number.isInteger(+exposer.sportId) &&
+                            exposer.sportId != 5000
                             ? `/odds/${exposer._id}`
                             : `/casino/${casinoSlug}/${exposer._id}`
                         }

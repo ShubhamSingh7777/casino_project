@@ -139,16 +139,18 @@ const NoteNumber = (props: any) => {
         if (key) {
           const cards = cardSets[key as keyof typeof cardSets]; // tell TS this is valid key
           title = (
-            <span className="d-flex justify-content-center align-items-center">
-              {name}&nbsp;
+            <div className="d-flex justify-content-center align-items-center" style={{marginBottom:'5px'}}>
+              <span style={{fontSize:isMobile?'12px':'',color:'#333'}}> {name} </span>&nbsp;
               <span className="note-number-cards">
                 {cards.map((c) => (
-                  <span className="not-number-card" key={c}>
+                  <span className="not-number-card" key={c} style={{border: '1px solid yellow',padding: '3px',
+    marginRight: '2px',
+    fontSize: '14px'}}>
                     {c}
                   </span>
                 ))}
               </span>
-            </span>
+            </div>
           );
         }
       } else if (name.includes("Baccarat 1") && baccarat2) {
@@ -160,13 +162,13 @@ const NoteNumber = (props: any) => {
         console.log(cardMarkets, "asdfghasdfghas---------");
 
         return (
-          <div className="row mb-10 w-100 m-0 p-0" key="baccarat-row">
+          <div className={`row mb-10 w-100 ${!isMobile ? "m-0" : ""} p-0`} key="baccarat-row">
             {/* Column 1 */}
             <div
-              className="col-4 text-center"
+              className="col-12 col-lg-4 text-center"
               style={{ border: "1px solid #8080804f", paddingTop: "10px" }}
             >
-              <div className="d-flex flex-column">
+              <div className={`d-flex ${!isMobile?'flex-column':''}`}>
                 {/* Baccarat 1 */}
                 <span className="d-block mb-2">
                   <b>{baccarat1.MarketName} (1st, 2nd, 3rd card)</b>

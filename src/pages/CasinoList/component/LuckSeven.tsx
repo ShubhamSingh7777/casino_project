@@ -4,9 +4,11 @@ import Minmax from './_common/minmax'
 import ButtonItem from './_common/new/ButtonItem'
 import CardItem from './_common/new/CardItem'
 import { isMIUI, isMobile } from 'react-device-detect'
+import { useParams } from 'react-router-dom'
 
 const LuckSeven = (props: any) => {
     const { lastOdds, liveMatchData } = props
+     const { gameCode } = useParams()
     const layout1 = () => {
         const eventData = liveMatchData?.defaultMarkets || []
         const market: any = eventData?.[0]?.Runners?.[0] || {}
@@ -15,7 +17,7 @@ const LuckSeven = (props: any) => {
             <div className={`row m-b-10 ${isMobile ? 'm-t-0' : 'm-t-0'}`} style={{ marginRight: !isMobile ? '0px' : '', marginLeft: !isMobile ? '0px' : '' }}>
                 <div className="col-5 text-center" style={{ paddingRight: !isMobile ? '0px' : '', paddingLeft: !isMobile ? '0px' : '' }}>
                     <ButtonItem selectionid={market.SelectionId} title={market.RunnerName} lastOdds={lastOdds} liveMatchData={liveMatchData} />
-                    <CasinoPnl matchId={liveMatchData.match_id} sectionId={market.SelectionId} />
+                    <CasinoPnl matchId={liveMatchData.match_id} sectionId={market.SelectionId}  slug={gameCode}/>
                 </div>
                 <div className="col-2 text-center card-seven" style={{ paddingLeft: !isMobile ? '0px' : '', paddingRight: !isMobile ? '0px' : '' }}>
                     <img src="/imgs/casino/cards/7all.jpg" className="card-seven-single" style={{
@@ -24,7 +26,7 @@ const LuckSeven = (props: any) => {
                 </div>
                 <div className="col-5 text-center" style={{ paddingRight: !isMobile ? '0px' : '', paddingLeft: !isMobile ? '0px' : '' }}>
                     <ButtonItem selectionid={market2.SelectionId} title={market2.RunnerName} lastOdds={lastOdds} liveMatchData={liveMatchData} />
-                    <CasinoPnl matchId={liveMatchData.match_id} sectionId={market2.SelectionId} />
+                    <CasinoPnl matchId={liveMatchData.match_id} sectionId={market2.SelectionId} slug={gameCode}/>
                 </div>
             </div>
             {/* <div className="row m-t-10">

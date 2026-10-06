@@ -47,8 +47,8 @@ const Main = () => {
   const userContact = useAppSelector(selectUserContact)
   const userContactFixed = useAppSelector(selectUserContactFixed)
 
-  const whatsapp:any = userContact?.whatsapp ? userContact?.whatsapp : userContactFixed?.whatsapp ? userContactFixed?.whatsapp : '' ; 
-  const telegram:any = userContact?.telegram ? userContact?.telegram : userContactFixed?.telegram ? userContactFixed?.telegram : '' ;
+  const whatsapp: any = userContact?.whatsapp ? userContact?.whatsapp : userContactFixed?.whatsapp ? userContactFixed?.whatsapp : '';
+  const telegram: any = userContact?.telegram ? userContact?.telegram : userContactFixed?.telegram ? userContactFixed?.telegram : '';
   // React.useEffect(() => {
   //   const currentUserRole = localStorage.getItem('userType')
   //   const rolesWithOutUser = JSON.parse(JSON.stringify(RoleType))
@@ -88,7 +88,7 @@ const Main = () => {
     }
   }, [userState.user]);
 
-   function handlewhatsappclick() {
+  function handlewhatsappclick() {
     const url = `https://wa.me/${whatsapp}`;
     window.open(url, "_blank"); //
   }
@@ -116,7 +116,7 @@ const Main = () => {
       console.log(err.stack);
     }
   }, []);
-React.useEffect(() => {
+  React.useEffect(() => {
     if (!userState.user?._id) return;
 
     dispatchNew(getContact());
@@ -133,53 +133,51 @@ React.useEffect(() => {
 
       {!hideHeader && <Header />}
       <ToastContainer hideProgressBar={true} autoClose={1000} />
-      {/* {!location.pathname.includes('odds') && !location.pathname.includes('casino') &&
-      <>
-        <div style={{
-          position: 'fixed',
-          right: '0px',
-          top: '85%',
-          zIndex: '1000'
-        }} onClick={handlewhatsappclick}>
-          <img src="/whatsapp.png" alt="" style={{ width: "60px" }} />
-        </div>
-         <div style={{
-          position: 'fixed',
-          left: '10px',
-          top: '85%',
-          zIndex: '1000'
-        }} onClick={handletelegramclick}>
-          <img src="/Telegram.png" alt="" style={{ width: "60px" }} />
-        </div>
-      </>
-      } */}
+      {!location.pathname.includes('odds') && !location.pathname.includes('casino') &&
+        <>
+          <div style={{
+            position: 'fixed',
+            right: '0px',
+            top: '85%',
+            zIndex: '1000'
+          }} onClick={handlewhatsappclick}>
+            <img src="/whatsapp.png" alt="" style={{ width: "60px" }} />
+          </div>
+          <div style={{
+            position: 'fixed',
+            left: '10px',
+            top: '85%',
+            zIndex: '1000'
+          }} onClick={handletelegramclick}>
+            <img src="/Telegram.png" alt="" style={{ width: "60px" }} />
+          </div>
+        </>
+      }
       <div className="main">
         {!isMobile && (
           <div className="container-fluid ">
             <div className="row">
-              {!hideHeader  && (
-                    <div
-                className="col-2 col-lg-2"
-                style={{
-                  paddingTop: "4px",
-                  paddingLeft: "0px",
-                  paddingRight: "0px",
-                }}
-              >
-                <SideBar />
-              </div>
+              {!hideHeader && (
+                <div
+                  className="col-2 col-lg-2"
+                  style={{
+                    paddingTop: "4px",
+                    paddingLeft: "0px",
+                    paddingRight: "0px",
+                  }}
+                >
+                  <SideBar />
+                </div>
               )}
-              
+
               <div
-                className={`${
-                  !isMobile
-                    ? `col-10 ${hideHeader  ? 'col-lg-12':'col-lg-10'} pr-0 ${
-                        location.pathname.includes("casino-in")
-                          ? "pl-0"
-                          : "pl-1"
-                      }`
+                className={`${!isMobile
+                    ? `col-10 ${hideHeader ? 'col-lg-12' : 'col-lg-10'} pr-0 ${location.pathname.includes("casino-in")
+                      ? "pl-0"
+                      : "pl-1"
+                    }`
                     : "col-12 col-lg-12"
-                }`}
+                  }`}
                 style={{
                   paddingLeft:
                     !isMobile && location.pathname.includes("casino-in")

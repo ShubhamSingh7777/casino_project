@@ -168,7 +168,7 @@ const filteredMatches = React.useMemo(() => {
                         {Item.title || "Super Over 2"}
                       </a>
                     </div>
-
+                     
                     <div className="game-icons">
                       <span className="active" />
                       <img
@@ -274,13 +274,14 @@ const filteredMatches = React.useMemo(() => {
                         <span className="active" />
                       )}
                       {/* <i className="fas fa-tv icon-tv" /> */}
+                    {match.inPlay && (
                       <div style={{width:'35px',display:'flex',justifyContent:'center',alignItems:'center'}}>
                       <img
                         src="/tv-icon.png"
                         alt="icon-tv"
                         className="icon-tv" style={{width: "15px", height: "15px"}}
                       />
-                      </div>
+                      </div>)}
                          {match.isFancy && (
                           <div style={{width:'35px',display:'flex',justifyContent:'center',alignItems:'center'}}>
                         <img
@@ -301,7 +302,7 @@ const filteredMatches = React.useMemo(() => {
                         </div>
                       )}
                         {match.isT10 && (
-                                                   <div style={{width:'35px',display:'flex',justifyContent:'center',alignItems:'center'}}>
+                          <div style={{width:'35px',display:'flex',justifyContent:'center',alignItems:'center'}}>
                         <img
                           src='imgs/game-icon.svg'
                           className='bookmaker-icon'
