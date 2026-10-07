@@ -159,6 +159,9 @@ const Odds = () => {
     if (matchId) {
       (window as any).oddsStartTime = Date.now();
       socket.emit('joinRoom', matchId);
+      socket.on('connect', () => {
+        socket.emit('joinRoom', matchId);
+      });
     }
     fetchOddsDetail()
   }, [matchId, socket])
