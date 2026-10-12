@@ -206,7 +206,7 @@ const Odds = () => {
     if (currentMatch) {
       return (
         <iframe
-          style={{ width: '100%', height: 'auto' }}
+          style={{ width: '100%', height: `${currentMatch.sportId == 4 ? 'auto' : '270px'}` }}
           src={`https://tv.777exch.live/scorecard/?gmid=${currentMatch.matchId}&etid=${currentMatch.sportId}`}
         ></iframe>
       )
