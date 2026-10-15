@@ -181,6 +181,8 @@ const LazyCasinoItem = ({
               }
                else if (Item.title == "Andar Bahar 50 Cards") {
                 ref.current.style.backgroundImage = "url(/imgs/andarbahar50.jpg)";
+              }else if (Item.title == "V VIP Teenpatti 1-day") {
+                ref.current.style.backgroundImage = "url(/imgs/teen20v1_green.gif)";
               } else {
   const imageUrl = `${Item.image}${Item.slug}.jpg`;
 
@@ -259,6 +261,7 @@ const CasinoListItem = () => {
     "V VIP Teenpatti 1-day",
     "Dolidana",
     "Mogambo",
+    "20-20 Teenpatti VIP 1",
     "Lucky 6",
     "Beach Roulette",
     "Roulette",
@@ -335,21 +338,21 @@ const CasinoListItem = () => {
     "Dus ka Dum",
     "1 Card Meter",
   ];
-  const orderedGames = gamesList
-    ? [
-        ...gameOrder
-          .map((title) =>
-            gamesList.find(
-              (game: ICasinoMatch) => (game.title ?? "") === title,
-            ),
-          )
-          .filter(Boolean),
-        ...gamesList.filter(
-          (game: ICasinoMatch) => !gameOrder.includes(game.title ?? ""),
-        ),
-      ]
-    : [];
 
+const orderedGames = gamesList
+  ? [
+      ...gameOrder
+        .map((title) =>
+          gamesList.find(
+            (game: ICasinoMatch) => (game.title ?? "") === title,
+          ),
+        )
+        .filter(Boolean),
+      ...gamesList.filter(
+        (game: ICasinoMatch) => !gameOrder.includes(game.title ?? ""),
+      ),
+    ]
+  : [];
   const onCasinoClick = (
     e: MouseEvent<HTMLAnchorElement>,
     Item: ICasinoMatch,
@@ -375,13 +378,36 @@ const CasinoListItem = () => {
         />
         <div className="casino-list-name">Goal 2</div>
       </div> */}
-      {orderedGames.map((Item: ICasinoMatch, key: number) => (
-        <LazyCasinoItem
-          key={Item.match_id || key}
-          Item={Item}
-          onCasinoClick={onCasinoClick}
-        />
-      ))}
+     {orderedGames.map((Item: ICasinoMatch, key: number) => (
+  <React.Fragment key={Item.match_id || key}>
+    <LazyCasinoItem
+      Item={Item}
+      onCasinoClick={onCasinoClick}
+    />
+
+    {Item.title === "Mogambo" && (
+      <div className="casino-list-item">
+        <a
+          href="/casino-in/our-vip"
+          onClick={(e) => {
+            e.preventDefault();
+            navigate.go("/casino-in/our-vip");
+          }}
+        >
+          <div
+            className="casino-list-item-banner"
+            style={{
+              backgroundImage: "url('/imgs/teen20v1_green.gif')",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          />
+          <div className="casino-list-name">20-20 Teenpatti VIP1</div>
+        </a>
+      </div>
+    )}
+  </React.Fragment>
+))}
     </>
   );
 };

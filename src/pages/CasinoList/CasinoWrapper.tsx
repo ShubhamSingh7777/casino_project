@@ -674,17 +674,19 @@ const CasinoWrapper = (props: any) => {
                       ? "Matka Market"
                       : liveMatchData?.title || ""}
                   </b>
-                  <span
-                    className="fw-12 text-underlin"
-                    onClick={showRules}
-                    style={{
-                      marginLeft: "5px",
-                      textDecoration: "underline",
-                      fontSize: "12px",
-                    }}
-                  >
-                    Rules
-                  </span>
+              {gameCode !== "3cardj" && gameCode !== "worli2" && (
+  <span
+    className="fw-12 text-underlin"
+    onClick={showRules}
+    style={{
+      marginLeft: "5px",
+      textDecoration: "underline",
+      fontSize: "12px",
+    }}
+  >
+    Rules
+  </span>
+)}
                   <span className="float-right" style={{ marginTop: "5px" }}>
                     {gameCode === "worli3" ? (
                       ""
@@ -897,6 +899,8 @@ const CasinoWrapper = (props: any) => {
                       casinoMatchData &&
                       race2020Mobile()}
                   </h6>
+                 {gameCode !== "3cardj" && gameCode !== "worli2" && (
+
                   <span
                     className="fw-12 text-underlin"
                     onClick={showRules}
@@ -908,6 +912,7 @@ const CasinoWrapper = (props: any) => {
                   >
                     Rules
                   </span>
+                  )}
                 </div>
                 <div
                   className={`card-body ${gameCode}`}
