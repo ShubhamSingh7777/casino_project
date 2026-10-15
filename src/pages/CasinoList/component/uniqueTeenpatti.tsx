@@ -223,7 +223,7 @@ const UniqueTeenpatti = ({
           volume: itemMarket.bs || 0,
           marketId: itemMarket.mid || matchId,
           marketName: itemMarket.MarketName || "Teen Unique",
-          matchId: matchId,
+          matchId:liveMatchData?.event_data?.match_id || 0,
 
           selectionName: `${itemMarket.runnerName || runnerName} ${cards.join("")}`,
           selectionId: itemMarket.sid || itemMarket.sectionId,
@@ -231,7 +231,7 @@ const UniqueTeenpatti = ({
           pnl: 0,
           stack: 0,
           currentMarketOdds: itemMarket.b,
-          eventId: itemMarket.mid || matchId,
+          eventId: liveMatchData?.event_data?.match_id || 0,
           exposure: 0,
           ipAddress,
 
