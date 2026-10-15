@@ -2,6 +2,14 @@ import React from 'react'
 import ReactModal from 'react-modal';
 const CasinoRulesDetail = (props:any) => {
     const { title, gameId, isOpen, setIsOpen } = props;
+      // Console all received props
+  console.log("CasinoRulesDetail Props:", props);
+
+  // Console individual values
+  console.log("Title:", title);
+  console.log("Game ID:", gameId);
+  console.log("Is Open:", isOpen);
+  console.log("Set Is Open:", setIsOpen);
   return (
     <>
         {/* @ts-ignore Server Component */}
@@ -22,7 +30,15 @@ const CasinoRulesDetail = (props:any) => {
             </button>
           </div>
           <div className='modal-body'>
-          <img src={`/imgs/rules/${gameId}.jpg`} className="wd-100" />
+         <img
+  src={`/imgs/rules/${gameId}.jpg`}
+  onError={(e) => {
+    e.currentTarget.onerror = null;
+    e.currentTarget.src = `/imgs/rules/${gameId}.jpeg`;
+  }}
+  className="wd-100"
+  alt="Game rules"
+/>
           </div>
         </div>
       </ReactModal>

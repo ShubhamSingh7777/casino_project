@@ -8539,9 +8539,9 @@ footer p {
   padding: 10px;
 }
 
-.hidemob {
+/* .hidemob {
   display: block;
-}
+} */
 
 .col-25 {
   width: 25%;
@@ -8568,6 +8568,9 @@ footer p {
 
 .onedaypoker20 .imgspace {
   display: flex;
+}
+.baccarat .col-3{
+  max-width: 25%;
 }
 
 .onedaypoker20 .videoCards img {
@@ -12063,7 +12066,7 @@ td.teenSectionTheTrap:nth-of-type(2) button {
 
 /* Number circle */
 .unique-teenpatti-number {
-  width: 30px;
+  width: 32px;
   height: 32px;
 
   border-radius: 50%;
@@ -12075,38 +12078,214 @@ td.teenSectionTheTrap:nth-of-type(2) button {
   align-items: center;
   justify-content: center;
 
-  font-size: 28px;
+  font-size: 18px;
   font-weight: 700;
 
   margin-bottom: 5px;
 
   box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
 }
 
 /* Card image area */
 .unique-teenpatti-card {
+  width: 76px;
+  height: 96px;
+  min-height: 96px;
+
+  background: #ffffff;
+  border: none;
+  border-radius: 0px;
+
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 
   cursor: pointer;
+  /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12); */
+  overflow: hidden;
+  user-select: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
 }
 
 /* Selected card */
-.unique-teenpatti-card-wrapper:has(.selected) .unique-teenpatti-number {
-  background: #2c3e50;
-  color: #fff;
+.unique-teenpatti-card.selected {
+  border: 2.5px solid #0099e6 !important;
+  box-shadow: none !important;
+  transform: none !important;
 }
 
 /* Desktop card sizing */
 .unique-teenpatti-card img {
-  width: 76px;
-  height: 96px;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+  display: block;
+}
+
+/* Bottom selection bar */
+.unique-teenpatti-bottom-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  padding: 0 4px;
+  min-height: 46px;
+}
+
+.unique-teenpatti-selected-preview {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.unique-teenpatti-mini-card {
+  width: 34px;
+  height: 44px;
+  border: 1.5px solid #ffcc00;
+  border-radius: 3px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+}
+
+.unique-teenpatti-mini-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.unique-teenpatti-mini-circle {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(213, 213, 213, 0.85);
+  color: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 700;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.25);
+  z-index: 1;
+}
+
+.unique-teenpatti-action-buttons {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.unique-btn-clear {
+  background: #b31d28;
+  color: #ffffff;
+  border: none;
+  border-radius: 3px;
+  padding: 6px 16px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.unique-btn-placebet {
+  background: #007a3d;
+  color: #ffffff;
+  border: none;
+  border-radius: 3px;
+  padding: 6px 16px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.unique-card-face {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  text-align: center;
+  padding: 2px 0;
+}
+
+.unique-card-rank {
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1;
+  font-family: Arial, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  letter-spacing: -0.5px;
+}
+
+.unique-card-suit {
+  font-size: 32px;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+.unique-teenpatti-selected-badge {
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #007bff;
+  color: #fff;
+  font-size: 9px;
+  font-weight: bold;
+  padding: 1px 4px;
+  border-radius: 3px;
+  white-space: nowrap;
+  z-index: 2;
+}
+
+/* Revealed / opened cards NEVER show lock or overlay */
+.unique-teenpatti-card.revealed::before,
+.unique-teenpatti-card.revealed::after,
+.casino-container-box .teenunique .unique-teenpatti-card.revealed::before,
+.casino-container-box .teenunique .unique-teenpatti-card.revealed::after {
+  display: none !important;
+  content: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+/* Suspended state ONLY on closed / face-down cards */
+.casino-container-box .teenunique .unique-teenpatti-card.face-down.suspended::after,
+.unique-teenpatti-card.face-down.suspended::after {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background: rgba(55, 54, 54, 0.46) !important;
+  display: block !important;
+  z-index: 1 !important;
+}
+
+.casino-container-box .teenunique .unique-teenpatti-card.face-down.suspended::before,
+.unique-teenpatti-card.face-down.suspended::before {
+  content: "" !important;
+  position: absolute !important;
+  width: 17px !important;
+  height: 17px !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  background: url("../imgs/lock.svg") center/contain no-repeat !important;
+  filter: invert(1) !important;
+  display: block !important;
+  z-index: 2 !important;
 }
 
 .casino-container-box .teenunique .suspended::after {
-  background: rgb(55 54 54 / 46%) !important
+  background: rgb(55 54 54 / 46%) !important;
 }
 
 /* ================================
@@ -12116,7 +12295,7 @@ td.teenSectionTheTrap:nth-of-type(2) button {
 @media (max-width: 767px) {
 
   .unique-teenpatti-ui {
-    padding: 10px 5px 20px;
+    padding: 10px 5px 10px;
     min-height: auto;
   }
 
@@ -12136,30 +12315,53 @@ td.teenSectionTheTrap:nth-of-type(2) button {
   }
 
   .unique-teenpatti-cards {
-    gap: 8px;
-    padding: 0 5px;
+    gap: 6px;
+    padding: 0 35px;
     justify-content: space-between;
   }
 
   .unique-teenpatti-card-wrapper {
-    min-width: 48px;
+    min-width: 44px;
   }
 
   .unique-teenpatti-number {
-    width: 25px;
-    height: 25px;
-    font-size: 21px;
-    margin-bottom: 8px;
+    width: 26px;
+    height: 26px;
+    font-size: 20px;
+    margin-bottom: 6px;
+  }
+
+  .unique-teenpatti-card {
+    width: 40px;
+    height: auto;
+    min-height: auto;
+    border-width: 1.5px;
   }
 
   .unique-teenpatti-card img {
-    width: 40px;
-    height: auto;
+    width: 100%;
+    height: 100%;
     cursor: pointer;
   }
 
+  .unique-card-rank {
+    font-size: 19px;
+    font-weight: 800;
+  }
+
+  .unique-card-suit {
+    font-size: 22px;
+    margin-top: 1px;
+  }
+
+  .unique-teenpatti-selected-badge {
+    font-size: 7px;
+    padding: 0 2px;
+    bottom: 1px;
+  }
+
   .casino-container-box .teenunique .suspended::after {
-    background: rgb(55 54 54 / 46%)
+    background: rgb(55 54 54 / 46%);
   }
 }
 
@@ -12251,126 +12453,86 @@ td.teenSectionTheTrap:nth-of-type(2) button {
   background: #fff;
   overflow: hidden;
 }
-
-
 /* =========================================
    HEADER
 ========================================= */
-
 .cricket-five-header {
   background-color: #0088cce6;
   color: #fff;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   padding: 14px 18px;
-
   font-size: 26px;
   font-weight: 600;
 }
-
 .cricket-five-close {
   font-size: 34px;
   font-weight: 300;
   line-height: 1;
 }
-
-
 /* =========================================
    ROUND ID + MATCH TIME
 ========================================= */
-
 .cricket-five-info {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   padding: 12px 8px;
-
   color: #222;
   font-size: 16px;
-
   background: #fff;
 }
-
-
 /* =========================================
    WINNER
 ========================================= */
-
 .cricket-five-winner {
   background-color: #4b5e6d;
-
   display: flex;
   justify-content: flex-end;
   align-items: center;
-
   padding: 14px 10px;
-
   color: #fff;
   font-size: 18px;
 }
-
 .cricket-five-winner-name {
   color: #fdcf13;
   margin-left: 4px;
 }
-
 .cricket-five-separator {
   color: #fff;
   margin: 0 4px;
 }
-
-
 /* =========================================
    INNING
 ========================================= */
-
 .cricket-five-inning {
   border-top: 1px solid #ddd;
-
   margin-top: 8px;
-
   padding: 0;
-
   width: 100%;
 }
-
-
 /* =========================================
    INNING TITLE
 ========================================= */
-
 .cricket-five-inning-title {
   background-color: #0088cce6;
-
   color: #fff;
-
   font-size: 20px;
   font-weight: 400;
-
   padding: 8px 10px;
-
   text-align: left;
 }
-
-
 /* =========================================
    TABLE WRAPPER
 ========================================= */
-
 .cricket-five-table-wrapper {
   width: 100%;
   overflow-x: auto;
 }
-
 /* =========================================
    CRICKET FIVE TABLE
 ========================================= */
-
-
 .cricket-five-score-table {
   width: 100%;
   border-collapse: collapse;
@@ -12378,117 +12540,83 @@ td.teenSectionTheTrap:nth-of-type(2) button {
   text-align: center;
   margin: 0;
 }
-
-
 /* IMPORTANT:
    Keep normal TABLE display.
    Do NOT use display:flex here.
 */
-
-
-
 .cricket-five-score-table tbody {
   display: table-row-group !important;
 }
-
 .cricket-five-score-table th,
 .cricket-five-score-table td {
   display: table-cell;
   width: auto !important;
   padding: 6px 5px;
-
   font-size: 16px;
-
   color: #333;
-
   text-align: center;
-
   vertical-align: middle;
-
   border: 1px solid #ddd;
-
   white-space: nowrap;
 }
-
-
 /* =========================================
    COLUMN WIDTHS
 ========================================= */
-
 .cricket-five-score-table .cricket-five-col-team {
   width: 14%;
 }
-
 .cricket-five-score-table .cricket-five-col-ball {
   width: 8%;
 }
-
 .cricket-five-score-table .cricket-five-col-run {
   width: 14%;
 }
-
 .cricket-five-score-table .cricket-five-col-score {
   width: 24%;
 }
-
 /* =========================================
    WICKET
 ========================================= */
-
 .cricket-five-score-table .wicket {
   color: #d10000;
-
   font-weight: 600;
 }
-
 @media (max-width: 767px) {
-
   .cricket-five-header {
     padding: 12px 16px;
     font-size: 20px;
   }
-
   .cricket-five-close {
     font-size: 30px;
   }
-
   .cricket-five-info {
     padding: 10px 6px;
     font-size: 12px;
   }
-
   .cricket-five-winner {
     padding: 10px 8px;
     font-size: 13px;
   }
-
   .cricket-five-inning {
     margin-top: 10px;
   }
-
   .cricket-five-inning-title {
     font-size: 16px;
     padding: 6px 10px;
   }
-
   .cricket-five-score-table th,
   .cricket-five-score-table td {
     font-size: 12px;
     padding: 4px 3px;
   }
-
   .cricket-five-score-table {
     min-width: 650px;
   }
-
 }
-
 .card-header-rouletterule {
   background: #2C3E50;
   color: #FFFFFF;
   padding: 0px 5px 0px 0px;
-
-
 }
 
 .card-header-rouletterule h4 {
@@ -12519,15 +12647,51 @@ td.teenSectionTheTrap:nth-of-type(2) button {
     opacity: 1;
   }
 }
-
 .box-1Odd {
   width: 8.3%;
   max-width: 8.3%;
   min-width: 8.3%;
 }
-
 .box-60odd {
   width: 50% !important;
   max-width: 50% !important;
   min-width: 50% !important;
+}
+.worli .coupon-table thead th:first-child{
+    min-height: 18px;
+    margin: 5px 0px;
+    border-bottom: none;
+    border-top: none;
+}
+.worli .coupon-table tr td:first-child,.worli .coupon-table tr td{
+    height: 70px !important;
+        padding: 0px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 2px;
+        margin-bottom: 2px;
+        border-bottom: none;
+}
+.worli .card-number{
+    font-size: 40px;
+}
+.fontStyleWorli{
+        font-family: 'CasinoNumFont';
+}
+.worli .casino-32A .coupon-table button{
+    font-family: 'CasinoNumFont';
+    font-weight: unset;
+    font-size: 40px !important;
+}
+        .casino-container-box .worli .suspended::after{
+           width: 100% !important;
+        }
+
+      .worli .nav-tabs .nav-link.active {
+    background: #2C3E50;
+    color: white;
+    font-weight: 400;
+    border-top: none !important;
 }

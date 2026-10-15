@@ -50,27 +50,30 @@ const CasinoResultDetail = (props: any) => {
     setLoader(true);
     if (popupdata.slug && popupdata.slug) {
       console.log(gameCode, popupdata.mid, "popup data");
-      casinoService.getResultByMid(popupdata.slug, popupdata.mid).then((res) => {
-        setLoader(false);
-        const resultHtml = res?.data?.data?.html || {};
-        const ename = String(resultHtml.ename || "")
-  .trim()
-  .toLowerCase();
-        // setCasinoResult(res?.data?.data?.html)
-console.log("ENAME:", JSON.stringify(resultHtml.ename));
-console.log("NORMALIZED ENAME:", ename);
-        if (
-          resultHtml.ename === "Goal 2" ||
-          resultHtml.ename === "Goal" ||
-          resultHtml.ename === "Lucky 15" || resultHtml.ename === "Ball By Ball"
-        ) {
-          setCasinoResult(resultHtml);
-          const islucky15 = resultHtml.ename === "Lucky 15";
-          const winner = resultHtml.winnat || "";
-          const ballbyball = resultHtml.ename === "Ball By Ball"
-          let htmlContent = "";
+      casinoService
+        .getResultByMid(popupdata.slug, popupdata.mid)
+        .then((res) => {
+          setLoader(false);
+          const resultHtml = res?.data?.data?.html || {};
+          const ename = String(resultHtml.ename || "")
+            .trim()
+            .toLowerCase();
+          // setCasinoResult(res?.data?.data?.html)
+          console.log("ENAME:", JSON.stringify(resultHtml.ename));
+          console.log("NORMALIZED ENAME:", ename);
+          if (
+            resultHtml.ename === "Goal 2" ||
+            resultHtml.ename === "Goal" ||
+            resultHtml.ename === "Lucky 15" ||
+            resultHtml.ename === "Ball By Ball"
+          ) {
+            setCasinoResult(resultHtml);
+            const islucky15 = resultHtml.ename === "Lucky 15";
+            const winner = resultHtml.winnat || "";
+            const ballbyball = resultHtml.ename === "Ball By Ball";
+            let htmlContent = "";
 
-          htmlContent += `
+            htmlContent += `
           <div style="
             margin-top:0px;
             padding:${islucky15 ? "0px" : "6px"};
@@ -80,9 +83,15 @@ console.log("NORMALIZED ENAME:", ename);
               <div style="position:relative">
               ${
                 islucky15 || ballbyball
-                  ? ` <img src='/ball-blank.png' alt='' style="width:${isMobile?'50px':'150px'};height:250pxauto"/>
-                 <span style="position:absolute;bottom:${isMobile?'14px':'63px'};
-    left:${isMobile?'6px':'26px'};color:#fff;font-size:${isMobile?'11px':'26px'};font-weight:bold;text-transform:uppercase;text-align:center;line-height:22px">${winner}</span>`
+                  ? ` <img src='/ball-blank.png' alt='' style="width:${
+                      isMobile ? "50px" : "150px"
+                    };height:250pxauto"/>
+                 <span style="position:absolute;bottom:${
+                   isMobile ? "14px" : "63px"
+                 };
+    left:${isMobile ? "6px" : "26px"};color:#fff;font-size:${
+                      isMobile ? "11px" : "26px"
+                    };font-weight:bold;text-transform:uppercase;text-align:center;line-height:22px">${winner}</span>`
                   : ` <img src='/soccer-ball.png' alt='' style="width:auto;height:250px"/>
                  <span style="position:absolute;bottom: 9px;
     left: 76px;;color:#000;font-size:15px;font-weight:bold;text-transform:uppercase;text-align:center;line-height:22px">Header Goal By </br> ${winner}</span>`
@@ -94,456 +103,477 @@ console.log("NORMALIZED ENAME:", ename);
           </div>
         `;
 
-          setData(htmlContent);
-          return;
-        }
-        if (
-          resultHtml.ename === "Teenpatti Poison One Day" ||
-          resultHtml.ename === "Teenpatti Poison 20-20" ||
-          resultHtml.ename === "Unlimited Joker 20-20" ||
-          resultHtml.ename === "Teenpatti Joker 20-20" ||
-          resultHtml.ename === "Unlimited Joker Oneday"
-        ) {
-          setCasinoResult(resultHtml);
+            setData(htmlContent);
+            return;
+          }
+          if (
+            resultHtml.ename === "Teenpatti Poison One Day" ||
+            resultHtml.ename === "Teenpatti Poison 20-20" ||
+            resultHtml.ename === "Unlimited Joker 20-20" ||
+            resultHtml.ename === "Teenpatti Joker 20-20" ||
+            resultHtml.ename === "Unlimited Joker Oneday"
+          ) {
+            setCasinoResult(resultHtml);
 
-          const poisonHtml = TeenpattiPoisonResult({
-            resultHtml,
-          });
+            const poisonHtml = TeenpattiPoisonResult({
+              resultHtml,
+            });
 
-          setData(poisonHtml);
+            setData(poisonHtml);
 
-          return;
-        }
-        if (resultHtml.ename === "Teenpatti Test") {
-          setCasinoResult(resultHtml);
+            return;
+          }
+          if (resultHtml.ename === "Teenpatti Test") {
+            setCasinoResult(resultHtml);
 
-          const testHtml = TeenpattiTestResult({
-            resultHtml,
-          });
+            const testHtml = TeenpattiTestResult({
+              resultHtml,
+            });
 
-          setData(testHtml);
+            setData(testHtml);
 
-          return;
-        }
-          if (resultHtml.ename === "Beach Roulette" || resultHtml.ename === "Roulette" || resultHtml.ename === "VIP Roulette"  || resultHtml.ename === "Unique Roulette") {
-          setCasinoResult(resultHtml);
+            return;
+          }
+          if (
+            resultHtml.ename === "Beach Roulette" ||
+            resultHtml.ename === "Roulette" ||
+            resultHtml.ename === "VIP Roulette" ||
+            resultHtml.ename === "Unique Roulette"
+          ) {
+            setCasinoResult(resultHtml);
 
-          const rouletteHtml = RouletteResult({
-            resultHtml,
-          });
+            const rouletteHtml = RouletteResult({
+              resultHtml,
+            });
 
-          setData(rouletteHtml);
+            setData(rouletteHtml);
 
-          return;
-        }
-         if (resultHtml.ename === "20-20 Dragon Tiger" || resultHtml.ename === "1 Day Dragon Tiger" || resultHtml.ename === "20-20 D T L" || resultHtml.ename === "20-20 Dragon Tiger 2") {
-          setCasinoResult(resultHtml);
+            return;
+          }
+          if (
+            resultHtml.ename === "20-20 Dragon Tiger" ||
+            resultHtml.ename === "1 Day Dragon Tiger" ||
+            resultHtml.ename === "20-20 D T L" ||
+            resultHtml.ename === "20-20 Dragon Tiger 2"
+          ) {
+            setCasinoResult(resultHtml);
 
-          const dtHtml = dtResult({
-            resultHtml,
-          });
+            const dtHtml = dtResult({
+              resultHtml,
+            });
 
-          setData(dtHtml);
+            setData(dtHtml);
 
-          return;
-        }
-        if (resultHtml.ename === "Race 20") {
-          setCasinoResult(resultHtml);
+            return;
+          }
+          if (resultHtml.ename === "Race 20") {
+            setCasinoResult(resultHtml);
 
-          const race20Html = Race20Result({
-            resultHtml,
-          });
+            const race20Html = Race20Result({
+              resultHtml,
+            });
 
-          setData(race20Html);
+            setData(race20Html);
 
-          return;
-        }
-        if (resultHtml.ename === "Queen") {
-          setCasinoResult(resultHtml);
+            return;
+          }
+          if (resultHtml.ename === "Queen") {
+            setCasinoResult(resultHtml);
 
-          const queenHtml = QueenResult({
-            resultHtml,
-          });
+            const queenHtml = QueenResult({
+              resultHtml,
+            });
 
-          setData(queenHtml);
+            setData(queenHtml);
 
-          return;
-        }
-        if (resultHtml.ename === "Teenpatti Open") {
-          setCasinoResult(resultHtml);
+            return;
+          }
+          if (resultHtml.ename === "Teenpatti Open") {
+            setCasinoResult(resultHtml);
 
-          const teenOpenHtml = TeenpattiOpneResult({
-            resultHtml,
-          });
+            const teenOpenHtml = TeenpattiOpneResult({
+              resultHtml,
+            });
 
-          setData(teenOpenHtml);
+            setData(teenOpenHtml);
 
-          return;
-        }
-        if (resultHtml.ename === "Mogambo") {
-          setCasinoResult(resultHtml);
+            return;
+          }
+          if (resultHtml.ename === "Mogambo") {
+            setCasinoResult(resultHtml);
 
-          const mogamboHtml = MogamboResult({
-            resultHtml,
-          });
+            const mogamboHtml = MogamboResult({
+              resultHtml,
+            });
 
-          setData(mogamboHtml);
+            setData(mogamboHtml);
 
-          return;
-        }
-           if (resultHtml.ename === "32 Cards A" || resultHtml.ename === "32 Cards B") {
-          setCasinoResult(resultHtml);
+            return;
+          }
+          if (
+            resultHtml.ename === "32 Cards A" ||
+            resultHtml.ename === "32 Cards B"
+          ) {
+            setCasinoResult(resultHtml);
 
-          const cardAHtml = CardAResult({
-            resultHtml,
-          });
+            const cardAHtml = CardAResult({
+              resultHtml,
+            });
 
-          setData(cardAHtml);
-          return;
-        }
-           if (resultHtml.ename === "Lucky 7 - A" || resultHtml.ename === "Lucky 7 - B" || resultHtml.ename === "Instant Worli" || resultHtml.ename === "Cricket Match 20-20"
-) {
-          setCasinoResult(resultHtml);
+            setData(cardAHtml);
+            return;
+          }
+          if (
+            resultHtml.ename === "Lucky 7 - A" ||
+            resultHtml.ename === "Lucky 7 - B" ||
+            resultHtml.ename === "Instant Worli" ||
+            resultHtml.ename === "Cricket Match 20-20" || resultHtml.ename === "Worli Matka"
+          ) {
+            setCasinoResult(resultHtml);
 
-          const luckyHtml = Lucky7Result({
-            resultHtml,
-          });
+            const luckyHtml = Lucky7Result({
+              resultHtml,
+            });
 
-          setData(luckyHtml);
-          return;
-        }
-         if (resultHtml.ename === "3 Cards Judgement" || resultHtml.ename === "Lottery"
-) {
-          setCasinoResult(resultHtml);
+            setData(luckyHtml);
+            return;
+          }
+          if (
+            resultHtml.ename === "3 Cards Judgement" ||
+            resultHtml.ename === "Lottery"
+          ) {
+            setCasinoResult(resultHtml);
 
-          const cardjudgeHtml = CardJudgeResult({
-            resultHtml,
-          });
+            const cardjudgeHtml = CardJudgeResult({
+              resultHtml,
+            });
 
-          setData(cardjudgeHtml);
-          return;
-        }
+            setData(cardjudgeHtml);
+            return;
+          }
           if (resultHtml.ename === "Unique Teenpatti") {
-          setCasinoResult(resultHtml);
+            setCasinoResult(resultHtml);
 
-          const uniqueteenResultHtml = UniqueTeenpattiResult({
-            resultHtml,
-          });
+            const uniqueteenResultHtml = UniqueTeenpattiResult({
+              resultHtml,
+            });
 
-          setData(uniqueteenResultHtml);
-          return;
-        }
-          if (resultHtml.ename === "Casino War"
-) {
-          setCasinoResult(resultHtml);
+            setData(uniqueteenResultHtml);
+            return;
+          }
+          if (resultHtml.ename === "Casino War") {
+            setCasinoResult(resultHtml);
 
-          const casinoWarHtml = CasinoWarResult({
-            resultHtml,
-          });
+            const casinoWarHtml = CasinoWarResult({
+              resultHtml,
+            });
 
-          setData(casinoWarHtml);
-          return;
-        }
+            setData(casinoWarHtml);
+            return;
+          }
 
-        if (resultHtml.ename === "Poker 6 Players") {
-          setCasinoResult(resultHtml);
+          if (resultHtml.ename === "Poker 6 Players") {
+            setCasinoResult(resultHtml);
 
-          const poker6Html = PokerSixResult({
-            resultHtml,
-          });
+            const poker6Html = PokerSixResult({
+              resultHtml,
+            });
 
-          setData(poker6Html);
+            setData(poker6Html);
 
-          return;
-        }
-        if (resultHtml.ename === "Race to 17") {
-          setCasinoResult(resultHtml);
+            return;
+          }
+          if (resultHtml.ename === "Race to 17") {
+            setCasinoResult(resultHtml);
 
-          const raceseventeenHtml = RaceToSeventeenResult({
-            resultHtml,
-          });
+            const raceseventeenHtml = RaceToSeventeenResult({
+              resultHtml,
+            });
 
-          setData(raceseventeenHtml);
+            setData(raceseventeenHtml);
 
-          return;
-        }
-        if (resultHtml.ename === "Note Number" || resultHtml.ename === "Trio") {
-          setCasinoResult(resultHtml);
+            return;
+          }
+          if (
+            resultHtml.ename === "Note Number" ||
+            resultHtml.ename === "Trio"
+          ) {
+            setCasinoResult(resultHtml);
 
-          const noteNumHtml = NoteNumResult({
-            resultHtml,
-          });
+            const noteNumHtml = NoteNumResult({
+              resultHtml,
+            });
 
-          setData(noteNumHtml);
+            setData(noteNumHtml);
 
-          return;
-        }
-        //superover2
-        if (popupdata.slug === "superover2" || popupdata.slug === "superover") {
-          setCasinoResult(resultHtml);
+            return;
+          }
+          //superover2
+          if (
+            popupdata.slug === "superover2" ||
+            popupdata.slug === "superover"
+          ) {
+            setCasinoResult(resultHtml);
 
-          const superOverHtml = SuperOverResult({
-            resultHtml,
-          });
+            const superOverHtml = SuperOverResult({
+              resultHtml,
+            });
 
-          setData(superOverHtml);
+            setData(superOverHtml);
 
-          return;
-        }
-        console.log("SLUG VALUE:", popupdata?.slug);
-console.log("SLUG TYPE:", typeof popupdata?.slug);
-console.log("SLUG JSON:", JSON.stringify(popupdata?.slug));
-console.log(
-  "SLUG MATCH:",
-  popupdata?.slug?.trim().toLowerCase() === "cricketv3"
-);
-         if (popupdata.slug === "cricketv3") {
-          console.log("🔥🔥 ENTERED CRICKET FIVE CONDITION");
-          setCasinoResult(resultHtml);
+            return;
+          }
+          console.log("SLUG VALUE:", popupdata?.slug);
+          console.log("SLUG TYPE:", typeof popupdata?.slug);
+          console.log("SLUG JSON:", JSON.stringify(popupdata?.slug));
+          console.log(
+            "SLUG MATCH:",
+            popupdata?.slug?.trim().toLowerCase() === "cricketv3",
+          );
+          if (popupdata.slug === "cricketv3") {
+            console.log("🔥🔥 ENTERED CRICKET FIVE CONDITION");
+            setCasinoResult(resultHtml);
 
-          const cricketfiveHtml = CricketFiveResult({
-            resultHtml,
-          });
+            const cricketfiveHtml = CricketFiveResult({
+              resultHtml,
+            });
             console.log("🔥 Cricket Five HTML:", cricketfiveHtml);
 
-          setData(cricketfiveHtml);
+            setData(cricketfiveHtml);
 
-          return;
-        }
-        //cmeter
-        if (resultHtml.ename === "Casino Meter") {
-          setCasinoResult(resultHtml);
+            return;
+          }
+          //cmeter
+          if (resultHtml.ename === "Casino Meter") {
+            setCasinoResult(resultHtml);
 
-          const casinometerHtml = CasinoMeterResult({
-            resultHtml,
-          });
+            const casinometerHtml = CasinoMeterResult({
+              resultHtml,
+            });
 
-          setData(casinometerHtml);
+            setData(casinometerHtml);
 
-          return;
-        }
-  if (resultHtml.ename === "Lucky 6") {
-          setCasinoResult(resultHtml);
+            return;
+          }
+          if (resultHtml.ename === "Lucky 6") {
+            setCasinoResult(resultHtml);
 
-          const lucky6Html = LuckySixResult({
-            resultHtml,
-          });
+            const lucky6Html = LuckySixResult({
+              resultHtml,
+            });
 
-          setData(lucky6Html);
+            setData(lucky6Html);
 
-          return;
-        }
+            return;
+          }
 
-        if (
-          resultHtml.ename === "Race to 2nd" ||
-          resultHtml.ename === "1 CARD ONE-DAY" ||
-          resultHtml.ename === "1 CARD 20-20"
-        ) {
-          setCasinoResult(resultHtml);
-
-          const racetwoHtml = RaceTwoResult({
-            resultHtml,
-          });
-
-          setData(racetwoHtml);
-
-          return;
-        }
-
-        if (resultHtml.ename === "Dus ka Dum") {
-          setCasinoResult(resultHtml);
-
-          const dusHtml = DuskadumResult({
-            resultHtml,
-          });
-
-          setData(dusHtml);
-
-          return;
-        }
-        if (resultHtml.ename === "1 Card Meter") {
-          setCasinoResult(resultHtml);
-
-          const cmeterHtml = CmeterResult({
-            resultHtml,
-          });
-
-          setData(cmeterHtml);
-
-          return;
-        }
-
-        if (
-          resultHtml.ename === "Baccarat" ||
-          resultHtml.ename === "Baccarat 2"
-        ) {
-          setCasinoResult(resultHtml);
-
-          const baccaratHtml = BaccaratResult({
-            resultHtml,
-          });
-
-          setData(baccaratHtml);
-
-          return;
-        }
-        if (
-          resultHtml.ename === "29Card Baccarat" ||
-          resultHtml.ename === "2 Cards Teenpatti"
-        ) {
-          setCasinoResult(resultHtml);
-
-          const cardbaccaratHtml = CardBacarratResult({
-            resultHtml,
-          });
-
-          setData(cardbaccaratHtml);
-
-          return;
-        }
-         if (
-          resultHtml.ename === "Andar Bahar 2" || resultHtml.ename === "Andar Bahar"
-        ) {
-          setCasinoResult(resultHtml);
-
-          const andarBaharHtml = AndarBaharResult({
-            resultHtml,
-          });
-
-          setData(andarBaharHtml);
-
-          return;
-        }
-        if (resultHtml.ename === "Teenpatti - 2.0") {
-          setCasinoResult(resultHtml);
-
-          const teen2OHtml = Teen2OResult({
-            resultHtml,
-          });
-
-          setData(teen2OHtml);
-
-          return;
-        }
-        if (resultHtml.ename === "The Trap") {
-          setCasinoResult(resultHtml);
-
-          const trapHtml = TrapResult({
-            resultHtml,
-          });
-
-          setData(trapHtml);
-
-          return;
-        }
-        //poker one day
-        if (
-          resultHtml.ename === "Poker 1-Day" ||
-          resultHtml.ename === "20-20 Poker"
-        ) {
-          setCasinoResult(resultHtml);
-
-          const pokerHtml = PokerOneDayResult({
-            resultHtml,
-          });
-
-          setData(pokerHtml);
-
-          return;
-        }
-           if (
-          resultHtml.ename === "Sic Bo"
-        ) {
-          setCasinoResult(resultHtml);
-
-          const sicboHtml = SicboResult({
-            resultHtml,
-          });
-
-          setData(sicboHtml);
-
-          return;
-        }
           if (
-          resultHtml.ename === "V VIP Teenpatti 1-day"
-        ) {
-          setCasinoResult(resultHtml);
+            resultHtml.ename === "Race to 2nd" ||
+            resultHtml.ename === "1 CARD ONE-DAY" ||
+            resultHtml.ename === "1 CARD 20-20"
+          ) {
+            setCasinoResult(resultHtml);
 
-          const vvipteenHtml = VvipteenpattiResult({
-            resultHtml,
-          });
+            const racetwoHtml = RaceTwoResult({
+              resultHtml,
+            });
 
-          setData(vvipteenHtml);
+            setData(racetwoHtml);
 
-          return;
-        }
-        if (
-          resultHtml.ename === "Teenpatti 1-day" ||
-          resultHtml.ename === "Doli Dana" ||
-          resultHtml.ename === "20-20 Teenpatti C" ||
-          resultHtml.ename === "20-20 Teenpatti B" ||
-          resultHtml.ename === "Queen Top Open Teenpatti" ||
-          resultHtml.ename === "Jack Top Open Teenpatti" ||
-          resultHtml.ename === "Instant Teenpatti 3.0" ||
-          resultHtml.ename === "Instant Teenpatti 2.0" ||
-          resultHtml.ename === "20-20 Teenpatti" ||
-          resultHtml.ename === "Instant Teenpatti" ||
-          resultHtml.ename === "Muflis Teenpatti"
-        ) {
-          setCasinoResult(resultHtml);
-          const isDoliDana = resultHtml.ename === "Doli Dana";
-          const teenpattioneday = resultHtml.ename === "Teenpatti 1-day";
-          const isteenpattiC =
+            return;
+          }
+
+          if (resultHtml.ename === "Dus ka Dum") {
+            setCasinoResult(resultHtml);
+
+            const dusHtml = DuskadumResult({
+              resultHtml,
+            });
+
+            setData(dusHtml);
+
+            return;
+          }
+          if (resultHtml.ename === "1 Card Meter") {
+            setCasinoResult(resultHtml);
+
+            const cmeterHtml = CmeterResult({
+              resultHtml,
+            });
+
+            setData(cmeterHtml);
+
+            return;
+          }
+
+          if (
+            resultHtml.ename === "Baccarat" ||
+            resultHtml.ename === "Baccarat 2"
+          ) {
+            setCasinoResult(resultHtml);
+
+            const baccaratHtml = BaccaratResult({
+              resultHtml,
+            });
+
+            setData(baccaratHtml);
+
+            return;
+          }
+          if (
+            resultHtml.ename === "29Card Baccarat" ||
+            resultHtml.ename === "2 Cards Teenpatti"
+          ) {
+            setCasinoResult(resultHtml);
+
+            const cardbaccaratHtml = CardBacarratResult({
+              resultHtml,
+            });
+
+            setData(cardbaccaratHtml);
+
+            return;
+          }
+          if (
+            resultHtml.ename === "Andar Bahar 2" ||
+            resultHtml.ename === "Andar Bahar"
+          ) {
+            setCasinoResult(resultHtml);
+
+            const andarBaharHtml = AndarBaharResult({
+              resultHtml,
+            });
+
+            setData(andarBaharHtml);
+
+            return;
+          }
+          if (resultHtml.ename === "Teenpatti - 2.0") {
+            setCasinoResult(resultHtml);
+
+            const teen2OHtml = Teen2OResult({
+              resultHtml,
+            });
+
+            setData(teen2OHtml);
+
+            return;
+          }
+          if (resultHtml.ename === "The Trap") {
+            setCasinoResult(resultHtml);
+
+            const trapHtml = TrapResult({
+              resultHtml,
+            });
+
+            setData(trapHtml);
+
+            return;
+          }
+          //poker one day
+          if (
+            resultHtml.ename === "Poker 1-Day" ||
+            resultHtml.ename === "20-20 Poker"
+          ) {
+            setCasinoResult(resultHtml);
+
+            const pokerHtml = PokerOneDayResult({
+              resultHtml,
+            });
+
+            setData(pokerHtml);
+
+            return;
+          }
+          if (resultHtml.ename === "Sic Bo") {
+            setCasinoResult(resultHtml);
+
+            const sicboHtml = SicboResult({
+              resultHtml,
+            });
+
+            setData(sicboHtml);
+
+            return;
+          }
+          if (resultHtml.ename === "V VIP Teenpatti 1-day") {
+            setCasinoResult(resultHtml);
+
+            const vvipteenHtml = VvipteenpattiResult({
+              resultHtml,
+            });
+
+            setData(vvipteenHtml);
+
+            return;
+          }
+          if (
+            resultHtml.ename === "Teenpatti 1-day" ||
+            resultHtml.ename === "Doli Dana" ||
             resultHtml.ename === "20-20 Teenpatti C" ||
-            "20-20 Teenpatti" ||
-            "20-20 Teenpatti B";
-          const isqueenteenpatti =
-            resultHtml.ename === "Queen Top Open Teenpatti";
-          const isjacktopteenpatti =
-            resultHtml.ename === "Jack Top Open Teenpatti";
-          const isInstantteenpatti =
+            resultHtml.ename === "20-20 Teenpatti B" ||
+            resultHtml.ename === "Queen Top Open Teenpatti" ||
+            resultHtml.ename === "Jack Top Open Teenpatti" ||
             resultHtml.ename === "Instant Teenpatti 3.0" ||
             resultHtml.ename === "Instant Teenpatti 2.0" ||
-            resultHtml.ename === "Instant Teenpatti";
-          const isMuflisteenpatti = resultHtml.ename === "Muflis Teenpatti";
+            resultHtml.ename === "20-20 Teenpatti" ||
+            resultHtml.ename === "Instant Teenpatti" ||
+            resultHtml.ename === "Muflis Teenpatti"
+          ) {
+            setCasinoResult(resultHtml);
+            const isDoliDana = resultHtml.ename === "Doli Dana";
+            const teenpattioneday = resultHtml.ename === "Teenpatti 1-day";
+            const isteenpattiC =
+              resultHtml.ename === "20-20 Teenpatti C" ||
+              "20-20 Teenpatti" ||
+              "20-20 Teenpatti B";
+            const isqueenteenpatti =
+              resultHtml.ename === "Queen Top Open Teenpatti";
+            const isjacktopteenpatti =
+              resultHtml.ename === "Jack Top Open Teenpatti";
+            const isInstantteenpatti =
+              resultHtml.ename === "Instant Teenpatti 3.0" ||
+              resultHtml.ename === "Instant Teenpatti 2.0" ||
+              resultHtml.ename === "Instant Teenpatti";
+            const isMuflisteenpatti = resultHtml.ename === "Muflis Teenpatti";
 
-          const cards = resultHtml.card?.split(",") || [];
-          const rdescParts = resultHtml.rdesc?.split("#") || [];
+            const cards = resultHtml.card?.split(",") || [];
+            const rdescParts = resultHtml.rdesc?.split("#") || [];
 
-          // const playerA = cards.slice(0, 3);
-          // const playerB = cards.slice(3, 6);
-          const playerA = cards.filter(
-  (_: string, index: number) => index % 2 === 0
-);
+            // const playerA = cards.slice(0, 3);
+            // const playerB = cards.slice(3, 6);
+            const playerA = cards.filter(
+              (_: string, index: number) => index % 2 === 0,
+            );
 
-const playerB = cards.filter(
-  (_: string, index: number) => index % 2 === 1
-);
+            const playerB = cards.filter(
+              (_: string, index: number) => index % 2 === 1,
+            );
 
-          const winner = resultHtml.winnat || "";
-          const rdesc = resultHtml.rdesc || "";
+            const winner = resultHtml.winnat || "";
+            const rdesc = resultHtml.rdesc || "";
 
-          const rdescPartsd = rdesc.split("#");
+            const rdescPartsd = rdesc.split("#");
 
-          const playerd = rdescPartsd[0] || "";
-          const nod = rdescPartsd[1] || "";
-          const dashD = rdescPartsd[2] || "";
-          const numberD = rdescPartsd[3] || "";
-          const oddEvenDoli = rdescPartsd[4] || "";
-          const comparisond = rdescPartsd[5] || "";
+            const playerd = rdescPartsd[0] || "";
+            const nod = rdescPartsd[1] || "";
+            const dashD = rdescPartsd[2] || "";
+            const numberD = rdescPartsd[3] || "";
+            const oddEvenDoli = rdescPartsd[4] || "";
+            const comparisond = rdescPartsd[5] || "";
 
-          const suitData = rdescParts[1]?.trim() || "";
-          const oddEvenData = rdescParts[2]?.trim() || "";
-          const consecutiveData = rdescParts[3]?.trim() || "";
+            const suitData = rdescParts[1]?.trim() || "";
+            const oddEvenData = rdescParts[2]?.trim() || "";
+            const consecutiveData = rdescParts[3]?.trim() || "";
 
-          const oddEven = oddEvenData.split(/\s+/);
+            const oddEven = oddEvenData.split(/\s+/);
 
-          const createCards = (playerCards: string[]) => {
-            return playerCards
-              .map((card: string) => {
-                const safeCard = card.replace(/[^a-zA-Z0-9_-]/g, "");
+            const createCards = (playerCards: string[]) => {
+              return playerCards
+                .map((card: string) => {
+                  const safeCard = card.replace(/[^a-zA-Z0-9_-]/g, "");
 
-                return `
+                  return `
                 ${
                   isDoliDana
                     ? `  <img
@@ -551,7 +581,7 @@ const playerB = cards.filter(
             alt="${safeCard}"
             style="
               width:auto;
-             height:${isMobile?'35px':'50px'}; 
+             height:${isMobile ? "35px" : "50px"}; 
               margin:3px;
             "
           />`
@@ -560,33 +590,35 @@ const playerB = cards.filter(
             alt="${safeCard}"
             style="
               width:auto;
-              height:${isMobile?'35px':'50px'};
+              height:${isMobile ? "35px" : "50px"};
               margin:3px;
             "
           />`
                 }
         
         `;
-              })
-              .join("");
-          };
+                })
+                .join("");
+            };
 
-          const playerACards = createCards(playerA);
-          const playerBCards = createCards(playerB);
+            const playerACards = createCards(playerA);
+            const playerBCards = createCards(playerB);
 
-          const playerAOddEven = oddEven.slice(0, 3).join(" ");
-          const playerBOddEven = oddEven.slice(3, 6).join(" ");
+            const playerAOddEven = oddEven.slice(0, 3).join(" ");
+            const playerBOddEven = oddEven.slice(3, 6).join(" ");
 
-          const htmlContent = `
+            const htmlContent = `
          
-    <div style="text-align:center;display:${!isMobile?'flex':''};justify-content:${!isMobile?'space-between':''}">
+    <div style="text-align:center;display:${
+      !isMobile ? "flex" : ""
+    };justify-content:${!isMobile ? "space-between" : ""}">
      
-      ${  
+      ${
         !isDoliDana
-          ? ` <div style="width:${!isMobile?'50%':''}">
+          ? ` <div style="width:${!isMobile ? "50%" : ""}">
           <div style="
-        font-size:${!isMobile?'20px':'16px'};
-        margin-bottom:${isMobile?'3px':'5px'};
+        font-size:${!isMobile ? "20px" : "16px"};
+        margin-bottom:${isMobile ? "3px" : "5px"};
       ">
         Player A
       </div> 
@@ -597,10 +629,9 @@ const playerB = cards.filter(
         margin-bottom:3px;
       ">
     ${
-        (isteenpattiC || isInstantteenpatti) &&
-  !isqueenteenpatti &&
-  !isjacktopteenpatti
-
+      (isteenpattiC || isInstantteenpatti) &&
+      !isqueenteenpatti &&
+      !isjacktopteenpatti
         ? `
         ${
           winner === "Player A"
@@ -628,10 +659,10 @@ const playerB = cards.filter(
         }
 </div>
       </div>
-<div style="width:${!isMobile?'50%':''}">
+<div style="width:${!isMobile ? "50%" : ""}">
        <div style="
-         font-size:${!isMobile?'20px':'16px'};
-        margin-bottom:${isMobile?'3px':'5px'};
+         font-size:${!isMobile ? "20px" : "16px"};
+        margin-bottom:${isMobile ? "3px" : "5px"};
       ">
         Player B
       </div>
@@ -695,7 +726,7 @@ const playerB = cards.filter(
       };
       margin-top:${isDoliDana ? "6px" : "15px"};
       padding:${isqueenteenpatti || isjacktopteenpatti ? "0px" : "6px 35px"};
-      width:${!isMobile?'50%':'100%'}
+      width:${!isMobile ? "50%" : "100%"}
     ">
     ${
       isDoliDana
@@ -704,8 +735,8 @@ const playerB = cards.filter(
   <div style="
     display:flex;
     justify-content:center;
-      font-size:${!isMobile?'16px':'12px'};
-         margin-bottom:${isMobile?'3px':'7px'};
+      font-size:${!isMobile ? "16px" : "12px"};
+         margin-bottom:${isMobile ? "3px" : "7px"};
   ">
     <span style="
       opacity:0.6;
@@ -723,8 +754,8 @@ const playerB = cards.filter(
   <div style="
     display:flex;
     justify-content:center;
-      font-size:${!isMobile?'16px':'12px'};
-         margin-bottom:${isMobile?'3px':'7px'};
+      font-size:${!isMobile ? "16px" : "12px"};
+         margin-bottom:${isMobile ? "3px" : "7px"};
   ">
     <span style="
       opacity:0.6;
@@ -742,8 +773,8 @@ const playerB = cards.filter(
     <div style="
     display:flex;
     justify-content:center;
-      font-size:${!isMobile?'16px':'12px'};
-         margin-bottom:${isMobile?'3px':'7px'};
+      font-size:${!isMobile ? "16px" : "12px"};
+         margin-bottom:${isMobile ? "3px" : "7px"};
   ">
     <span style="
       opacity:0.6;
@@ -761,8 +792,8 @@ const playerB = cards.filter(
     <div style="
     display:flex;
     justify-content:center;
-      font-size:${!isMobile?'16px':'12px'};
-         margin-bottom:${isMobile?'3px':'7px'};
+      font-size:${!isMobile ? "16px" : "12px"};
+         margin-bottom:${isMobile ? "3px" : "7px"};
   ">
     <span style="
       opacity:0.6;
@@ -780,8 +811,8 @@ const playerB = cards.filter(
     <div style="
     display:flex;
     justify-content:center;
-      font-size:${!isMobile?'16px':'12px'};
-         margin-bottom:${isMobile?'3px':'7px'};
+      font-size:${!isMobile ? "16px" : "12px"};
+         margin-bottom:${isMobile ? "3px" : "7px"};
   ">
     <span style="
       opacity:0.6;
@@ -799,8 +830,8 @@ const playerB = cards.filter(
     <div style="
     display:flex;
     justify-content:center;
-      font-size:${!isMobile?'16px':'12px'};
-         margin-bottom:${isMobile?'3px':'7px'};
+      font-size:${!isMobile ? "16px" : "12px"};
+         margin-bottom:${isMobile ? "3px" : "7px"};
   ">
     <span style="
       opacity:0.6;
@@ -826,12 +857,14 @@ const playerB = cards.filter(
           isqueenteenpatti || isjacktopteenpatti ? `0 0 4px -1px` : ""
         };
       ">
-        <span style="opacity:0.6; margin-right:8px;width:30%;text-align:end;font-size:${!isMobile?'16px':'12px'};
-         margin-bottom:${isMobile?'3px':'7px'};">
+        <span style="opacity:0.6; margin-right:8px;width:30%;text-align:end;font-size:${
+          !isMobile ? "16px" : "12px"
+        };
+         margin-bottom:${isMobile ? "3px" : "7px"};">
           Winner:
         </span>
 
-        <span style="width:60%;font-size:${!isMobile?'16px':''}">
+        <span style="width:60%;font-size:${!isMobile ? "16px" : ""}">
           ${winner}
         </span>
       </div>
@@ -846,8 +879,8 @@ const playerB = cards.filter(
     <div style="
         display:flex;
         justify-content:center;
-          font-size:${!isMobile?'16px':'12px'};
-         margin-bottom:${isMobile?'3px':'7px'};
+          font-size:${!isMobile ? "16px" : "12px"};
+         margin-bottom:${isMobile ? "3px" : "7px"};
       ">
         <span style="opacity:0.6; margin-right:8px;width:30%,text-align:end">
           Under/Over:
@@ -861,13 +894,16 @@ const playerB = cards.filter(
           : ""
       }
       ${
-        isteenpattiC && !isInstantteenpatti && !isqueenteenpatti && !isjacktopteenpatti
+        isteenpattiC &&
+        !isInstantteenpatti &&
+        !isqueenteenpatti &&
+        !isjacktopteenpatti
           ? `
          <div style="
         display:flex;
         justify-content:center;
-         font-size:${!isMobile?'16px':'12px'};
-         margin-bottom:${isMobile?'3px':'7px'};
+         font-size:${!isMobile ? "16px" : "12px"};
+         margin-bottom:${isMobile ? "3px" : "7px"};
       ">
         <span style="opacity:0.6; margin-right:8px;width:30%,text-align:end">
           ${isMuflisteenpatti ? `Top 9` : `3 Baccarat:`}
@@ -880,8 +916,8 @@ const playerB = cards.filter(
          <div style="
         display:flex;
         justify-content:center;
-         font-size:${!isMobile?'16px':'12px'};
-         margin-bottom:${isMobile?'3px':'7px'};
+         font-size:${!isMobile ? "16px" : "12px"};
+         margin-bottom:${isMobile ? "3px" : "7px"};
       ">
         <span style="opacity:0.6; margin-right:8px;width:30%,text-align:end">
         ${isMuflisteenpatti ? `M Baccarat:` : `Total:`}
@@ -901,8 +937,8 @@ const playerB = cards.filter(
           ? `<div style="
         display:flex;
         justify-content:center;
-          font-size:${!isMobile?'16px':'12px'};
-         margin-bottom:${isMobile?'3px':'7px'};
+          font-size:${!isMobile ? "16px" : "12px"};
+         margin-bottom:${isMobile ? "3px" : "7px"};
       ">
         
         <span style="opacity:0.6; margin-right:8px;width:30%,text-align:end">
@@ -920,8 +956,8 @@ const playerB = cards.filter(
       <div style="
         display:flex;
         justify-content:center;
-         font-size:${!isMobile?'16px':'12px'};
-         margin-bottom:${isMobile?'3px':'7px'};
+         font-size:${!isMobile ? "16px" : "12px"};
+         margin-bottom:${isMobile ? "3px" : "7px"};
       ">
         
         <span style="opacity:0.6; margin-right:8px;width:30%,text-align:end">
@@ -943,51 +979,62 @@ const playerB = cards.filter(
 </div>
   `;
 
-          setData(htmlContent);
+            setData(htmlContent);
 
-          return; // ⭐ IMPORTANT
-        }
-        setCasinoResult(resultHtml);
-        const islucky6 = resultHtml.ename === "Lucky 6";
-        const islucky7 = resultHtml.ename === "Lucky 7 - C";
-        const isbtable2 = resultHtml.ename === "Bollywood Casino 2" || resultHtml.ename === "Bollywood Casino";
-        const cards = resultHtml.card?.split(",") || [];
-        const winner = resultHtml.winnat || "";
-        const rdesc = resultHtml.rdesc || "";
-        const rdescPartsLuck = rdesc.split("#");
-        const isAmarAkbar = resultHtml.ename === "Amar Akbar Anthony 2" || "Amar Akbar Anthony";
+            return; // ⭐ IMPORTANT
+          }
+          setCasinoResult(resultHtml);
+          const islucky6 = resultHtml.ename === "Lucky 6";
+          const islucky7 = resultHtml.ename === "Lucky 7 - C";
+          const isbtable2 =
+            resultHtml.ename === "Bollywood Casino 2" ||
+            resultHtml.ename === "Bollywood Casino";
+          const cards = resultHtml.card?.split(",") || [];
+          const winner = resultHtml.winnat || "";
+          const rdesc = resultHtml.rdesc || "";
+          const rdescPartsLuck = rdesc.split("#");
+          const isAmarAkbar =
+            resultHtml.ename === "Amar Akbar Anthony 2" || "Amar Akbar Anthony";
 
-        // const winner = rdescPartsLuck[0] || "";
-        const nod = rdescPartsLuck[1] || "";
-        const oddevenl = rdescPartsLuck[2] || "";
-        const colorl = rdescPartsLuck[3] || "";
-        const cardl = rdescPartsLuck[4] || "";
+          // const winner = rdescPartsLuck[0] || "";
+          const nod = rdescPartsLuck[1] || "";
+          const oddevenl = rdescPartsLuck[2] || "";
+          const colorl = rdescPartsLuck[3] || "";
+          const cardl = rdescPartsLuck[4] || "";
 
-        let htmlContent = "";
+          let htmlContent = "";
 
-        // Loop through each card and create image tags
-        for (const card of cards) {
-          // sanitize card to avoid injection (very important)
-          const safeCard = card.replace(/[^a-zA-Z0-9_-]/g, "");
-          htmlContent += `<div style="display:flex;justify-content:center;align-items:center"><img 
+          // Loop through each card and create image tags
+          for (const card of cards) {
+            // sanitize card to avoid injection (very important)
+            const safeCard = card.replace(/[^a-zA-Z0-9_-]/g, "");
+            htmlContent += `<div style="display:flex;justify-content:center;align-items:center"><img 
     src="https://g1ver.sprintstaticdata.com/v73/static/front/img/cards/${safeCard}.jpg" 
     alt="${safeCard}" 
-    style="width:auto;margin:4px;height:${isMobile?'35px':'50px'};"
+    style="width:auto;margin:4px;height:${isMobile ? "35px" : "50px"};"
   /></div>`;
-        }
+          }
 
-        // Add winner text
-        htmlContent += ` <div style="display:flex;justify-content:center;align-items:center"><div style="box-shadow:0 0 4px -1px;margin-top:8px;padding: 6px;display:flex;flex-direction:column;justify-content:center;align-items:center; padding-left:20px; width:${!isMobile?'50%':'100%'}">
-        <div style="display:flex;width:100%;font-size:${!isMobile?'16px':'12px'};margin-bottom:2px;">
+          // Add winner text
+          htmlContent += ` <div style="display:flex;justify-content:center;align-items:center"><div style="box-shadow:0 0 4px -1px;margin-top:8px;padding: 6px;display:flex;flex-direction:column;justify-content:center;align-items:center; padding-left:20px; width:${
+            !isMobile ? "50%" : "100%"
+          }">
+        <div style="display:flex;width:100%;font-size:${
+          !isMobile ? "16px" : "12px"
+        };margin-bottom:2px;">
 <div style="margin-right: 2%;
     opacity: 0.6;
     width: 30%;
-    text-align: right;opacity:0.6;font-size:${!isMobile?'16px':'12px'}">Winner </div> <div style="word-break: break-all;
+    text-align: right;opacity:0.6;font-size:${
+      !isMobile ? "16px" : "12px"
+    }">Winner </div> <div style="word-break: break-all;
     width: 60%;"> ${winner}</div>
     </div>
     ${
       islucky7
-        ? `<div style="display:flex;width:100%;font-size:${!isMobile?'16px':'12px'};margin-bottom:2px;padding:${!isMobile?'5px 0px':''}">
+        ? `<div style="display:flex;width:100%;font-size:${
+            !isMobile ? "16px" : "12px"
+          };margin-bottom:2px;padding:${!isMobile ? "5px 0px" : ""}">
     <div style="margin-right: 2%;
     opacity: 0.6;
     width: 30%;
@@ -995,7 +1042,9 @@ const playerB = cards.filter(
      <div style="word-break: break-all;
     width: 60%;"> ${nod}</div>
     </div>
-    <div style="display:flex;width:100%;font-size:${isMobile?'12px':'16px'};margin-bottom:2px;">
+    <div style="display:flex;width:100%;font-size:${
+      isMobile ? "12px" : "16px"
+    };margin-bottom:2px;">
     <div style="margin-right: 2%;
     opacity: 0.6;
     width: 30%;
@@ -1003,14 +1052,18 @@ const playerB = cards.filter(
     <div style="word-break: break-all;
     width: 60%;"> ${oddevenl}</div>
     </div>
-     <div style="display:flex;width:100%;font-size:${isMobile?'12px':'16px'};margin-bottom:2px;">
+     <div style="display:flex;width:100%;font-size:${
+       isMobile ? "12px" : "16px"
+     };margin-bottom:2px;">
     <div style="margin-right: 2%;
     opacity: 0.6;
     width: 30%;
     text-align: right;opacity:0.6">${isAmarAkbar ? `Under/Over` : `Card`}</div>
      <div style="word-break: break-all;
     width: 60%;"> ${colorl}</div></div>
-        <div style="display:flex;width:100%;font-size:${isMobile?'12px':'16px'};margin-bottom:2px;">
+        <div style="display:flex;width:100%;font-size:${
+          isMobile ? "12px" : "16px"
+        };margin-bottom:2px;">
     <div style="margin-right: 2%;
     opacity: 0.6;
     width: 30%;
@@ -1022,7 +1075,9 @@ const playerB = cards.filter(
     }
     ${
       (islucky6 || isAmarAkbar) && !isbtable2 && !islucky7
-        ? ` <div style="display:flex;width:100%;font-size:${!isMobile?'16px':'12px'};margin-bottom:2px;padding:${!isMobile?'5px 0px':''}">
+        ? ` <div style="display:flex;width:100%;font-size:${
+            !isMobile ? "16px" : "12px"
+          };margin-bottom:2px;padding:${!isMobile ? "5px 0px" : ""}">
     <div style="margin-right: 2%;
     opacity: 0.6;
     width: 30%;
@@ -1030,7 +1085,9 @@ const playerB = cards.filter(
      <div style="word-break: break-all;
     width: 60%;"> ${nod}</div>
     </div>
-    <div style="display:flex;width:100%;font-size:${isMobile?'12px':'16px'};margin-bottom:2px;">
+    <div style="display:flex;width:100%;font-size:${
+      isMobile ? "12px" : "16px"
+    };margin-bottom:2px;">
     <div style="margin-right: 2%;
     opacity: 0.6;
     width: 30%;
@@ -1038,7 +1095,9 @@ const playerB = cards.filter(
     <div style="word-break: break-all;
     width: 60%;"> ${oddevenl}</div>
     </div>
-     <div style="display:flex;width:100%;font-size:${isMobile?'12px':'16px'};margin-bottom:2px;padding:${!isMobile?'5px 0px':''}">
+     <div style="display:flex;width:100%;font-size:${
+       isMobile ? "12px" : "16px"
+     };margin-bottom:2px;padding:${!isMobile ? "5px 0px" : ""}">
     <div style="margin-right: 2%;
     opacity: 0.6;
     width: 30%;
@@ -1048,7 +1107,9 @@ const playerB = cards.filter(
     ${
       isAmarAkbar
         ? `
-        <div style="display:flex;width:100%;font-size:${!isMobile?'16px':'12px'};margin-bottom:2px;padding:${!isMobile?'5px 0px':''}">
+        <div style="display:flex;width:100%;font-size:${
+          !isMobile ? "16px" : "12px"
+        };margin-bottom:2px;padding:${!isMobile ? "5px 0px" : ""}">
     <div style="margin-right: 2%;
     opacity: 0.6;
     width: 30%;
@@ -1060,8 +1121,11 @@ const playerB = cards.filter(
       `
         : ``
     }
-${isbtable2
-    ? ` <div style="display:flex;width:100%;font-size:${!isMobile?'16px':'12px'};margin-bottom:2px;padding:${!isMobile?'5px 0px':''}">
+${
+  isbtable2
+    ? ` <div style="display:flex;width:100%;font-size:${
+        !isMobile ? "16px" : "12px"
+      };margin-bottom:2px;padding:${!isMobile ? "5px 0px" : ""}">
     <div style="margin-right: 2%;
     opacity: 0.6;
     width: 30%;
@@ -1069,7 +1133,9 @@ ${isbtable2
      <div style="word-break: break-all;
     width: 60%;"> ${nod}</div>
     </div>
-    <div style="display:flex;width:100%;font-size:${isMobile?'12px':'16px'};margin-bottom:2px;">
+    <div style="display:flex;width:100%;font-size:${
+      isMobile ? "12px" : "16px"
+    };margin-bottom:2px;">
     <div style="margin-right: 2%;
     opacity: 0.6;
     width: 30%;
@@ -1077,14 +1143,18 @@ ${isbtable2
     <div style="word-break: break-all;
     width: 60%;"> ${oddevenl}</div>
     </div>
-     <div style="display:flex;width:100%;font-size:${isMobile?'12px':'16px'};margin-bottom:2px;">
+     <div style="display:flex;width:100%;font-size:${
+       isMobile ? "12px" : "16px"
+     };margin-bottom:2px;">
     <div style="margin-right: 2%;
     opacity: 0.6;
     width: 30%;
     text-align: right;opacity:0.6">Color</div>
      <div style="word-break: break-all;
     width: 60%;"> ${colorl}</div></div>
-    <div style="display:flex;width:100%;font-size:${isMobile?'12px':'16px'};margin-bottom:2px;">
+    <div style="display:flex;width:100%;font-size:${
+      isMobile ? "12px" : "16px"
+    };margin-bottom:2px;">
     <div style="margin-right: 2%;
     opacity: 0.6;
     width: 30%;
@@ -1098,34 +1168,34 @@ ${isbtable2
     
   </div> </div></div>`;
 
-        // Set the HTML (preferably after sanitizing)
-        setData(htmlContent);
+          // Set the HTML (preferably after sanitizing)
+          setData(htmlContent);
 
-        if (
-          popupdata.slug === "Andarbahar" ||
-          popupdata.slug === "Andarbahar2"
-        ) {
-          // @ts-ignore
-          globalThis.$(".owl-carousel").owlCarousel({
-            rtl: true,
-            loop: true,
-            margin: 10,
-            dots: false,
-            responsiveClass: true,
-            responsive: {
-              0: {
-                items: popupdata.slug === "Andarbahar2" ? 3 : 8,
-                nav: true,
+          if (
+            popupdata.slug === "Andarbahar" ||
+            popupdata.slug === "Andarbahar2"
+          ) {
+            // @ts-ignore
+            globalThis.$(".owl-carousel").owlCarousel({
+              rtl: true,
+              loop: true,
+              margin: 10,
+              dots: false,
+              responsiveClass: true,
+              responsive: {
+                0: {
+                  items: popupdata.slug === "Andarbahar2" ? 3 : 8,
+                  nav: true,
+                },
+                1000: {
+                  items: 10,
+                  nav: true,
+                  loop: false,
+                },
               },
-              1000: {
-                items: 10,
-                nav: true,
-                loop: false,
-              },
-            },
-          });
-        }
-      });
+            });
+          }
+        });
     }
   }, [props.popupdata]);
 
@@ -1155,7 +1225,7 @@ ${isbtable2
         <div className="bg w-100 d-flex flex-row justify-content-between">
           <h4
             className="text-white mb-0"
-            style={{ width: "100%", fontSize: isMobile?"16px":"20px" }}
+            style={{ width: "100%", fontSize: isMobile ? "16px" : "20px" }}
           >
             {" "}
             {popupdata?.event_data?.title || ""} Result
@@ -1185,11 +1255,11 @@ ${isbtable2
 
       <Modal.Body>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <h6 className="text-left" style={{fontWeight:'bold'}}>
+          <h6 className="text-left" style={{ fontWeight: "bold" }}>
             Round Id:{" "}
             <span style={{ fontWeight: "400" }}> {popupdata?.mid || ""}</span>
           </h6>
-          <h6 className="text-left" style={{fontWeight:'bold'}}>
+          <h6 className="text-left" style={{ fontWeight: "bold" }}>
             Match Time:{" "}
             <span style={{ fontWeight: "400", color: "#000000" }}>
               {formatMatchTime(casinoResult?.mtime)}

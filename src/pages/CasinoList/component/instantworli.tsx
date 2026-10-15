@@ -77,15 +77,15 @@ const Instantworli = (props: any) => {
     const clsstatus =
       !ItemMarket.gstatus || ItemMarket.gstatus === '0' || ItemMarket.gstatus === 'SUSPENDED' || ItemMarket.gstatus === 'CLOSED' ? 'suspended' : ''
     return (
-      <table className='table coupon-table table table-bordered'>
+      <table className='table coupon-table table'>
         <thead style={{ borderBottom: "0px" }}>
           <tr>
-            <th style={{ paddingLeft: "5px", width: "60%" }} >
+            <th style={{ paddingLeft: "5px", width: "60%",borderBottom:"0px",borderTop:"0px" }} >
               <div style={{ width: "97%", fontSize: "18px", textAlign: "center" }}>
                 9
               </div>
             </th>
-            <th style={{ paddingLeft: "5px", width: "40%" }}>
+            <th style={{ paddingLeft: "5px", width: "40%",borderBottom:"0px",borderTop:"0px" }}>
               <div style={{ width: "97%", fontSize: "18px", textAlign: "center" }}>
                 2
               </div>
@@ -96,7 +96,7 @@ const Instantworli = (props: any) => {
         </thead>
         <tbody data-title='SUSPENDED' className={`card32btbody ${clsstatus}`}>
           <tr>
-            <td style={{ width: "60%" }}>
+            <td style={{ width: "60%",padding:"0px"}}>
               <table className='table coupon-table table table-bordered'>
                 <tbody data-title='SUSPENDED' className={`card32btbody`}>
                   <tr style={{ height: isMobile ? "69px" : "89px" }} key={2} className={`${heightdata}`}>
@@ -140,7 +140,6 @@ const Instantworli = (props: any) => {
 
                     })
                     }
-
                   </tr>
                 </tbody>
               </table>
@@ -156,9 +155,9 @@ const Instantworli = (props: any) => {
                       ItemMarket['RunnerName'] = lastOdds?.market?.[indexMarket]?.MarketName
                       ItemMarket['sid'] = Item.SelectionId
                       return <td className={`text-center bet-action back ${selectionId == Item.SelectionId ? 'bg-green' : ''}`} key={Item.SelectionId} onClick={() => onBet(true, ItemMarket)}>
-                        <span className="d-block" style={{ fontSize: "18px" }}>{Item?.RunnerName}</span>
-                        {indexMarket == 10 && <p style={{ fontSize: "18px", marginTop: isMobile ? "5px" : "10px" }}>1|2|3|4|5</p>}
-                        {indexMarket == 12 && <p style={{ fontSize: "18px", marginTop: isMobile ? "5px" : "10px" }}>1|3|5|7|9</p>}
+                        <span className="d-block fontStyleWorli" style={{ fontSize:isMobile? "20px":"40px" }}>{Item.RunnerName?.replace(' Single', '')}</span>
+                        {indexMarket == 10 && <p style={{ fontSize:isMobile?"12px": "18px", marginTop: isMobile ? "5px" : "10px" }}>1|2|3|4|5</p>}
+                        {indexMarket == 12 && <p style={{ fontSize:isMobile?"12px": "18px", marginTop: isMobile ? "5px" : "10px" }}>1|3|5|7|9</p>}
                         <div>
                         </div>
                       </td>
@@ -173,9 +172,9 @@ const Instantworli = (props: any) => {
                       ItemMarket['RunnerName'] = lastOdds?.market?.[indexMarket]?.MarketName
                       ItemMarket['sid'] = Item.SelectionId
                       return <td className={`text-center bet-action back ${selectionId == Item.SelectionId ? 'bg-green' : ''}`} key={Item.SelectionId} onClick={() => onBet(true, ItemMarket)}>
-                        <span className="d-block" style={{ fontSize: "18px" }}>{Item?.RunnerName}</span>
-                        {indexMarket == 11 && <p style={{ fontSize: "18px", marginTop: isMobile ? "5px" : "10px" }}>6|7|8|9|0</p>}
-                        {indexMarket == 13 && <p style={{ fontSize: "18px", marginTop: isMobile ? "5px" : "10px" }}>2|4|6|8|0</p>}
+                        <span className="d-block fontStyleWorli" style={{ fontSize:isMobile? "20px":"40px" }}>{Item.RunnerName?.replace(' Single', '')}</span>
+                        {indexMarket == 11 && <p style={{ fontSize:isMobile?"12px": "18px", marginTop: isMobile ? "5px" : "10px" }}>6|7|8|9|0</p>}
+                        {indexMarket == 13 && <p style={{ fontSize:isMobile?"12px": "18px", marginTop: isMobile ? "5px" : "10px" }}>2|4|6|8|0</p>}
                         <div>
                         </div>
                       </td>
@@ -197,11 +196,11 @@ const Instantworli = (props: any) => {
     const clsstatus =
       !ItemMarket.gstatus || ItemMarket.gstatus === 'SUSPENDED' || ItemMarket.gstatus === 'CLOSED' ? 'suspended' : ''
     return (
-      <table className='table coupon-table table table-bordered'>
+      <table className='table coupon-table table'>
         <thead style={{ borderBottom: "0px" }}>
           <tr>
             <th style={{ paddingLeft: "5px", display: "flex", alignItems: "center" }} colSpan={5}>
-              <div style={{ width: "97%", fontSize: "18px", textAlign: "center" }}>
+              <div style={{ width: "97%", fontSize:isMobile? "12px":"16px", textAlign: "center" }}>
                 9
               </div>
 
@@ -212,7 +211,7 @@ const Instantworli = (props: any) => {
         </thead>
         <tbody data-title='SUSPENDED' className={`card32btbody ${clsstatus}`}>
 
-          <tr style={{ height: isMobile ? "69px" : "89px" }} key={2} className={`${heightdata}`}>
+          <tr style={{ height: 'auto',display:isMobile?"flex":"flex" }} key={2} className={`${heightdata}`}>
             {[0, 1, 2, 3, 4].map((indexMarket: any, key: number) => {
                const Item: any = liveMatchData?.defaultMarkets?.[indexMarket]?.Runners?.[0] || {}
                       const ItemMarket: any = {...lastOdds?.market?.[0]}
@@ -220,7 +219,7 @@ const Instantworli = (props: any) => {
                       ItemMarket['RunnerName'] = lastOdds?.market?.[indexMarket]?.MarketName
                       ItemMarket['sid'] = Item.SelectionId
               return <td key={key} className={`text-center bet-action back ${selectionId == Item.SelectionId ? 'bg-green' : ''}`} onClick={() => onBet(true, ItemMarket)}>
-                <span className="d-block card-number">{Item?.RunnerName?.replace(' Single', '')}</span>
+                <span className="d-block card-number" style={{fontSize:'20px'}}>{Item?.RunnerName?.replace(' Single', '')}</span>
                 <div>
                   <div className="ubook text-danger">
                     <b style={{ color: "#000" }}>
@@ -233,7 +232,7 @@ const Instantworli = (props: any) => {
             })
             }
           </tr>
-          <tr style={{ height: isMobile ? "69px" : "89px" }} key={3} className={`${heightdata}`}>
+          <tr style={{ height:'auto' ,display:isMobile?"flex":"flex"}} key={3} className={`${heightdata}`}>
             {[5, 6, 7, 8, 9].map((indexMarket: any, key: number) => {
                const Item: any = liveMatchData?.defaultMarkets?.[indexMarket]?.Runners?.[0] || {}
                       const ItemMarket: any = {...lastOdds?.market?.[0]}
@@ -241,7 +240,7 @@ const Instantworli = (props: any) => {
                       ItemMarket['RunnerName'] = lastOdds?.market?.[indexMarket]?.MarketName
                       ItemMarket['sid'] = Item.SelectionId
               return <td key={key} className={`text-center bet-action back ${selectionId == Item.SelectionId ? 'bg-green' : ''}`} onClick={() => onBet(true, ItemMarket)}>
-                <span className="d-block card-number">{Item?.RunnerName?.replace(' Single', '')}</span>
+                <span className="d-block card-number" style={{fontSize:'20px'}}>{Item?.RunnerName?.replace(' Single', '')}</span>
                 <div>
                   <div className="ubook text-danger">
                     <b style={{ color: "#000" }}>
@@ -265,11 +264,11 @@ const Instantworli = (props: any) => {
     const clsstatus =
       !ItemMarket.gstatus || ItemMarket.gstatus === 'SUSPENDED' || ItemMarket.gstatus === 'CLOSED' ? 'suspended' : ''
     return (
-      <table className='table coupon-table table table-bordered'>
+      <table className='table coupon-table table'>
         <thead style={{ borderBottom: "0px" }}>
           <tr>
             <th style={{ paddingLeft: "5px", display: "flex", alignItems: "center" }} colSpan={5}>
-              <div style={{ width: "97%", fontSize: "18px", textAlign: "center" }}>
+              <div style={{ width: "97%", fontSize:isMobile? "12px":"16px", textAlign: "center" }}>
                 2
               </div>
 
@@ -278,34 +277,34 @@ const Instantworli = (props: any) => {
           </tr>
         </thead>
         <tbody data-title='SUSPENDED' className={`card32btbody ${clsstatus}`}>
-          <tr style={{ height: isMobile ? "59px" : "89px" }} key={0} className={`${heightdata}`}>
+          <tr style={{ height:'auto',display:isMobile?"flex":"flex" }} key={0} className={`${heightdata}`}>
             {[10, 12].map((indexMarket: any, key: number) => {
               const Item: any = liveMatchData?.defaultMarkets?.[indexMarket]?.Runners?.[0] || {}
                       const ItemMarket: any = {...lastOdds?.market?.[0]}
                       ItemMarket['rate'] = 2;
                       ItemMarket['RunnerName'] = lastOdds?.market?.[indexMarket]?.MarketName
                       ItemMarket['sid'] = Item.SelectionId
-              return <td className={`text-center bet-action back ${selectionId == Item.SelectionId ? 'bg-green' : ''}`} key={Item.SelectionId} onClick={() => onBet(true, ItemMarket)}>
-                <span className="d-block" style={{ fontSize: "18px" }}>{Item?.RunnerName}</span>
-                {indexMarket == 10 && <p style={{ fontSize: "18px", marginTop: isMobile ? "5px" : "10px" }}>1|2|3|4|5</p>}
-                {indexMarket == 12 && <p style={{ fontSize: "18px", marginTop: isMobile ? "5px" : "10px" }}>1|3|5|7|9</p>}
+              return <td className={`text-center bet-action back ${selectionId == Item.SelectionId ? 'bg-green' : ''}`} key={Item.SelectionId} onClick={() => onBet(true, ItemMarket)} style={{flexDirection:isMobile?'column':'column'}}>
+                <span className="d-block fontStyleWorli" style={{ fontSize:isMobile? "20px":"40px" }}>{Item.RunnerName?.replace(' Single', '')}</span>
+                {indexMarket == 10 && <p style={{ fontSize:isMobile?"12px": "18px", marginTop: "10px" }}>1|2|3|4|5</p>}
+                {indexMarket == 12 && <p style={{ fontSize:isMobile?"12px": "18px", marginTop: "10px" }}>1|3|5|7|9</p>}
                 <div>
                 </div>
               </td>
             })
             }
           </tr>
-          <tr style={{ height: isMobile ? "59px" : "89px" }} key={1} className={`${heightdata}`}>
+          <tr style={{ height: 'auto',display:isMobile?"flex":"flex" }} key={1} className={`${heightdata}`}>
             {[11, 13].map((indexMarket: any, key: number) => {
                const Item: any = liveMatchData?.defaultMarkets?.[indexMarket]?.Runners?.[0] || {}
                       const ItemMarket: any = {...lastOdds?.market?.[0]}
                       ItemMarket['rate'] = 2;
                       ItemMarket['RunnerName'] = lastOdds?.market?.[indexMarket]?.MarketName
                       ItemMarket['sid'] = Item.SelectionId
-              return <td className={`text-center bet-action back ${selectionId == Item.SelectionId ? 'bg-green' : ''}`} key={Item.SelectionId} onClick={() => onBet(true, ItemMarket)}>
-                <span className="d-block" style={{ fontSize: "18px" }}>{Item?.RunnerName}</span>
-                {indexMarket == 11 && <p style={{ fontSize: "18px", marginTop: isMobile ? "5px" : "10px" }}>6|7|8|9|0</p>}
-                {indexMarket == 13 && <p style={{ fontSize: "18px", marginTop: isMobile ? "5px" : "10px" }}>2|4|6|8|0</p>}
+              return <td className={`text-center bet-action back ${selectionId == Item.SelectionId ? 'bg-green' : ''}`} key={Item.SelectionId} onClick={() => onBet(true, ItemMarket)} style={{flexDirection:isMobile?'column':'column'}}>
+                <span className="d-block fontStyleWorli" style={{ fontSize:isMobile? "20px":"40px" }}>{Item.RunnerName?.replace(' Single', '')}</span>
+                {indexMarket == 11 && <p style={{ fontSize:isMobile?"12px": "18px", marginTop: "10px" }}>6|7|8|9|0</p>}
+                {indexMarket == 13 && <p style={{ fontSize:isMobile?"12px": "18px", marginTop: "10px" }}>2|4|6|8|0</p>}
                 <div>
                 </div>
               </td>
@@ -318,17 +317,17 @@ const Instantworli = (props: any) => {
     )
   }
   return (
-    <div className='container '>
-      {isMobile && <div className='row casino-32A '>
-        <div className='col-lg-8 m-b-10 main-market  bg-gray' style={{ padding: '0px' }}>
+    <div className='container' style={{paddingRight:!isMobile?'0px':'',paddingLeft:!isMobile?'0px':''}}>
+      {isMobile && <div className='row casino-32A' style={{display:'flex'}}>
+        <div className='main-market  bg-gray' style={{ padding: '0px' ,width:isMobile?'60%':'60%',maxWidth:isMobile?'60%':'60%',minWidth:isMobile?'60%':'60%'}}>
           <div className='live-poker'>{numberLayout()}</div>
         </div>
-        <div className='col-lg-4 m-b-10 main-market  bg-gray' style={{ padding: '0px' }}>
+        <div className='col-lg-4 main-market  bg-gray' style={{ padding: '0px' ,width:isMobile?'40%':'40%',maxWidth:isMobile?'40%':'40%',minWidth:isMobile?'40%':'40%'}}>
           <div className='live-poker'>{numberLayout2()}</div>
         </div>
       </div>}
-      {!isMobile && <div className='row casino-32A '>
-        <div className='col-lg-12 m-b-10 main-market  bg-gray' style={{ padding: '0px' }}>
+      {!isMobile && <div className='row casino-32A' style={{marginLeft:'0px',marginRight:'0px'}}>
+        <div className='col-lg-12  main-market  bg-gray' style={{ padding: '0px' }}>
           <div className='live-poker'>{numberLayoutDesk()}</div>
         </div>
       </div>

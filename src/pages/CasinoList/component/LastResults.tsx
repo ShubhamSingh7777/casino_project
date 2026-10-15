@@ -343,6 +343,20 @@ const gameWiseResultStyle: any = {
       shortName: "T",
     },
   },
+     cricektfive: {
+    "1": {
+      clsname: "ball-runs playera last-result",
+      shortName: "A",
+    },
+    "2": {
+      clsname: "ball-runs playerb last-result",
+      shortName: "I",
+    },
+    "0": {
+      clsname: "ball-runs playera last-result text-white",
+      shortName: "T",
+    },
+  },
   cmeter: {
     "1": {
       clsname: "ball-runs playera last-result",
@@ -710,17 +724,20 @@ const LastResults = (props: any) => {
           shortName = gameWiseResultStyle["superover2"][Item.win]["shortName"];
           break;
             case "superover3":
-              case "cricketv3":
           clsname = gameWiseResultStyle["superover3"][Item.win]["clsname"];
           shortName = gameWiseResultStyle["superover3"][Item.win]["shortName"];
+          break;
+          case "cricketv3":
+          clsname = gameWiseResultStyle["cricektfive"][Item.win]["clsname"];
+          shortName = gameWiseResultStyle["cricektfive"][Item.win]["shortName"];
           break;
         case "fivewicket":
           clsname = gameWiseResultStyle["fivewicket"][Item.win]["clsname"];
           shortName = gameWiseResultStyle["fivewicket"][Item.win]["shortName"];
           break;
-        case "worli2":
-          clsname = gameWiseResultStyle["worli2"][Item.win]["clsname"];
-          shortName = gameWiseResultStyle["worli2"][Item.win]["shortName"];
+        // case "worli2":
+        //   clsname = gameWiseResultStyle["worli2"][Item.win]["clsname"];
+        //   shortName = gameWiseResultStyle["worli2"][Item.win]["shortName"];
           break;
           case 'worli3':
           clsname = 'worli-result'
@@ -753,6 +770,8 @@ const LastResults = (props: any) => {
         case "ab3":
         case "ab4": 
         case "teenunique":
+        case "worli":
+          case "worli2":
           clsname = gameWiseResultStyle["other"][1]["clsname"];
           shortName = gameWiseResultStyle["other"][1]["shortName"];
           break;

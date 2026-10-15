@@ -588,7 +588,10 @@ const CasinoTitle = (props: any) => {
       getCardValue(lastResult?.C3);
 
     return (
-      <div className="video-overlay" style={{ width:isMobile? "73px":"105px" }}>
+      <div
+        className="video-overlay"
+        style={{ width: isMobile ? "73px" : "105px" }}
+      >
         <div className="card-inner" style={{ width: "100%" }}>
           <h2
             className="text-black p-1 "
@@ -596,7 +599,7 @@ const CasinoTitle = (props: any) => {
               backgroundColor: "#c7b100",
               fontSize: "1rem",
               fontWeight: "bold",
-              marginBottom:isMobile?'4px':''
+              marginBottom: isMobile ? "4px" : "",
             }}
           >
             TOTAL : {total}
@@ -611,7 +614,11 @@ const CasinoTitle = (props: any) => {
             >
               <h2
                 className="text-white"
-                style={{ fontSize: "1rem", fontWeight: "bold",marginBottom:isMobile?'0px':'' }}
+                style={{
+                  fontSize: "1rem",
+                  fontWeight: "bold",
+                  marginBottom: isMobile ? "0px" : "",
+                }}
               >
                 DAGA / TEJA
               </h2>
@@ -625,7 +632,7 @@ const CasinoTitle = (props: any) => {
                 <div
                   style={{
                     width: "2.2px",
-                    height:isMobile?"21px":"40px",
+                    height: isMobile ? "21px" : "40px",
                     backgroundColor: "#fff",
                     margin: "0 6px",
                   }}
@@ -641,7 +648,11 @@ const CasinoTitle = (props: any) => {
             >
               <h3
                 className="text-white"
-                style={{ fontWeight: "bold", fontSize: "1rem",marginBottom:isMobile?'0px':'' }}
+                style={{
+                  fontWeight: "bold",
+                  fontSize: "1rem",
+                  marginBottom: isMobile ? "0px" : "",
+                }}
               >
                 MOGAMBO
               </h3>
@@ -1058,41 +1069,39 @@ const CasinoTitle = (props: any) => {
     );
   };
 
-  const fivecricket = () => {
-    const cardList = [
-      lastResult.C1,
-      lastResult.C2,
-      lastResult.C3,
-      lastResult.C4,
-      lastResult.C5,
-      lastResult.C6,
-    ];
-    return (
-      lastResult &&
-      lastResult.C1 && (
-        <div className="video-overlay" style={{ background: "none" }}>
-          <div className="imgspace">
-            {cardList &&
-              cardList.map((Item: any, key: number) => {
-                return (
-                  <img
-                    alt=""
-                    className="mb-1"
-                    key={key}
-                    src={`https://g1ver.sprintstaticdata.com/v73/static/front/img/cards/${Item}.jpg`}
-                  />
-                );
-              })}
-          </div>
-        </div>
-      )
-    );
-  };
+
+const fivecricket = () => {
+  if (!lastResult?.card) {
+    return null;
+  }
+
+  const cards = String(lastResult.card).split("|");
+
+  return (
+    <div className="video-overlay" style={{ background: "none", left: 0, top: 0, width: "auto" }}>
+      <div style={{ display: "flex", flexDirection: "column", padding: "4px 6px", gap: "2px" }}>
+        {cards.map((item: string, index: number) => (
+          <img
+            key={`${item}-${index}`}
+            alt={`Card ${index + 1}`}
+            src={`https://g1ver.sprintstaticdata.com/v73/static/front/img/cards/${item}.jpg`}
+            style={{ width: isMobile ? "28px" : "36px", height: "auto", display: "block" }}
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).src =
+                "https://g1ver.sprintstaticdata.com/v73/static/front/img/cards/1.jpg";
+            }}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
 
   const andarbahar = () => {
     const andarData = lastResult?.aall?.split(",") || [];
     const baharData = lastResult?.ball?.split(",") || [];
-    console.log('andarData', andarData);
+    console.log("andarData", andarData);
     if (lastResult?.aall == "") return;
     return (
       <div className="video-overlay">
@@ -1168,120 +1177,120 @@ const CasinoTitle = (props: any) => {
     );
   };
 
+  const andarbahar150 = () => {
+    const cards = lastResult?.cards?.split(",") || [];
 
-const andarbahar150 = () => {
-  const cards = lastResult?.cards?.split(",") || [];
+    if (!cards.length) return null;
 
-  if (!cards.length) return null;
+    // First card is the opening/common card
+    const openingCard = cards[0];
 
-  // First card is the opening/common card
-  const openingCard = cards[0];
+    // Remaining cards are distributed alternately:
+    // 1st -> Andar
+    // 2nd -> Bahar
+    // 3rd -> Andar
+    // 4th -> Bahar ...
+    const gameCards = cards.slice(1);
 
-  // Remaining cards are distributed alternately:
-  // 1st -> Andar
-  // 2nd -> Bahar
-  // 3rd -> Andar
-  // 4th -> Bahar ...
-  const gameCards = cards.slice(1);
+    const andarData = gameCards.filter(
+      (_: string, index: number) => index % 2 === 0,
+    );
 
-  const andarData = gameCards.filter(
-    (_: string, index: number) => index % 2 === 0,
-  );
+    const baharData = gameCards.filter(
+      (_: string, index: number) => index % 2 !== 0,
+    );
 
-  const baharData = gameCards.filter(
-    (_: string, index: number) => index % 2 !== 0,
-  );
+    // Next card information
+    const nextCardCount = gameCards.length + 1;
 
-  // Next card information
-  const nextCardCount = gameCards.length + 1;
+    const nextCardSide = nextCardCount % 2 === 1 ? "Andar" : "Bahar";
 
-  const nextCardSide =
-    nextCardCount % 2 === 1 ? "Andar" : "Bahar";
+    // console.log("Opening Card:", openingCard);
+    // console.log("Andar:", andarData);
+    // console.log("Bahar:", baharData);
+    // console.log("Next Card Count:", nextCardCount);
+    // console.log("Next Card Side:", nextCardSide);
 
-  // console.log("Opening Card:", openingCard);
-  // console.log("Andar:", andarData);
-  // console.log("Bahar:", baharData);
-  // console.log("Next Card Count:", nextCardCount);
-  // console.log("Next Card Side:", nextCardSide);
-
-  return (
-    <div className="video-overlay">
-      <div className="videoCards">
-        <div>
-
-          {/* Next Card */}
-          <div
-            className="text-white"
-            style={{
-              textTransform: "capitalize",
-              fontWeight: "400",
-              fontSize:"12px"
-            }}
-          >
-            Next Card Count:<span style={{color:'rgb(255 193 7)'}}>  {nextCardCount} / {nextCardSide}</span>
-          </div>
-
-          {/* ================= ANDAR ================= */}
-          <div className="mr-20">
-            <p className="m-b-0 text-white">
-              <b>
-                <span>Andar</span>
-              </b>
-            </p>
-
-            <div className="imgspace d-flex">
-              {andarData.length > 0 && (
-                // @ts-ignore
-                <Carousel
-                  ref={refAndarBahar}
-                  breakPoints={breakPoints}
-                  pagination={false}
-                >
-                  {andarData.map((Item: string, key: number) => (
-                    <img
-                      alt=""
-                      key={key}
-                      src={`https://g1ver.sprintstaticdata.com/v73/static/front/img/cards/${Item}.jpg`}
-                    />
-                  ))}
-                </Carousel>
-              )}
+    return (
+      <div className="video-overlay">
+        <div className="videoCards">
+          <div>
+            {/* Next Card */}
+            <div
+              className="text-white"
+              style={{
+                textTransform: "capitalize",
+                fontWeight: "400",
+                fontSize: "12px",
+              }}
+            >
+              Next Card Count:
+              <span style={{ color: "rgb(255 193 7)" }}>
+                {" "}
+                {nextCardCount} / {nextCardSide}
+              </span>
             </div>
-          </div>
 
-          {/* ================= BAHAR ================= */}
-          <div className="mr-20">
-            <p className="m-b-0 text-white">
-              <b>
-                <span>Bahar</span>
-              </b>
-            </p>
+            {/* ================= ANDAR ================= */}
+            <div className="mr-20">
+              <p className="m-b-0 text-white">
+                <b>
+                  <span>Andar</span>
+                </b>
+              </p>
 
-            <div className="imgspace d-flex">
-              {baharData.length > 0 && (
-                // @ts-ignore
-                <Carousel
-                  ref={refAndarBaharB}
-                  breakPoints={breakPoints}
-                  pagination={false}
-                >
-                  {baharData.map((Item: string, key: number) => (
-                    <img
-                      alt=""
-                      key={key}
-                      src={`https://g1ver.sprintstaticdata.com/v73/static/front/img/cards/${Item}.jpg`}
-                    />
-                  ))}
-                </Carousel>
-              )}
+              <div className="imgspace d-flex">
+                {andarData.length > 0 && (
+                  // @ts-ignore
+                  <Carousel
+                    ref={refAndarBahar}
+                    breakPoints={breakPoints}
+                    pagination={false}
+                  >
+                    {andarData.map((Item: string, key: number) => (
+                      <img
+                        alt=""
+                        key={key}
+                        src={`https://g1ver.sprintstaticdata.com/v73/static/front/img/cards/${Item}.jpg`}
+                      />
+                    ))}
+                  </Carousel>
+                )}
+              </div>
+            </div>
+
+            {/* ================= BAHAR ================= */}
+            <div className="mr-20">
+              <p className="m-b-0 text-white">
+                <b>
+                  <span>Bahar</span>
+                </b>
+              </p>
+
+              <div className="imgspace d-flex">
+                {baharData.length > 0 && (
+                  // @ts-ignore
+                  <Carousel
+                    ref={refAndarBaharB}
+                    breakPoints={breakPoints}
+                    pagination={false}
+                  >
+                    {baharData.map((Item: string, key: number) => (
+                      <img
+                        alt=""
+                        key={key}
+                        src={`https://g1ver.sprintstaticdata.com/v73/static/front/img/cards/${Item}.jpg`}
+                      />
+                    ))}
+                  </Carousel>
+                )}
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  );
-};
-
+    );
+  };
 
   const andarbahar2 = () => {
     const andarData = pushDataToPositionsAndarBhar(lastResult?.cards); // FIXED
@@ -1599,7 +1608,7 @@ const andarbahar150 = () => {
           <div className="mr-20">
             <p className="m-b-0 text-white">
               <b>
-                <span className="" style={{ color: "#ef910f"}}>
+                <span className="" style={{ color: "#ef910f" }}>
                   Joker
                 </span>
               </b>
@@ -1607,7 +1616,7 @@ const andarbahar150 = () => {
             <div className="imgspace">
               <img
                 alt=""
-                src={`https://g1ver.sprintstaticdata.com/v73/static/front/img/cards/${lastResult.C1}.jpg`} 
+                src={`https://g1ver.sprintstaticdata.com/v73/static/front/img/cards/${lastResult.C1}.jpg`}
               />
             </div>
           </div>
@@ -1666,19 +1675,34 @@ const andarbahar150 = () => {
           <div className="mr-20">
             <p className="m-b-0 text-white">
               <b>
-                <span className="" style={{ color: "#ef910f",fontSize:'20px',marginBottom:'4px',textTransform:"capitalize" }}>
+                <span
+                  className=""
+                  style={{
+                    color: "#ef910f",
+                    fontSize: "20px",
+                    marginBottom: "4px",
+                    textTransform: "capitalize",
+                  }}
+                >
                   Joker
                 </span>
               </b>
             </p>
-            <div className="imgspace" style={{marginTop:isMobile?'8px':''}}>
+            <div
+              className="imgspace"
+              style={{ marginTop: isMobile ? "8px" : "" }}
+            >
               <img
                 alt=""
-                src={`https://g1ver.sprintstaticdata.com/v80/static/front/img/joker1/14.png`} style={{width:isMobile?'22px':'50px',marginTop:!isMobile?'10px':''}}
+                src={`https://g1ver.sprintstaticdata.com/v80/static/front/img/joker1/14.png`}
+                style={{
+                  width: isMobile ? "22px" : "50px",
+                  marginTop: !isMobile ? "10px" : "",
+                }}
               />
             </div>
           </div>
-          <div style={{marginTop:!isMobile?'60px':'15px'}}>
+          <div style={{ marginTop: !isMobile ? "60px" : "15px" }}>
             <div className="mr-20">
               <p className="m-b-0 text-white">
                 <b>
@@ -1819,13 +1843,13 @@ const andarbahar150 = () => {
       <div className="video-overlay">
         <div className="videoCards">
           <div className="">
-          {getCurrentMatch?.slug !== "teenunique" && (
-  <p className="m-b-0 text-white">
-    <b>
-      <span>Total</span>
-    </b>
-  </p>
-)}
+            {getCurrentMatch?.slug !== "teenunique" && (
+              <p className="m-b-0 text-white">
+                <b>
+                  <span>Total</span>
+                </b>
+              </p>
+            )}
             <div className="mr-20">
               <div
                 className="imgspace d-flex"
@@ -1932,17 +1956,19 @@ const andarbahar150 = () => {
                   <span>{lastResult.match_id}</span>
                 </div>
               </div>
-           {queenVideoOverLay()}
+              {queenVideoOverLay()}
             </>
           )}
           {getCurrentMatch.slug == "card32" ||
-          getCurrentMatch.slug == "card32eu" || getCurrentMatch.slug == "pcard32" ? 
-                card32VideoOverLay() : ""
-          }
+          getCurrentMatch.slug == "card32eu" ||
+          getCurrentMatch.slug == "pcard32"
+            ? card32VideoOverLay()
+            : ""}
           {getCurrentMatch.slug == "race17" || getCurrentMatch.slug == "kbc"
             ? raceTo17()
             : ""}
-          {getCurrentMatch.slug == "notenum" || getCurrentMatch.slug == "teenunique" && noteNumber()}
+          {getCurrentMatch.slug == "notenum" 
+             && noteNumber()}
           {getCurrentMatch.slug == "race20" ? race2020() : ""}
           {(getCurrentMatch.slug == "lucky7B" ||
             getCurrentMatch.slug == "lucky7" ||
@@ -1951,13 +1977,19 @@ const andarbahar150 = () => {
             getCurrentMatch.slug == "AAA" ||
             getCurrentMatch.slug == "aaa2" ||
             getCurrentMatch.slug == "ddb" ||
-            getCurrentMatch.slug == "btable2" || getCurrentMatch.slug == "plucky7" || getCurrentMatch.slug == "vlucky7" || getCurrentMatch.slug == "vaaa") &&
+            getCurrentMatch.slug == "btable2" ||
+            getCurrentMatch.slug == "plucky7" ||
+            getCurrentMatch.slug == "vlucky7" ||
+            getCurrentMatch.slug == "vaaa") &&
             lucky7B()}
           {getCurrentMatch.slug === "race2" && race2()}
           {(getCurrentMatch.slug == "dt20" ||
             getCurrentMatch.slug == "dt20b" ||
             getCurrentMatch.slug == "cmeter1" ||
-            getCurrentMatch.slug == "dt6" || getCurrentMatch.slug == "pdt20" || getCurrentMatch.slug == "pdt6" || getCurrentMatch.slug == "vdt6") &&
+            getCurrentMatch.slug == "dt6" ||
+            getCurrentMatch.slug == "pdt20" ||
+            getCurrentMatch.slug == "pdt6" ||
+            getCurrentMatch.slug == "vdt6") &&
             dt20()}
           {(getCurrentMatch.slug == "poison" ||
             getCurrentMatch.slug == "poison20") &&
@@ -1982,17 +2014,20 @@ const andarbahar150 = () => {
             (getCurrentMatch.slug == "teen62" &&
               getCurrentMatch?.match_id > 0 &&
               onedayteen())}
-          {((!isMobile && getCurrentMatch.slug == "dtl20") ||
-            getCurrentMatch.slug == "war") || (getCurrentMatch.slug == "vdtl20") &&
-            dtl20()}
+          {(!isMobile && getCurrentMatch.slug == "dtl20") ||
+            getCurrentMatch.slug == "war" ||
+            (getCurrentMatch.slug == "vdtl20" && dtl20())}
           {getCurrentMatch.slug == "mogambo" && mogambo()}
           {getCurrentMatch.slug == "opentp" && opentp()}
           {(getCurrentMatch.slug == "teen20" ||
             getCurrentMatch.slug == "teen20b" ||
-            getCurrentMatch.slug == "teen20c" || 
-            getCurrentMatch.slug == "teen6" || getCurrentMatch.slug == "pteen20" || getCurrentMatch.slug == "vteen20") &&
+            getCurrentMatch.slug == "teen20c" ||
+            getCurrentMatch.slug == "teen6" ||
+            getCurrentMatch.slug == "pteen20" ||
+            getCurrentMatch.slug == "vteen20") &&
             teen20()}
-          {getCurrentMatch.slug == "teenmuf" || getCurrentMatch.slug == "vteenmuf" && muflisTeenpatti()}
+          {getCurrentMatch.slug == "teenmuf" ||
+            (getCurrentMatch.slug == "vteenmuf" && muflisTeenpatti())}
           {getCurrentMatch.slug == "poker6player" && poker6player()}
           {getCurrentMatch.slug == "patti2" && cardTeenpatti()}
 
@@ -2000,17 +2035,21 @@ const andarbahar150 = () => {
           {(getCurrentMatch.slug == "Cards3J" ||
             getCurrentMatch.slug == "worliinstant" ||
             getCurrentMatch.slug == "worlimatka" ||
-            getCurrentMatch.slug == "trio" || getCurrentMatch.slug == "vtrio") &&
+            getCurrentMatch.slug == "trio" ||
+            getCurrentMatch.slug == "vtrio" || getCurrentMatch.slug == "worli") &&
             Cards3J()}
           {getCurrentMatch.slug == "lottcard" && Lottery()}
-        {getCurrentMatch.slug == "superover" || getCurrentMatch.slug == "superover2" || getCurrentMatch.slug == "superover3" && Superover()}
-          {getCurrentMatch.slug == "fivewicket" || getCurrentMatch.slug == "cricketv3" && fivecricket()}
+          {getCurrentMatch.slug == "superover" ||
+            getCurrentMatch.slug == "superover2" ||
+            (getCurrentMatch.slug == "superover3" && Superover())}
+          {(getCurrentMatch.slug == "fivewicket" ||
+            getCurrentMatch.slug == "cricketv3") && fivecricket()}
           {getCurrentMatch.slug == "cricket2020" && Cricket2020()}
           {getCurrentMatch.slug == "warcasino" && warcasino()}
           {(getCurrentMatch.slug == "Andarbahar" ||
             getCurrentMatch.slug == "ab20") &&
             andarbahar()}
-              {(getCurrentMatch.slug == "ab4" || getCurrentMatch.slug == "ab3") &&
+          {(getCurrentMatch.slug == "ab4" || getCurrentMatch.slug == "ab3") &&
             andarbahar150()}
 
           {(getCurrentMatch.slug == "Andarbahar2" ||

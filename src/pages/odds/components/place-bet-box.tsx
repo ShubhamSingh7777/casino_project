@@ -15,7 +15,13 @@ import { useWebsocketUser } from "../../../context/webSocketUser";
 import { OddsType } from "../../../models/IMarket";
 import { isMobile } from "react-device-detect";
 import { current } from "@reduxjs/toolkit";
-
+import { cssTransition, toast } from "react-toastify";
+   const slideDownUp = cssTransition({
+  enter: "toast-slide-down",
+  exit: "toast-slide-up",
+  appendPosition: false,
+  collapse: true,
+});
 const PlaceBetBox = ({ stake }: { stake: IUserBetStake }) => {
   const [betObj, setBetObj] = React.useState<IBet>({} as IBet);
   const betValues = useAppSelector(selectBetPopup) as {
@@ -37,7 +43,7 @@ const PlaceBetBox = ({ stake }: { stake: IUserBetStake }) => {
 
   const dispatch = useAppDispatch();
   React.useEffect(() => {
-    console.log(betValues, betObj, "bet Value");
+    console.log(betValues, betObj, "bet Value-------------");
   }, [betValues]);
 
   // React.useEffect(() => {
@@ -259,10 +265,39 @@ const PlaceBetBox = ({ stake }: { stake: IUserBetStake }) => {
     onStack(0);
   };
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    dispatch(getPlaceBetAction(betObj));
-  };
+ 
+const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+
+  const maxBet = Number(betObj.maxbet);
+  const currentStake = Number(betObj.stack);
+
+  console.log("BET SUBMISSION:", {
+    stake: currentStake,
+    maxbet: betObj.maxbet,
+    marketName: betObj.marketName,
+    eventId: betObj.eventId,
+  });
+
+  if (
+    Number.isFinite(maxBet) &&
+    maxBet > 0 &&
+    currentStake > maxBet
+  ) {
+    toast.error(`Maximum bet allowed is ${maxBet}`, {
+  className: "error-toast-old success-toast",
+  bodyClassName: "error-toast-body",
+  autoClose: 1000,
+  icon: "⚠",
+  transition: slideDownUp,
+});
+
+    return;
+  }
+
+  dispatch(getPlaceBetAction(betObj));
+};
+
   const formatStake = (value: any) => {
     const num = Number(value);
 
@@ -427,7 +462,65 @@ const PlaceBetBox = ({ stake }: { stake: IUserBetStake }) => {
                       {/* </th> */}
                       <th style={{ width: "10%", textAlign: "left",padding:"3px 0px" }}>
                         {/* Stake */}
-                          {betObj.selectionName || betValues.betData?.selectionName || ""}
+                        {(betObj.gtype === "teenunique" || betValues.betData?.gtype === "teenunique") ? (
+                          <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
+                            {[betObj.C1, betObj.C2, betObj.C3]
+                              .filter(Boolean)
+                              .map((cardNum, idx) => (
+                                <div
+                                  key={idx}
+                                  style={{
+                                    width: "36px",
+                                    height: "46px",
+                                    border: "1.5px solid #ffcc00",
+                                    borderRadius: "3px",
+                                    position: "relative",
+                                    overflow: "hidden",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    background: "#fff",
+                                  }}
+                                >
+                                  <img
+                                    src="https://g1ver.sprintstaticdata.com/v73/static/front/img/cards/1.jpg"
+                                    alt={`Card ${cardNum}`}
+                                    style={{
+                                      width: "100%",
+                                      height: "100%",
+                                      objectFit: "cover",
+                                      display: "block",
+                                    }}
+                                    onError={(e) => {
+                                      e.currentTarget.onerror = null;
+                                      e.currentTarget.src = "/imgs/card/patti_back.jpg";
+                                    }}
+                                  />
+                                  <div
+                                    style={{
+                                      position: "absolute",
+                                      width: "22px",
+                                      height: "22px",
+                                      borderRadius: "50%",
+                                      background: "rgba(213, 213, 213, 0.85)",
+                                      color: "#000",
+                                      display: "flex",
+                                      alignItems: "center",
+                                      justifyContent: "center",
+                                      fontSize: "15px",
+                                      fontWeight: 700,
+                                      boxShadow: "0 0 2px rgba(0,0,0,0.25)",
+                                      zIndex: 1,
+                                    }}
+                                  >
+                                    {cardNum}
+                                  </div>
+                                </div>
+                              ))}
+                          </div>
+                        ) : (
+                          betObj.selectionName || betValues.betData?.selectionName || ""
+                        )}
                       </th>
                       <th style={{ width: "25%", textAlign: "right", fontWeight: "400" }}>
                         Profit : {betValues.betData.pnl}

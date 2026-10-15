@@ -50,4 +50,6 @@ export default interface IBet {
   oddsType?: string
   minbet?: number
 maxbet?: number
+maxb?: number
+
 }

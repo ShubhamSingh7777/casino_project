@@ -20,4 +20,7 @@ export default interface IMarket {
   updatedAt?: Date
   rem?: string
   resultDelcare?: string
+  maxbet?: number
+maxb?: number
+max?: number
 }

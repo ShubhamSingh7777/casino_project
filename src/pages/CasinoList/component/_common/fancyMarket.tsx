@@ -110,15 +110,17 @@ const FancyMarket = (props: any) => {
   // Fancy => No/Yes
   const showBackLay = isSuperOver3 ? isFancy1 || isTie : isFancy1;
 
-  const hasAnyGscode = oddsMarket?.Runners?.some(
-    (runner: any) => runner.gscode !== undefined && runner.gscode !== null,
-  );
+  const hasAnyGscode = isFiveCricketGame
+    ? true // Five Cricket fancy runners don't have gscode — always show
+    : oddsMarket?.Runners?.some(
+        (runner: any) => runner.gscode !== undefined && runner.gscode !== null,
+      );
 
   if (!hasAnyGscode) {
     return null; // Hide full table
   }
 
-  // if (!hasAnyValidGscode) return null;
+
   const layoutRunner = () => {
     return (
       oddsMarket &&
@@ -130,8 +132,18 @@ const FancyMarket = (props: any) => {
         const hasGscode =
           ItemRunner.gscode !== undefined && ItemRunner.gscode !== null;
 
+        // For FiveCricket: show runners that have gscode (active overs) or have odds data
+        // Skip pure placeholder runners (no gscode, no odds, no mid)
         if (!hasGscode) {
-          return null;
+          if (!isFiveCricketGame) return null;
+          // For FiveCricket — only render if runner has any live odds or a market id
+          const hasOdds =
+            Number(ItemRunner.b1) > 0 ||
+            Number(ItemRunner.l1) > 0 ||
+            Number(ItemRunner.bs1) > 0 ||
+            Number(ItemRunner.ls1) > 0 ||
+            !!ItemRunner.mid;
+          if (!hasOdds) return null;
         }
 
         const gstatus =
@@ -151,7 +163,7 @@ const FancyMarket = (props: any) => {
                     !isMobile ? "box-6New" : "box-6"
                   }`}
                 >
-                  <p className="m-b-0 tx-left">{ItemRunner.nat}</p>
+                  <p className="m-b-0 tx-left">{ItemRunner.nat || ItemRunner.runnerName}</p>
                   <CasinoPnl
                     matchId={lastOdds.match_id}
                     sectionId={ItemRunner.sid}
@@ -216,10 +228,10 @@ const FancyMarket = (props: any) => {
                       } float-left text-center`}
                     >
                       <span className="fancy-max">
-                        Min: {isSuperOver ? ItemRunner.min : ""}
+                        Min: {isSuperOver ? ItemRunner.min : lastOdds.min}
                       </span>
                       <span className="odd d-block fancy-max">
-                        Max: {isSuperOver ? ItemRunner.max : ""}
+                        Max: {isSuperOver ? ItemRunner.max : lastOdds.max}
                       </span>
                     </div>
                   </>
@@ -284,10 +296,10 @@ const FancyMarket = (props: any) => {
                         className="fancy-max"
                         style={{ fontWeight: "bold" }}
                       >
-                        Min: {isSuperOver ? ItemRunner.min : ""}
+                        Min: {isSuperOver ? ItemRunner.min :  lastOdds.min}
                       </span>
                       <span className="odd d-block fancy-max">
-                        Max: {isSuperOver ? ItemRunner.max : ""}
+                        Max: {isSuperOver ? ItemRunner.max :  lastOdds.max}
                       </span>
                     </div>
                   </>
@@ -309,14 +321,37 @@ const FancyMarket = (props: any) => {
     <div>
       <div
         className="table-header"
-        style={{ display: !isMobile ? "flex" : "unset" }}
-      >
+        style={{ display: !isMobile ? "flex" : "unset" ,flexDirection:isMobile?"column":"column"}}
+      >  {!isMobile && (
+         <div
+          className={`float-left country-name ${
+            isMobile ? "bg-theme2 tx-white text-left box-6Fancy " : "box-6New"
+          }`} style={{padding:'0px 0px',width:'100%',minWidth:'100%',maxWidth:'100%'}}
+        >
+         
+            <h6
+              className="card-title d-inline-block"
+              style={{ width: "100%", padding: isMobile ? "2px 6px" : "4px",backgroundColor: "rgba(44, 62, 80, 0.85)",textAlign:"start" }}
+            >
+              {/* {oddsMarket.MarketName} */}
+              {oddsMarket.MarketName.replace(" Market", "")}
+              <span className="float-right">
+                <Limitinfo
+                  max={lastOdds.max}
+                  min={lastOdds.min}
+                  nameString={oddsMarket.MarketName.replace(" ", "")}
+                />
+              </span>
+            </h6>
+         
+        </div> )}
+
+          {isMobile && (
         <div
           className={`float-left country-name ${
             isMobile ? "bg-theme2 tx-white text-left box-6Fancy " : "box-6New"
           }`}
         >
-          {isMobile && (
             <h6
               className="card-title d-inline-block"
               style={{ width: "100%", padding: isMobile ? "2px 6px" : "" }}
@@ -331,8 +366,8 @@ const FancyMarket = (props: any) => {
                 />
               </span>
             </h6>
-          )}
-        </div>
+         
+        </div> )}
 
         {/* {isFancy1 && (
           <>

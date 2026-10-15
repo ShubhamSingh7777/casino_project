@@ -52,12 +52,13 @@ export const AvailableToBackLay = React.memo(
     const getCurrentMatch = useAppSelector(selectCurrentMatch);
     const userState = useAppSelector(selectUserData);
 
-    // useEffect(()=>{
-    //  console.log(selections,'selections')
-    //  console.log(market,'market')
-    //  console.log(runner,'runner')
-    // },[])
-
+    useEffect(()=>{
+     console.log(selections,'selections')
+     console.log(market,'market')
+     console.log(runner,'runner')
+    },[])
+console.log("MARKET DATA BEFORE BET:", market);
+console.log("RUNNER DATA BEFORE BET:", runner);
     const onBet = (isBack = false, back: { odds: number; size: number }) => {
       const ipAddress = authService.getIpAddress();
       if (market.oddsType == OddsType.BM && back.size == 0) return;
@@ -78,7 +79,7 @@ export const AvailableToBackLay = React.memo(
               pnl: 0,
               stack: 0,
               currentMarketOdds: back.odds,
-              eventId: market.sportId,
+             eventId:Number(market.sportId || market.marketId),
               exposure: -0,
               ipAddress: ipAddress,
               type: IBetType.Match,
@@ -95,6 +96,7 @@ export const AvailableToBackLay = React.memo(
                   ? IBetOn.MATCH_ODDS
                   : IBetOn.FANCY,
               oddsType: market.oddsType,
+              maxbet: market.maxbet ?? market.maxb,
             },
           }),
         );

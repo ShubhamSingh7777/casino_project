@@ -6,9 +6,9 @@ interface Lucky7ResultProps {
 }
 
 const Lucky7Result = ({ resultHtml }: Lucky7ResultProps) => {
-  const isinstantworliB = resultHtml.ename === "Instant Worli";
- const isCricketMatch = resultHtml.ename === "Cricket Match 20-20";
- const islucky7b = resultHtml.ename === "Lucky 7 - B";
+  const isinstantworliB = resultHtml.ename === "Instant Worli" || resultHtml.ename === "Worli Matka";
+  const isCricketMatch = resultHtml.ename === "Cricket Match 20-20";
+  const islucky7b = resultHtml.ename === "Lucky 7 - B";
   const cards = resultHtml.card?.split(",") || [];
   const winnat = resultHtml.winnat || "";
 
@@ -27,7 +27,6 @@ const Lucky7Result = ({ resultHtml }: Lucky7ResultProps) => {
 
   const oddEvenData = rdescParts[1]?.trim() || "";
 
-  
   const createCards = (playerCards: string[]) => {
     return playerCards
       .map((card: string) => {
@@ -39,7 +38,7 @@ const Lucky7Result = ({ resultHtml }: Lucky7ResultProps) => {
             alt="${safeCard}"
             style="
               width:auto;
-              height:${isMobile?'35px':'50px'};
+              height:${isMobile ? "35px" : "50px"};
               margin:3px;
             "
           />
@@ -60,7 +59,7 @@ const Lucky7Result = ({ resultHtml }: Lucky7ResultProps) => {
         align-items:center;
         margin-bottom:3px;
       ">
-      ${isinstantworliB ? `${total1card}`:` ${total0card}`}
+      ${isinstantworliB ? `${total1card}` : ` ${total0card}`}
         
       </div>
       
@@ -71,41 +70,47 @@ const Lucky7Result = ({ resultHtml }: Lucky7ResultProps) => {
       border-top:1px solid #ddd;
       margin-top:15px;
       padding:6px 35px;
-        width:${!isMobile?'50%':'100%'}
+        width:${!isMobile ? "50%" : "100%"}
     ">
 
       <div style="
         display:flex;
         justify-content:center;
-        font-size:${!isMobile?'16px':'12px'};
-         margin-bottom:${isMobile?'3px':'7px'};
+        font-size:${!isMobile ? "16px" : "12px"};
+         margin-bottom:${isMobile ? "3px" : "7px"};
       ">
-      ${!isCricketMatch ?`  <span style="
+      ${
+        !isCricketMatch
+          ? `  <span style="
           opacity:0.6;
           margin-right:8px;
           width:30%;
           text-align:end;
         ">
             ${isinstantworliB ? `Ocada` : `Winner`}
-        </span>`:`  <span style="
+        </span>`
+          : `  <span style="
           opacity:0.6;
           margin-right:8px;
           width:30%;
           text-align:end;
         ">
             Run
-        </span>`}
+        </span>`
+      }
       
 
         <span style="width:60%">
           ${winner}
         </span>
       </div>
-   ${!isCricketMatch ? `  <div style="
+   ${
+     !isCricketMatch
+       ? `  <div style="
     display:flex;
     justify-content:center;
-    font-size:${!isMobile?'16px':'12px'};
-         margin-bottom:${isMobile?'3px':'7px'};
+    font-size:${!isMobile ? "16px" : "12px"};
+         margin-bottom:${isMobile ? "3px" : "7px"};
   ">
     <span style="
       opacity:0.6;
@@ -121,14 +126,18 @@ const Lucky7Result = ({ resultHtml }: Lucky7ResultProps) => {
       ${oddEvenData}
     </span>
   </div>
-    `:''}
+    `
+       : ""
+   }
 
 
-  ${!total1card || islucky7b ?` <div style="
+  ${
+    !total1card || islucky7b
+      ? ` <div style="
     display:flex;
     justify-content:center;
-    font-size:${!isMobile?'16px':'12px'};
-         margin-bottom:${isMobile?'3px':'7px'};
+    font-size:${!isMobile ? "16px" : "12px"};
+         margin-bottom:${isMobile ? "3px" : "7px"};
   ">
     <span style="
       opacity:0.6;
@@ -146,8 +155,8 @@ const Lucky7Result = ({ resultHtml }: Lucky7ResultProps) => {
    <div style="
     display:flex;
     justify-content:center;
-   font-size:${!isMobile?'16px':'12px'};
-         margin-bottom:${isMobile?'3px':'7px'};
+   font-size:${!isMobile ? "16px" : "12px"};
+         margin-bottom:${isMobile ? "3px" : "7px"};
   ">
     <span style="
       opacity:0.6;
@@ -165,8 +174,8 @@ const Lucky7Result = ({ resultHtml }: Lucky7ResultProps) => {
   <div style="
     display:flex;
     justify-content:center;
- font-size:${!isMobile?'16px':'12px'};
-         margin-bottom:${isMobile?'3px':'7px'};
+ font-size:${!isMobile ? "16px" : "12px"};
+         margin-bottom:${isMobile ? "3px" : "7px"};
   ">
     <span style="
       opacity:0.6;
@@ -182,7 +191,9 @@ const Lucky7Result = ({ resultHtml }: Lucky7ResultProps) => {
     </span>
   </div>
 
-    `:''}
+    `
+      : ""
+  }
  
  </div>
 

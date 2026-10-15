@@ -340,6 +340,53 @@ const CasinoWrapper = (props: any) => {
       </span>
     );
   };
+
+  /**
+   * Returns the scoreCard object for the Score component.
+   * Handles both:
+   *  1. Pre-structured object from API (casinoMatchData.scoreCard)
+   *  2. Raw score string from API (casinoMatchData.score) in format:
+   *     "TeamA Name|runA-wktA (oversA)|TeamB Name|runB-wktB (oversB)|CRR X.XX|RR Y.YY|Target string|ball1,ball2,..."
+   */
+  const parseCricketScoreCard = (matchData: any) => {
+    if (!matchData) return null;
+    // If API already provides a structured scoreCard object, use it directly
+    if (matchData.scoreCard && typeof matchData.scoreCard === "object") {
+      return matchData.scoreCard;
+    }
+    // Try to parse from the score string field
+    const scoreStr: string = matchData.score || "";
+    if (!scoreStr) return null;
+    try {
+      const parts = scoreStr.split("|");
+      if (parts.length < 2) return null;
+      // Expected format: "AUS 62-6 (5.0)|IND 42-3 (4.0) CRR 10.50 RR 21.00|IND Needed 21 runs from 6 balls|6,ww,1,0,2,3"
+      const parseTeam = (s: string) => {
+        // e.g. "AUS 62-6 (5.0)" or "AUS 62-6(5.0)"
+        const m = s.trim().match(/^(\S+)\s+(\d+)-(\d+)\s*\(([^)]+)\)/);
+        if (!m) return null;
+        return { name: m[1], totalRun: m[2], totalWickets: m[3], overs: m[4] };
+      };
+      const teamA = parseTeam(parts[0]);
+      const teamB = parseTeam(parts[1]);
+      if (!teamA || !teamB) return null;
+      // Extract CRR / RR from part[1] tail or part[2]
+      const crrMatch = scoreStr.match(/CRR\s*([\d.]+)/i);
+      const rrMatch = scoreStr.match(/\bRR\s*([\d.]+)/i);
+      const CRR = crrMatch ? crrMatch[1] : "";
+      const RR = rrMatch ? rrMatch[1] : "";
+      // Target string is the third segment (if it looks like text, not CRR/RR)
+      const targetString = parts.find((p: string) => /needed|target/i.test(p)) || "";
+      // Over balls – last segment, comma-separated
+      const overRunPart = parts[parts.length - 1];
+      const overRun = overRunPart && /[,\d]/.test(overRunPart)
+        ? overRunPart.split(",").map((b: string) => b.trim())
+        : [];
+      return { teamA, teamB, CRR, RR, targetString, overRun };
+    } catch {
+      return null;
+    }
+  };
   const renderUiData = (gamecode: any) => {
     switch (gamecode) {
       case "queen":
@@ -447,7 +494,7 @@ const CasinoWrapper = (props: any) => {
         );
       case "cricketv3":
         return (
-          <FiveCricket lastOdds={updateOdds} liveMatchData={liveMatchData} />
+          <FiveCricket lastOdds={updateOdds} liveMatchData={casinoMatchData || liveMatchData} />
         );
       case "trap": //done
         return <TheTrap lastOdds={updateOdds} liveMatchData={liveMatchData} />;
@@ -534,7 +581,7 @@ const CasinoWrapper = (props: any) => {
         return (
           <UniqueTeenpatti
             lastOdds={updateOdds}
-            liveMatchData={liveMatchData}
+            liveMatchData={casinoMatchData || liveMatchData}
           />
         );
       case "ab20":
@@ -576,6 +623,7 @@ const CasinoWrapper = (props: any) => {
           <Teenpatti2O lastOdds={updateOdds} liveMatchData={liveMatchData} />
         );
       case "worliabc":
+      case "worli":  
         return <Worli lastOdds={updateOdds} liveMatchData={liveMatchData} />;
       case "notenum":
         return (
@@ -596,6 +644,9 @@ const CasinoWrapper = (props: any) => {
         );
       case "worli3":
         return <Worli3 markets={worli3Data} selectedMarket={selectedMarket} />;
+        
+      // case "worli":
+      //   return   <Worli lastOdds={updateOdds} selectedMarket={selectedMarket} />;
       default:
         break;
     }
@@ -638,7 +689,7 @@ const CasinoWrapper = (props: any) => {
                     {gameCode === "worli3" ? (
                       ""
                     ) : (
-                      <small> Round ID: {casinoMatchData.match_id} </small>
+                      <small> Round ID: {casinoMatchData.match_id || casinoMatchData.gmid} </small>
                     )}
                     {/* | Min:{" "}
                     {casinoMatchData.min} | Max: {casinoMatchData.max} */}
@@ -660,11 +711,11 @@ const CasinoWrapper = (props: any) => {
                   minHeight: "400px",
                 }}
               >
-                {!isMobile && casinoMatchData && casinoMatchData.scoreCard ? (
-                  <Score scoreData={casinoMatchData.scoreCard} />
-                ) : (
-                  ""
-                )}
+            
+                {casinoMatchData && (() => {
+                  const sc = parseCricketScoreCard(casinoMatchData);
+                  return sc ? <Score scoreData={sc} /> : "";
+                })()}
                 <div
                   style={{
                     padding: "0px",
@@ -829,6 +880,7 @@ const CasinoWrapper = (props: any) => {
           <Tabs>
             <Tab eventKey="home" title="Game">
               <div className={`card m-b-${isMobileRoulette ? 5 : 0} my-bet`}>
+              
                 {gameCode === "worli3" && (
                   <MarketStrip
                     markets={marketList}
@@ -891,11 +943,10 @@ const CasinoWrapper = (props: any) => {
                     {casinoMatchData && (
                       <CasinoTitle lastResult={casinoMatchData} />
                     )}
-                    {casinoMatchData && casinoMatchData.scoreCard ? (
-                      <Score scoreData={casinoMatchData.scoreCard} />
-                    ) : (
-                      ""
-                    )}
+                    {casinoMatchData && (() => {
+                      const sc = parseCricketScoreCard(casinoMatchData);
+                      return sc ? <Score scoreData={sc} /> : "";
+                    })()}
                     {(gameCode == "onedaypoker" && casinoMatchData?.desc) ||
                       (gameCode == "onedaypoker20" && casinoMatchData?.desc)
                       ? oneDayPokerDescription(casinoMatchData.desc)

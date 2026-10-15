@@ -408,7 +408,9 @@ class MatchOdds extends React.PureComponent<
             //   setVisibleMarketStatus = !!oddsData?.['runners']?.[0]?.ex
             // }
             const classforheadingfirst =
-              isMobile && market.oddsType != OddsType.BM ? "box-6" : "box-60odd";
+              isMobile && market.oddsType != OddsType.BM
+                ? "box-6"
+                : "box-60odd";
             const classforheading =
               isMobile && market.oddsType != OddsType.BM ? "box-2" : "box-1Odd";
             if (!setVisibleMarketStatus) return null;
@@ -491,7 +493,7 @@ class MatchOdds extends React.PureComponent<
                     Cashout
                   </button>
                 </div>
-                <div className="table-header" style={{width:'100%'}}>
+                <div className="table-header" style={{ width: "100%" }}>
                   <div
                     className={`float-left country-name d-flex ${classforheadingfirst} min-max`}
                   >
@@ -518,23 +520,29 @@ class MatchOdds extends React.PureComponent<
                   market.oddsType == OddsType.BM ? (
                     <>
                       <div
-                        className={`${isMobile ? "box-1" : "box-1Odd"} float-left`}
+                        className={`${
+                          isMobile ? "box-1" : "box-1Odd"
+                        } float-left`}
                         style={{
                           width: isMobile ? "12%" : "8.3%",
                           maxWidth: isMobile ? "12%" : "8.3%",
                           minWidth: isMobile ? "12%" : "8.3%",
                         }}
                       />
-                      <div  className={`${isMobile ? "box-1" : "box-1Odd"} float-left`}  style={{
+                      <div
+                        className={`${
+                          isMobile ? "box-1" : "box-1Odd"
+                        } float-left`}
+                        style={{
                           width: isMobile ? "12%" : "8.3%",
                           maxWidth: isMobile ? "12%" : "8.3%",
                           minWidth: isMobile ? "12%" : "8.3%",
-                        }}/>
+                        }}
+                      />
                     </>
                   ) : (
                     ""
                   )}
-
                   <div
                     className={`back ${classforheading} float-left text-center ${
                       isSingleBackLay ? "single-back-heading" : ""
@@ -551,8 +559,16 @@ class MatchOdds extends React.PureComponent<
                   </div>
                   {!isMobile ? (
                     <>
-                      <div className={`${isMobile ? "box-1" : "box-1Odd"} float-left`}/>
-                      <div className={`${isMobile ? "box-1" : "box-1Odd"} float-left`}/>
+                      <div
+                        className={`${
+                          isMobile ? "box-1" : "box-1Odd"
+                        } float-left`}
+                      />
+                      <div
+                        className={`${
+                          isMobile ? "box-1" : "box-1Odd"
+                        } float-left`}
+                      />
                     </>
                   ) : (
                     ""
@@ -619,7 +635,11 @@ class MatchOdds extends React.PureComponent<
                             <AvailableToBackLay
                               selections={runner.ex}
                               selectionsPrev={selectionsPrev}
-                              market={market}
+                              market={{
+                                ...market,
+                                ...oddsData,
+                                maxbet: oddsData?.maxb ?? oddsData?.max,
+                              }}
                               runner={runner}
                             />
                           </div>

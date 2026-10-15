@@ -16,28 +16,62 @@ const data = [
   ['Player', 39],
   ['Tie', 9],
 ]
+// const options = {
+//   title: 'Statistics',
+//   colors: ['#ae2130', '#086cb8', '#279532', '#f3b49f', '#f6c7b6'],
+//   background: '#00000000',
+//   is3D: true,
+//   backgroundColor: 'none',
+//   titleTextStyle: {
+//     fontSize: 16, // 12, 18 whatever you want (don't specify px)
+//     bold: true, // true or false
+//     italic: true, // true of false
+//   },
+//  chartArea: {
+//   left: 5,
+//   top: 40,
+//   width: '90%',
+//   height: '75%',
+// },
+// }
 const options = {
   title: 'Statistics',
-  colors: ['#ae2130', '#086cb8', '#279532', '#f3b49f', '#f6c7b6'],
-  background: '#00000000',
+
+  colors: [
+    '#ae2130',
+    '#086cb8',
+    '#279532',
+  ],
+
   is3D: true,
-  backgroundColor: 'none',
+
+  backgroundColor: 'transparent',
+
   titleTextStyle: {
-    fontSize: 16, // 12, 18 whatever you want (don't specify px)
-    bold: true, // true or false
-    italic: true, // true of false
+    fontSize: 16,
+    bold: true,
+    italic: true,
   },
+
+  legend: {
+    position: 'right',
+    textStyle: {
+      fontSize: 14,
+    },
+  },
+
   chartArea: {
     left: 5,
-    top: 20,
-    width: '100%',
-    height: '250',
+    top: 40,
+    width: '90%',
+    height: '75%',
   },
 }
 const Baccarat = (props: any) => {
   const { lastOdds, liveMatchData } = props
   const { gameCode } = useParams()
-  const [chartclass, setchatclass] = useState(isMobile ? 'hidemob' : '')
+  // const [chartclass, setchatclass] = useState(isMobile ? 'hidemob' : '')
+  const [chartclass, setchatclass] = useState('')
   const dispatch = useAppDispatch()
   const userState = useAppSelector(selectUserData)
   const onBet = (isBack = false, item: any) => {
@@ -121,7 +155,7 @@ const Baccarat = (props: any) => {
       const classn = key == 0 ? 'reverse-div' : ''
       return <div key={key} className={Item.RunnerName} onClick={() => onBet(true, ItemMarket)}>
         <div className={statusclassm}>
-          <b className='text-uppercase'>{Item.RunnerName}</b>
+          <span>{Item.RunnerName}</span>
           <span className='d-block'>{Math.round(ItemMarket.b)}:1</span>
           {Item?.RunnerName == 'Player' && displayCard(classn, [5, 3, 1])}
           {Item?.RunnerName == 'Banker' && displayCard(classn, [2, 4, 6])}
@@ -159,20 +193,65 @@ const Baccarat = (props: any) => {
       </div>
     )
   }
-  const lastresultdata = () => {
-    const data = []
-    data.push(['Task', 'Hours per Day'])
-    const lastResult = liveMatchData?.results || []
-    const filterbanker = lastResult.filter((Item: any) => Item.result == '2')
-    const filterPlayer = lastResult.filter((Item: any) => Item.result == '1')
-    const filterTie = lastResult.filter((Item: any) => Item.result == '3')
-    data.push(['Banker', Math.round((filterbanker.length / 10) * 100)])
-    data.push(['Player', Math.round((filterPlayer.length / 10) * 100)])
-    data.push(['Tie', Math.round((filterTie.length / 10) * 100)])
-    return data
+  // const lastresultdata = () => {
+  //   const data = []
+  //   data.push(['Task', 'Hours per Day'])
+  //   const lastResult = liveMatchData?.results || []
+  //   const filterbanker = lastResult.filter((Item: any) => Item.result == '2')
+  //   const filterPlayer = lastResult.filter((Item: any) => Item.result == '1')
+  //   const filterTie = lastResult.filter((Item: any) => Item.result == '3')
+  //   data.push(['Banker', Math.round((filterbanker.length / 10) * 100)])
+  //   data.push(['Player', Math.round((filterPlayer.length / 10) * 100)])
+  //   data.push(['Tie', Math.round((filterTie.length / 10) * 100)])
+  //   return data
+  // }
+const lastresultdata = () => {
+  const lastResult = liveMatchData?.results || []
+
+  console.log('Baccarat Results:', lastResult)
+
+  const bankerCount = lastResult.filter((item: any) => {
+    const result = String(item?.win ?? item?.result ?? item?.winner ?? '')
+    return result === '2' || result.toLowerCase() === 'banker'
+  }).length
+
+  const playerCount = lastResult.filter((item: any) => {
+    const result = String(item?.win ?? item?.result ?? item?.winner ?? '')
+    return result === '1' || result.toLowerCase() === 'player'
+  }).length
+
+  const tieCount = lastResult.filter((item: any) => {
+    const result = String(item?.win ?? item?.result ?? item?.winner ?? '')
+    return result === '3' || result.toLowerCase() === 'tie'
+  }).length
+
+  const total = bankerCount + playerCount + tieCount
+
+  console.log('Baccarat Statistics:', {
+    bankerCount,
+    playerCount,
+    tieCount,
+    total
+  })
+
+  if (total === 0) {
+    return [
+      ['Task', 'Percentage'],
+      ['Banker', 0],
+      ['Player', 0],
+      ['Tie', 0],
+    ]
   }
+
+  return [
+    ['Task', 'Percentage'],
+    ['Banker', Math.round((bankerCount / total) * 100)],
+    ['Player', Math.round((playerCount / total) * 100)],
+    ['Tie', Math.round((tieCount / total) * 100)],
+  ]
+}
   return (<>
-    {isMobile ? (
+    {/* {isMobile ? (
       <div className='row row6 p10 bg-theme mt--50'>
         <div className='col-12 statistics-title' onClick={() => updatechartclass()}>
           Statistics{' '}
@@ -187,14 +266,15 @@ const Baccarat = (props: any) => {
       </div>
     ) : (
       ''
-    )}
+    )} */}
     {lastOdds && <div className='baccarat bg-gray mb-10 '>
-      <div className='p15'>
-        <div className='row'>
-          <div className={`col-lg-3 col-12 ${chartclass}`}>
-            <Chart chartType='PieChart' data={lastresultdata()} options={options} width={'100%'} />
+      <div className={`${!isMobile?'p15':''}`}>
+        <div className='row' style={{marginLeft:isMobile?'0px':'',marginRight:isMobile?'0px':''}}>
+          <div className={`col-lg-3 col-12 ${chartclass}`} style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
+            <Chart chartType='PieChart' data={lastresultdata()} options={options}  width="100%"
+  height="300px" />
           </div>
-          <div className={`col-lg-9 col-12  ${isMobile ? 'padding-mob' : ''}`}>
+          <div className={`col-lg-9 col-12  ${isMobile ? 'padding-mob' : ''}`} style={{paddingLeft:!isMobile?'0px':'',paddingRight:!isMobile?'0px':''}}>
             <div className='row row6'>{layouttop()}</div>
             <div className='bet-container mt-1'>
               {cornermarket(3, 1)}

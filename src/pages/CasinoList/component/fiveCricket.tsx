@@ -83,6 +83,7 @@ const FiveCricket = (props: any) => {
                       oddsMarket={ItemNew}
                       lastOdds={liveMatchData}
                       isFiveCricket={true}
+                      
                     />
                   )}
 

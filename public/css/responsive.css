@@ -648,6 +648,9 @@
         font-size: 12px;
         justify-content: center;
     }
+    .cricketv3 .video-overlay img{
+        width: 16px !important;
+    }
 
       .video-overlay img {
         width: 24px !important;
@@ -656,10 +659,10 @@
         margin-left: 0px;
     }
 
-
+/* 
     .hidemob {
         display: none !important;
-    }
+    } */
 
     .ball-runs {
         height: 25px;
@@ -3319,6 +3322,234 @@ border-radius: 0px;
   width: 28% !important;
   max-width: 28% !important;
   min-width: 28% !important;
+}
+.worli .nav-tabs {
+    background-color: white !important;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 !important;
+    width: 100%;
+}
+
+.worli .nav-tabs .nav-item {
+    margin: 1px;
+    flex: 1 1 auto;
+}
+
+.worli .nav-tabs .nav-link {
+    background-color: #cccccc;
+    color: #000000;
+    font-size: 16px;
+    font-weight: 400;
+    text-transform: capitalize;
+    padding: .6rem 1rem !important;
+    text-align: center;
+    width: 100%;
+    white-space: nowrap;
+}
+
+.worli .nav-tabs .nav-link.active {
+    background: #2C3E50;
+    color: white;
+    font-weight: 400;
+    border-top: none !important;
+}
+.worli .coupon-table thead th:first-child,.worli2 .coupon-table thead th:first-child{
+    min-height: 18px;
+    margin: 5px 0px;
+    border-bottom: none;
+    border-top: none;
+}
+.worli .coupon-table tr td:first-child,.worli .coupon-table tr td,.worli2 .coupon-table tr td:first-child,.worli2 .coupon-table tr td{
+    height: 70px !important;
+        padding: 0px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 2px;
+        margin-bottom: 2px;
+        border-bottom: none;
+}
+.worli .card-number{
+    font-size: 20px;
+}
+.fontStyleWorli{
+        font-family: 'CasinoNumFont';
+}
+.worli .casino-32A .coupon-table button{
+    font-family: 'CasinoNumFont';
+    font-weight: unset;
+    font-size: 20px !important;
+}
+        .casino-container-box .worli .suspended::after{
+           width: 100% !important;
+        }
+
+        
+}
+/* =========================
+   56 CHARTS
+========================= */
+
+.charts56-wrapper {
+  width: 100%;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.charts56-rate {
+ min-height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+margin: 5px 0px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #222;
+  
+
+  background: #ffffff;
+}
+
+/* Main grid */
+.charts56-grid {
+  width: 100%;
+  display: grid;
+
+  grid-template-columns:
+    repeat(5, 1fr)
+    1.35fr;
+
+  grid-template-rows:
+    1fr
+    1fr;
+
+  gap: 3px;
+
+  background: #ffffff;
+}
+
+/* Number buttons */
+.charts56-number {
+  min-height: 70px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: relative;
+
+  background: #70b5e3;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+/* Number text */
+.charts56-number-text {
+  font-size: 40px;
+  font-weight: unset;
+
+  color: #1c354b;
+  font-family: 'CasinoNumFont';
+}
+
+/* 56 ALL */
+.charts56-all {
+  grid-column: 6;
+  grid-row: 1 / span 2;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: relative;
+
+  background: #70b5e3;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.charts56-all span {
+  font-size: 34px;
+
+    font-weight: unset;
+    font-family: 'CasinoNumFont';
+
+  color: #1c354b;
+
+ 
+}
+
+/* PNL */
+.charts56-pnl {
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  bottom: 6px;
+
+  text-align: center;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Selected */
+.charts56-selected {
+  background: #4d9bd0 !important;
+}
+
+/* Hover */
+.charts56-number:hover,
+.charts56-all:hover {
+  filter: brightness(0.95);
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+.charts56-wrapper{
+    margin-top: 5px;
+}
+  .charts56-rate {
+    min-height:18px;
+    height: auto;
+    margin: 5px 0px;
+    font-size: 12px;
+  }
+
+  .charts56-grid {
+    grid-template-columns:
+      repeat(5, 1fr)
+      1.9fr;
+
+    gap: 2px;
+  }
+
+  .charts56-number {
+    min-height: 70px;
+  }
+
+  .charts56-number-text {
+    font-size: 20px;
+  }
+
+  .charts56-all span {
+    font-size: 20px;
+    font-weight: unset;
+    font-family: 'CasinoNumFont';
+  }
+
+  .charts56-pnl {
+    font-size: 11px;
+    bottom: 4px;
+  }
+  .value-buttons button {
+   margin-bottom: 3px;  
 }
 }
 .goal2 .casino-32A .suspended::after {
