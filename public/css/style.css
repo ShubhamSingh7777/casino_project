@@ -7470,10 +7470,18 @@ footer p {
     justify-content: space-between;
     align-items: center;
   }
+  .casino-rules-modal {
+  margin-top: 0% !important;
+  margin: 0%;
+}
 
+.casino-rules-modal .modal-content{
+  margin-top: 0%;
+}
   .ReactModal__Content {
     margin-top: 20%;
   }
+
 
   .slot-iframe.show {
     left: 0;

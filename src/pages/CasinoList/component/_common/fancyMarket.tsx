@@ -21,82 +21,88 @@ const FancyMarket = (props: any) => {
   const useB1Odds = isSuperOver || isFiveCricket;
   const isFiveCricketGame = !!isFiveCricket;
   const { matchId } = useParams();
-  const onBet = (isBack = false, item: any) => {
-    const ipAddress = authService.getIpAddress();
-    const oddVal = parseFloat(
-      useB1Odds ? (isBack ? item.b1 : item.l1) : isBack ? item.b : item.l,
-    );
-    const odds = oddVal.toString();
-    console.log("Bet Payload:", {
-      isBack,
-      odds: parseFloat(odds),
-      volume: parseFloat(
-        useB1Odds ? (isBack ? item.bs1 : item.ls1) : isBack ? item.bs : item.ls,
-      ),
-      marketId: item.mid,
-      marketName: oddsMarket.MarketName,
-      selectionId: item.sid,
-      selectionName: item.nat,
-      currentMarketOdds: useB1Odds
-        ? isBack
-          ? item.b1
-          : item.l1
-        : isBack
-        ? item.b
-        : item.l,
-      fancystatus: "yes",
-      gtype: lastOdds.slug,
-    });
-    if (userState.user.role === RoleType.user) {
-      if (
-        parseFloat(odds) <= 0 ||
-        (!isFiveCricketGame &&
-          (item.gstatus === "SUSPENDED" || item.gstatus === "CLOSED"))
-      ) {
-        return;
-      }
-      dispatch(
-        betPopup({
-          isOpen: true,
-          betData: {
-            isBack,
-            odds: parseFloat(odds),
-            volume: parseFloat(
-              isSuperOver
-                ? isBack
-                  ? item.bs1
-                  : item.ls1
-                : isBack
-                ? item.bs
-                : item.ls,
-            ),
-            marketId: lastOdds.match_id,
-            marketName: oddsMarket.MarketName,
-            matchId: Number(matchId),
-            selectionName: item.nat,
-            selectionId: item.sid,
-            pnl: 0,
-            stack: 0,
-            currentMarketOdds: isSuperOver
-              ? isBack
-                ? item.b1
-                : item.l1
-              : isBack
-              ? item.b
-              : item.l,
-            eventId: Number(matchId),
-            exposure: -0,
-            ipAddress: ipAddress,
-            type: IBetType.Match,
-            matchName: lastOdds.title,
-            betOn: IBetOn.CASINO,
-            gtype: lastOdds.slug,
-            fancystatus: "yes",
-          },
-        }),
-      );
-    }
-  };
+
+const onBet = (isBack = false, item: any) => {
+  const ipAddress = authService.getIpAddress();
+
+  // Five Cricket and Super Over use b1/l1 and bs1/ls1.
+  const oddsRaw = useB1Odds
+    ? isBack
+      ? item.b1
+      : item.l1
+    : isBack
+    ? item.b
+    : item.l;
+
+  const volumeRaw = useB1Odds
+    ? isBack
+      ? item.bs1
+      : item.ls1
+    : isBack
+    ? item.bs
+    : item.ls;
+
+  const odds = Number(oddsRaw);
+  const volume = Number(volumeRaw);
+
+  // console.log("Five Cricket bet data:-------", {
+  //   isBack,
+  //   oddsRaw,
+  //   volumeRaw,
+  //   odds,
+  //   volume,
+  //   selectionName: item.nat || item.runnerName,
+  //   marketId: item.mid,
+  //   selectionId: item.sid,
+  //   gstatus: item.gstatus,
+  // });
+
+  if (!Number.isFinite(odds) || odds <= 0) {
+    console.error("Invalid odds:", oddsRaw);
+    return;
+  }
+
+  if (!Number.isFinite(volume) || volume < 0) {
+    console.error("Invalid volume:", volumeRaw);
+    return;
+  }
+
+  if (
+    userState.user.role !== RoleType.user ||
+    (!isFiveCricketGame &&
+      ["SUSPENDED", "CLOSED"].includes(item.gstatus))
+  ) {
+    return;
+  }
+
+  dispatch(
+    betPopup({
+      isOpen: true,
+      betData: {
+        isBack,
+        odds,
+        volume,
+        marketId: item.mid ?? lastOdds.match_id,
+        marketName: oddsMarket.MarketName,
+        matchId: Number(matchId),
+        selectionName: item.nat || item.runnerName,
+        selectionId: item.sid,
+        pnl: 0,
+        stack: 0,
+        currentMarketOdds: odds,
+        eventId: Number(matchId),
+        exposure: 0,
+        ipAddress,
+        type: IBetType.Match,
+        matchName: lastOdds.title,
+        betOn: IBetOn.CASINO,
+        gtype: lastOdds.slug,
+        fancystatus: "yes",
+      },
+    }),
+  );
+};
+
   // Add here 👇
 
   const isFancy1 = oddsMarket?.MarketName?.includes("Fancy1");
@@ -119,7 +125,28 @@ const FancyMarket = (props: any) => {
   if (!hasAnyGscode) {
     return null; // Hide full table
   }
+// const hasAnyGscode = isFiveCricketGame
+//   ? oddsMarket?.Runners?.some((runner: any) => {
+//       const hasGscode =
+//         runner.gscode !== undefined && runner.gscode !== null;
 
+//       const hasOdds =
+//         Number(runner.b1) > 0 ||
+//         Number(runner.l1) > 0 ||
+//         Number(runner.bs1) > 0 ||
+//         Number(runner.ls1) > 0;
+
+//       return hasGscode || hasOdds;
+//     })
+//   : oddsMarket?.Runners?.some(
+//       (runner: any) =>
+//         runner.gscode !== undefined && runner.gscode !== null,
+//     );
+
+// // Hide the entire market, including its heading and Yes/No header.
+// if (!hasAnyGscode) {
+//   return null;
+// }
 
   const layoutRunner = () => {
     return (
@@ -512,7 +539,9 @@ const FancyMarket = (props: any) => {
                 fontSize: isMobile ? "16px" : "14px",
                 padding: "5px 0",
                 whiteSpace: "nowrap",
-                display: "block",
+               display: "flex",
+                justifyContent:"center",
+                alignItems:"center",
                 visibility: "visible",
               }}
             >
@@ -528,7 +557,9 @@ const FancyMarket = (props: any) => {
                 fontSize: isMobile ? "16px" : "14px",
                 padding: "5px 0",
                 whiteSpace: "nowrap",
-                display: "block",
+                display: "flex",
+                justifyContent:"center",
+                alignItems:"center",
                 visibility: "visible",
               }}
             >

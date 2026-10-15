@@ -203,7 +203,7 @@ const BookmakerMarket = (props: any) => {
               style={{ paddingRight: "0px" }}
             >
               <span>
-                <b>
+                <b style={{fontWeight:'bold'}}>
                   {(useB1Odds ? ItemRunner.l1 : ItemRunner.l) == 0
                     ? "-"
                     : useB1Odds

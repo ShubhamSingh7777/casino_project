@@ -1,4 +1,5 @@
 import React from 'react'
+import { isMobile } from 'react-device-detect';
 import ReactModal from 'react-modal';
 const CasinoRulesDetail = (props:any) => {
     const { title, gameId, isOpen, setIsOpen } = props;
@@ -19,14 +20,16 @@ const CasinoRulesDetail = (props:any) => {
           setIsOpen(false)
         }}
         contentLabel='Set Max Bet Limit'
-        className={'modal-dialog'}
+         className="modal-dialog casino-rules-modal"
         ariaHideApp={false}
+      
       >
         <div className='modal-content'>
-          <div className='modal-header'>
-            <h5>{title} RULES</h5>
-            <button onClick={() => setIsOpen(false)} className='close float-right'>
-              <i className='fa fa-times-circle' aria-hidden='true'></i>
+          <div className='modal-header' style={{padding:isMobile?'12px 10px':''}}>
+            <h5 style={{marginBottom:'0px',fontSize:isMobile?'16px':''}}>{title} Rules</h5>
+            <button onClick={() => setIsOpen(false)} className='close float-right' style={{padding:isMobile?"0rem 8px":""}}>
+              {/* <i className='fa fa-times-circle' aria-hidden='true'></i> */}
+              <img className='closeIconModalWelcome' src='/imgs/closeIcon.svg' alt='close' style={{width:'12px',height:'12px'}}/>
             </button>
           </div>
           <div className='modal-body'>
@@ -42,6 +45,7 @@ const CasinoRulesDetail = (props:any) => {
           </div>
         </div>
       </ReactModal>
+    
     </>
   )
 }
