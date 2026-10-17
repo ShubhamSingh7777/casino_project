@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import IMarket from '../../models/IMarket'
 import LFancy from '../../models/LFancy'
 import sportsService from '../../services/sports.service'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import IMatch from '../../models/IMatch'
 import { IUserBetStake } from '../../models/IUserStake'
 import { useDispatch } from 'react-redux'
@@ -36,6 +36,7 @@ const Odds = () => {
   const [isTvShow, setIsTvShow] = React.useState<boolean>(false)
   const userState = useAppSelector(selectUserData)
   const { matchId } = useParams()
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const selectFancyT = useAppSelector(selectFancyType)
   const initApp = useAppSelector(selectInitApp)
@@ -70,16 +71,25 @@ const Odds = () => {
       });
     };
 
+    const onMatchFinished = (data: any) => {
+      console.warn('[Odds] Match finished or closed, navigating to main lobby:', data);
+      navigate(data?.redirect || '/', { replace: true });
+    };
+
     socket.on('addNewMarket', onAddNewMarket);
     socket.on('removeMarket', onRemoveMarket);
     socket.on('getMarketData', onGetMarketData);
+    socket.on('matchFinished', onMatchFinished);
+    socket.on('matchClosed', onMatchFinished);
 
     return () => {
       socket.off('addNewMarket', onAddNewMarket);
       socket.off('removeMarket', onRemoveMarket);
       socket.off('getMarketData', onGetMarketData);
+      socket.off('matchFinished', onMatchFinished);
+      socket.off('matchClosed', onMatchFinished);
     };
-  }, [socket]);
+  }, [socket, navigate]);
 
   const fetchOddsDetail = async () => {
     try {
