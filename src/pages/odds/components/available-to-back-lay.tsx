@@ -59,49 +59,66 @@ export const AvailableToBackLay = React.memo(
     },[])
 console.log("MARKET DATA BEFORE BET:", market);
 console.log("RUNNER DATA BEFORE BET:", runner);
-    const onBet = (isBack = false, back: { odds: number; size: number }) => {
-      const ipAddress = authService.getIpAddress();
-      if (market.oddsType == OddsType.BM && back.size == 0) return;
-      if (back.odds > 0 && back.size && userState.user.role === RoleType.user) {
-        console.log("yes ! bet is available");
-        dispatch(
-          betPopup({
-            isOpen: true,
-            betData: {
-              isBack,
-              odds: parseFloat(back.odds.toFixed(4)),
-              volume: back.size,
-              marketId: market.marketId,
-              marketName: market.marketName,
-              matchId: market.matchId,
-              selectionName: runner.runnerName,
-              selectionId: runner.selectionId,
-              pnl: 0,
-              stack: 0,
-              currentMarketOdds: back.odds,
-             eventId:Number(market.sportId || market.marketId),
-              exposure: -0,
-              ipAddress: ipAddress,
-              type: IBetType.Match,
-              matchName: getCurrentMatch.name,
-              betOn:
-                market.marketName == "MATCH_ODDS" ||
-                  market.marketName == "Bookmaker" ||
-                  market.marketName == "TIED_MATCH" ||
-                  market.marketName == "Top 2 Finish" ||
-                  market.marketName == "Top 3 Finish" ||
-                  market.marketName == "Top 4 Finish" ||
-                  market.marketName == "Top 5 Finish" ||
-                  market.sportId != 4
-                  ? IBetOn.MATCH_ODDS
-                  : IBetOn.FANCY,
-              oddsType: market.oddsType,
-              maxbet: market.maxbet ?? market.maxb,
-            },
-          }),
-        );
-      }
-    };
+  const onBet = (isBack = false, back: { odds: number; size: number }) => {
+  const ipAddress = authService.getIpAddress();
+
+  if (market.oddsType === OddsType.BM && back.size === 0) return;
+
+  if (
+    back.odds > 0 &&
+    back.size &&
+    userState.user.role === RoleType.user
+  ) {
+    dispatch(
+      betPopup({
+        isOpen: true,
+        betData: {
+          isBack,
+          odds: parseFloat(back.odds.toFixed(4)),
+          volume: back.size,
+          marketId: market.marketId,
+          marketName: market.marketName,
+          matchId: market.matchId,
+          selectionName: runner.runnerName,
+          selectionId: runner.selectionId,
+          pnl: 0,
+          stack: 0,
+          currentMarketOdds: back.odds,
+          eventId: Number(market.sportId || market.marketId),
+          exposure: 0,
+          ipAddress,
+          type: IBetType.Match,
+          matchName: getCurrentMatch.name,
+
+          betOn:
+            market.marketName === "MATCH_ODDS" ||
+            market.marketName === "Bookmaker" ||
+            market.marketName === "TIED_MATCH" ||
+            market.marketName === "Top 2 Finish" ||
+            market.marketName === "Top 3 Finish" ||
+            market.marketName === "Top 4 Finish" ||
+            market.marketName === "Top 5 Finish" ||
+            market.sportId !== 4
+              ? IBetOn.MATCH_ODDS
+              : IBetOn.FANCY,
+
+          oddsType: market.oddsType,
+
+          // Minimum and maximum bet limits
+          minbet: 100,
+          maxbet:
+            Number(market.maxbet) > 0
+              ? Number(market.maxbet)
+              : Number(market.max) > 0
+              ? Number(market.max)
+              : Number(market.maxb) > 0
+              ? Number(market.maxb)
+              : 0,
+        },
+      }),
+    );
+  }
+};
  const isTwoColumnBookmaker =
   market.oddsType === OddsType.BM &&
   runner?.back?.length === 2 &&

@@ -3551,6 +3551,9 @@ margin: 5px 0px;
   .value-buttons button {
    margin-bottom: 3px;  
 }
+.singleBacklayclass .suspended::after{
+    width: 40% !important;
+}
 }
 .goal2 .casino-32A .suspended::after {
 height: auto;

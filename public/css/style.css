@@ -12703,3 +12703,6 @@ td.teenSectionTheTrap:nth-of-type(2) button {
     font-weight: 400;
     border-top: none !important;
 }
+.sports-wrapper .main-market .singleBacklayclass .suspended::after{
+    width: 40% !important;
+}

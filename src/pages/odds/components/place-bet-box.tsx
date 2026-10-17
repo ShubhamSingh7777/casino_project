@@ -266,32 +266,96 @@ const PlaceBetBox = ({ stake }: { stake: IUserBetStake }) => {
   };
 
  
+// const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+//   e.preventDefault();
+
+//   const maxBet = Number(betObj.maxbet);
+//   const currentStake = Number(betObj.stack);
+
+//   console.log("BET SUBMISSION:", {
+//     stake: currentStake,
+//     maxbet: betObj.maxbet,
+//     marketName: betObj.marketName,
+//     eventId: betObj.eventId,
+//   });
+
+//   if (
+//     Number.isFinite(maxBet) &&
+//     maxBet > 0 &&
+//     currentStake > maxBet
+//   ) {
+//     toast.error(`Maximum bet allowed is ${maxBet}`, {
+//   className: "error-toast-old success-toast",
+//   bodyClassName: "error-toast-body",
+//   autoClose: 1000,
+//   icon: "⚠",
+//   transition: slideDownUp,
+// });
+
+//     return;
+//   }
+
+//   dispatch(getPlaceBetAction(betObj));
+// };
+
+
+
 const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
   e.preventDefault();
 
-  const maxBet = Number(betObj.maxbet);
+  const minBet = Number(betObj.minbet) > 0
+    ? Number(betObj.minbet)
+    : 100;
+
+  const maxBet = Number(betObj.maxbet) > 0
+    ? Number(betObj.maxbet)
+    : Number(betObj.maxb) > 0
+      ? Number(betObj.maxb)
+      : 0;
+
   const currentStake = Number(betObj.stack);
 
   console.log("BET SUBMISSION:", {
     stake: currentStake,
-    maxbet: betObj.maxbet,
+    minbet: minBet,
+    maxbet: maxBet,
     marketName: betObj.marketName,
     eventId: betObj.eventId,
   });
 
-  if (
-    Number.isFinite(maxBet) &&
-    maxBet > 0 &&
-    currentStake > maxBet
-  ) {
-    toast.error(`Maximum bet allowed is ${maxBet}`, {
-  className: "error-toast-old success-toast",
-  bodyClassName: "error-toast-body",
-  autoClose: 1000,
-  icon: "⚠",
-  transition: slideDownUp,
-});
+  // Validate empty, invalid, or zero stake
+  if (!Number.isFinite(currentStake) || currentStake <= 0) {
+    toast.error("Please enter a valid bet amount", {
+      className: "error-toast-old success-toast",
+      bodyClassName: "error-toast-body",
+      autoClose: 1000,
+      icon: "⚠",
+      transition: slideDownUp,
+    });
+    return;
+  }
 
+  // Minimum bet validation
+  if (currentStake < minBet) {
+    toast.error(`Minimum bet allowed is ${minBet}`, {
+      className: "error-toast-old success-toast",
+      bodyClassName: "error-toast-body",
+      autoClose: 1000,
+      icon: "⚠",
+      transition: slideDownUp,
+    });
+    return;
+  }
+
+  // Maximum bet validation
+  if (maxBet > 0 && currentStake > maxBet) {
+    toast.error(`Maximum bet allowed is ${maxBet}`, {
+      className: "error-toast-old success-toast",
+      bodyClassName: "error-toast-body",
+      autoClose: 1000,
+      icon: "⚠",
+      transition: slideDownUp,
+    });
     return;
   }
 
@@ -660,13 +724,32 @@ const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 
                 </div>
 
-                <div className="mt-3 d-flex justify-content-between align-items-center" style={{fontSize:isMobile?'12px':'16px',color:'#000000'}}>
+                {/* <div className="mt-3 d-flex justify-content-between align-items-center" style={{fontSize:isMobile?'12px':'16px',color:'#000000'}}>
                    <b>
   <span>
     Range: {betObj.minbet} to {formatStake(betObj.maxbet)}
   </span>
 </b>
-                </div>
+                </div> */}
+                <div
+  className="mt-3 d-flex justify-content-between align-items-center"
+  style={{
+    fontSize: isMobile ? "12px" : "16px",
+    color: "#000000",
+  }}
+>
+  <b>
+    Range: {Number(betObj.minbet) > 0 ? betObj.minbet : 100}
+    {" to "}
+    {formatStake(
+      Number(betObj.maxbet) > 0
+        ? Number(betObj.maxbet)
+        : Number(betObj.maxb) > 0
+          ? Number(betObj.maxb)
+          : 0
+    )}
+  </b>
+</div>
                 {/* //here i want to show */}
                 {isCashout && betValues.betData?.runnersPnl && (
                   <div

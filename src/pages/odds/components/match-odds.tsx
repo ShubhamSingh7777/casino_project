@@ -438,7 +438,11 @@ class MatchOdds extends React.PureComponent<
             const isBookmaker = marketName === "bookmaker";
 
             const formatMaxValue = (value: any) => {
-              const num = Number(value || 0);
+              const num = Number(value);
+
+              if (!Number.isFinite(num) || num <= 0) {
+                return "N/A";
+              }
 
               if (num >= 10000000) {
                 return `${(num / 10000000).toFixed(2).replace(/\.00$/, "")}Cr`;
@@ -452,10 +456,13 @@ class MatchOdds extends React.PureComponent<
                 return `${(num / 1000).toFixed(2).replace(/\.00$/, "")}K`;
               }
 
-              return num;
+              return num.toLocaleString("en-IN");
             };
             return (
-              <div key={market._id}>
+              <div
+                key={market._id}
+                className={`${isSingleBackLay ? "singleBacklayclass" : ""} `}
+              >
                 <div className={`market-title ${isMobile ? "" : "mt-1"}`}>
                   <span>{market.marketName}</span>
                   {/* <a
@@ -495,16 +502,21 @@ class MatchOdds extends React.PureComponent<
                 </div>
                 <div className="table-header" style={{ width: "100%" }}>
                   <div
-                    className={`float-left country-name d-flex ${classforheadingfirst} min-max`}
+                    className={`float-left country-name d-flex  ${
+                      isSingleBackLay
+                        ? " single-back-lay"
+                        : classforheadingfirst
+                    } min-max`}
+                    style={{ paddingLeft: isMobile ? "0px" : "" }}
                   >
                     <span
                       className="market-nation-nameminmax"
-                      style={{ marginRight: "5px" }}
+                      style={{ marginRight: isMobile ? "5px" : "" }}
                     >
                       {" "}
                       {isBookmaker && <>Min: {oddsData?.min}</>}
                     </span>
-                    <span className="market-nation-nameminmax">
+                    {/* <span className="market-nation-nameminmax"  style={{border:'1px solid red'}}>
                       {" "}
                       Max:{" "}
                       {formatMaxValue(
@@ -513,6 +525,18 @@ class MatchOdds extends React.PureComponent<
                           : isBookmaker
                           ? oddsData?.max
                           : 0,
+                      )}
+                    </span> */}
+                    <span className="market-nation-nameminmax">
+                      Max:{" "}
+                      {formatMaxValue(
+                        Number(oddsData?.maxb) > 0
+                          ? oddsData.maxb
+                          : Number(oddsData?.max) > 0
+                          ? oddsData.max
+                          : market?.maxb > 0
+                          ? market.maxb
+                          : market?.max,
                       )}
                     </span>
                   </div>
@@ -524,16 +548,19 @@ class MatchOdds extends React.PureComponent<
                           isMobile ? "box-1" : "box-1Odd"
                         } float-left`}
                         style={{
+                          display: isSingleBackLay ? "none" : "block",
                           width: isMobile ? "12%" : "8.3%",
                           maxWidth: isMobile ? "12%" : "8.3%",
                           minWidth: isMobile ? "12%" : "8.3%",
                         }}
                       />
+
                       <div
                         className={`${
                           isMobile ? "box-1" : "box-1Odd"
                         } float-left`}
                         style={{
+                          display: isSingleBackLay ? "none" : "block",
                           width: isMobile ? "12%" : "8.3%",
                           maxWidth: isMobile ? "12%" : "8.3%",
                           minWidth: isMobile ? "12%" : "8.3%",
@@ -544,16 +571,18 @@ class MatchOdds extends React.PureComponent<
                     ""
                   )}
                   <div
-                    className={`back ${classforheading} float-left text-center ${
-                      isSingleBackLay ? "single-back-heading" : ""
+                    className={`back float-left text-center ${
+                      isSingleBackLay ? "single-back-heading" : classforheading
                     }`}
+                    style={{ border: "none", fontSize: isMobile ? "16px" : "" }}
                   >
                     <b>Back</b>
                   </div>
                   <div
-                    className={`lay ${classforheading} float-left text-center ${
-                      isSingleBackLay ? "single-lay-heading" : ""
+                    className={`lay float-left text-center ${
+                      isSingleBackLay ? "single-lay-heading" : classforheading
                     }`}
+                    style={{ border: "none", fontSize: isMobile ? "16px" : "" }}
                   >
                     <b>Lay</b>
                   </div>
@@ -591,7 +620,7 @@ class MatchOdds extends React.PureComponent<
                       const isSingleBackLay =
                         runner?.back?.length === 1 && runner?.lay?.length === 1;
                       const countryClass = isSingleBackLay
-                        ? "country-name single-back-lay"
+                        ? "country-name"
                         : "country-name";
                       return (
                         <div key={runner.selectionId}>
@@ -602,7 +631,11 @@ class MatchOdds extends React.PureComponent<
                             }`}
                           >
                             <div
-                              className={`${countryClass} ${classforheadingfirst}`}
+                              className={`${countryClass}  ${
+                                isSingleBackLay
+                                  ? " single-back-lay"
+                                  : classforheadingfirst
+                              }`}
                               style={{
                                 width: isMobile ? "" : "50%",
                                 maxWidth: isMobile ? "" : "50%",
@@ -635,10 +668,35 @@ class MatchOdds extends React.PureComponent<
                             <AvailableToBackLay
                               selections={runner.ex}
                               selectionsPrev={selectionsPrev}
+                              // market={{
+                              //   ...market,
+                              //   ...oddsData,
+                              //   maxbet:
+                              //     Number(oddsData?.maxb) > 0
+                              //       ? Number(oddsData.maxb)
+                              //       : Number(oddsData?.max) > 0
+                              //       ? Number(oddsData.max)
+                              //       : Number(market?.maxb) > 0
+                              //       ? Number(market.maxb)
+                              //       : Number(market?.max) > 0
+                              //       ? Number(market.max)
+                              //       : 0,
+                              // }}
                               market={{
                                 ...market,
                                 ...oddsData,
-                                maxbet: oddsData?.maxb ?? oddsData?.max,
+                                min: 100,
+                                minbet: 100,
+                                maxbet:
+                                  Number(oddsData?.maxb) > 0
+                                    ? Number(oddsData.maxb)
+                                    : Number(oddsData?.max) > 0
+                                    ? Number(oddsData.max)
+                                    : Number(market?.maxb) > 0
+                                    ? Number(market.maxb)
+                                    : Number(market?.max) > 0
+                                    ? Number(market.max)
+                                    : 0,
                               }}
                               runner={runner}
                             />
