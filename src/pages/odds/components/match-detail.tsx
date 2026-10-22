@@ -29,6 +29,19 @@ const MatchDetail = (props: any) => {
     }
     navigate.go('/unsettledbet')
   }
+  const addISTOffset = (iso: any) => {
+  if (!iso) return null;
+
+  const d = new Date(iso);
+
+  if (Number.isNaN(d.getTime())) {
+    console.warn("Invalid matchDateTime:", iso);
+    return null;
+  }
+
+  d.setMinutes(d.getMinutes() + 120);
+  return d.toISOString();
+};
   return (
     <>
       <div
@@ -39,9 +52,18 @@ const MatchDetail = (props: any) => {
           <div className={'col-8  sports-wrapper m-b-10 pr0'}>
             <div className='game-heading'>
               <span className='card-header-title'>{props.currentMatch?.name}</span>
-              <span className='float-right card-header-date'>
+              {/* <span className='float-right card-header-date'>
                 {moment(props.currentMatch?.matchDateTime).format('MM/DD/YYYY  h:mm a')}
-              </span>
+              </span> */}
+              <span className="float-right card-header-date">
+  {(() => {
+    const date = addISTOffset(props.currentMatch?.matchDateTime);
+
+    return date
+      ? moment.utc(date).format("DD/MM/YYYY HH:mm")
+      : "--";
+  })()}
+</span>
             </div>
             {props.scoreBoard()}
             {props.t10Tv(450)}

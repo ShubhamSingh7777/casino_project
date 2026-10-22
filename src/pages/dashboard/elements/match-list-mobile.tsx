@@ -12,7 +12,8 @@ const MatchListMobile = (props: any) => {
   const [selectedSeries, setSelectedSeries] = React.useState<string | null>(
     null,
   );
-
+  console.log("MATCH LIST:-----dashboard", props.matchList);
+  console.log(props.matchList?.matchDateTime,'mathclist-dashboard');
   const addISTOffset = (iso: any) => {
     const d = new Date(iso);
     d.setMinutes(d.getMinutes() + 120);
@@ -22,10 +23,11 @@ const MatchListMobile = (props: any) => {
   // Determine active sport
   const activeSportId = sportId ? Number(sportId) : props.matchList[0]?.sportId;
   const HORSE_RACING_ID = 10 ;
+  const FOOTBALL_SPORT_ID = 1;
   const GREY_HOUND_RACING = 65;
   const isHorseRacing = activeSportId === HORSE_RACING_ID ||
   activeSportId === GREY_HOUND_RACING;
-
+  const isFootball = activeSportId === FOOTBALL_SPORT_ID;
   // Filter matches for active sport only
   // const filteredMatches = props.matchList.filter(
   //   (match: LMatch) => match.sportId === activeSportId,
@@ -51,8 +53,14 @@ const MatchListMobile = (props: any) => {
   const isLoggedIn = !!localStorage.getItem("token");
   const isMatch4 = location.pathname.includes("match/4");
   const casinoList = useAppSelector<any>(selectCasinoMatchList);
+  
   const superOver2 = React.useMemo(() => {
     return casinoList?.filter((item: any) => item.slug === "superover2") || [];
+  }, [casinoList]);
+   const goal2 = React.useMemo(() => {
+    return (
+      casinoList?.filter((item: any) => item.slug === "goal2") || []
+    );
   }, [casinoList]);
   const { marketData } = props;
   const handleMatchClick = (match: LMatch) => {
@@ -212,6 +220,105 @@ const MatchListMobile = (props: any) => {
                 </>
               );
             })}
+      {isFootball &&
+            goal2.length > 0 &&
+            goal2.map((Item: any) => {
+              const runners = getSuperOverRunners(Item);
+
+              return (
+                <>
+                  <tr key={Item.match_id}>
+                    <td colSpan={6} style={{ padding: "1px 6px" }}>
+                      <div className="d-flex align-items-center justify-content-between">
+                        <div className="game-name" style={{ fontSize: "12px" }}>
+                          <a
+                            onClick={(e) => {
+                              e.preventDefault();
+
+                              const isLoggedIn =
+                                !!localStorage.getItem("token");
+                              if (!isLoggedIn) {
+                                toast.error("Please login first");
+                                return;
+                              }
+
+                              navigate(`/casino/${Item.slug}/${Item.match_id}`);
+                            }}
+                            className="text-dark"
+                            style={{ fontSize: "12px" }}
+                          >
+                            {Item.title || "Super Over 2"}
+                          </a>
+                        </div>
+
+                        <div className="game-icons d-flex align-items-center">
+                          <div
+                            style={{
+                              width: "20px",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                            }}
+                          >
+                          <span
+                            className="active"
+                            style={{ width: "10px", height: "10px" }}
+                          />
+                          </div>
+                          <div
+                            style={{
+                              width: "20px",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                            }}
+                          >
+                          <img
+                            src="/tv-icon.png"
+                            alt="icon-tv"
+                            className="icon-tv"
+                            style={{width:'10px',height:'10px'}}
+                          />
+                          </div>
+                          <div
+                            style={{
+                              width: "20px",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                            }}
+                          ></div>
+                          <div
+                            style={{
+                              width: "20px",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                            }}
+                          ></div>
+                          <div
+                            style={{
+                              width: "20px",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                            }}
+                          ></div>
+                        </div>
+                      </div>
+                    </td>
+                    {/* 🔥 SAME ODDS UI */}
+                    {/* {memoOdds(runners)} */}
+                  </tr>
+                  <tr
+                    className="memooddsmob"
+                    style={{ borderBottom: "1px solid #c7c8ca" }}
+                  >
+                    {props.memoOdds(runners)}
+                  </tr>
+                </>
+              );
+            })}
           {/* ===== HORSE RACING ===== */}
           {isHorseRacing ? (
             Object.entries(horseRacingGroupedByName).length > 0 ? (
@@ -305,13 +412,21 @@ const MatchListMobile = (props: any) => {
                         <p className="tx-666 tx-12">
                           {moment
                             .utc(addISTOffset(match.matchDateTime))
-                            .format("DD-MM-YYYY HH:mm")}
+                            .format("DD/MM/YYYY HH:mm:ss")}
                         </p>
                       </div>
                     </td>
 
                     <td colSpan={2}>
                      <div className="game-icons">
+                        <div
+                          style={{
+                            width: "20px",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
                         {localTime.getTime() < Date.now() && (
                           // <span className="game-icon">
                           //   <i className="fas fa-circle tx-green" />
@@ -327,7 +442,8 @@ const MatchListMobile = (props: any) => {
                             }}
                           />
                         )}
-                        {match.inPlay && (
+                        </div>
+                    
                         <div
                           style={{
                             width: "20px",
@@ -336,14 +452,16 @@ const MatchListMobile = (props: any) => {
                             alignItems: "center",
                           }}
                         >
+                              {match.inPlay && (
                           <img
                             src="/tv-icon.png"
                             alt="icon-tv"
                             className="icon-tv"
                             style={{ width: "10px", height: "10px" }}
                           />
-                        </div>)}
-                        {match.isFancy && (
+                          )}
+                        </div>
+                       
                           <div
                             style={{
                               width: "20px",
@@ -352,15 +470,17 @@ const MatchListMobile = (props: any) => {
                               alignItems: "center",
                             }}
                           >
+                             {match.isFancy && (
                             <img
                               src="https://dzm0kbaskt4pv.cloudfront.net/v2/static/front/img/icons/ic_fancy.png"
                               className="fancy-icon"
                               alt="Fancy"
                             />
+                             )}
                           </div>
-                        )}
+                       
 
-                        {match.isBookMaker && (
+                    
                           <div
                             style={{
                               width: "20px",
@@ -369,14 +489,16 @@ const MatchListMobile = (props: any) => {
                               alignItems: "center",
                             }}
                           >
+                                {match.isBookMaker && (
                             <img
                               src="https://dzm0kbaskt4pv.cloudfront.net/v2/static/front/img/icons/ic_bm.png"
                               className="bookmaker-icon"
                               alt="Bookmaker"
                             />
+                             )}
                           </div>
-                        )}
-                        {match.isT10 && (
+                       
+                    
                           <div
                             style={{
                               width: "20px",
@@ -385,14 +507,16 @@ const MatchListMobile = (props: any) => {
                               alignItems: "center",
                             }}
                           >
+                                {match.isT10 && (
                             <img
                               src="imgs/game-icon.svg"
                               className="bookmaker-icon"
                               style={{ height: "16px" }}
                               alt="T10"
                             />
+                             )}
                           </div>
-                        )}
+                       
                       </div>
                     </td>
                   </tr>

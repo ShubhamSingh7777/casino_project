@@ -13,6 +13,7 @@ interface MatchListProps {
 }
 
 const HORSE_RACING_ID = 10;
+const FOOTBALL_SPORT_ID = 1;
 
 const MatchList: React.FC<MatchListProps> = ({
   matchList,
@@ -29,9 +30,13 @@ const MatchList: React.FC<MatchListProps> = ({
   const navigate = useNavigate();
   const isMatch4 = location.pathname.includes("match/4");
   const isHorseRacing = activeSportId === HORSE_RACING_ID;
+  const isFootball = activeSportId === FOOTBALL_SPORT_ID;
   const casinoList = useAppSelector<any>(selectCasinoMatchList);
   const superOver2 = React.useMemo(() => {
     return casinoList?.filter((item: any) => item.slug === "superover2") || [];
+  }, [casinoList]);
+  const goal2 = React.useMemo(() => {
+    return casinoList?.filter((item: any) => item.slug === "goal2") || [];
   }, [casinoList]);
   const isLoggedIn = !!localStorage.getItem("token");
 
@@ -42,25 +47,37 @@ const MatchList: React.FC<MatchListProps> = ({
     }
     currentMatch(match);
   };
+  const addISTOffset = (iso: any) => {
+    if (!iso) return null;
 
+    const d = new Date(iso);
+
+    if (Number.isNaN(d.getTime())) {
+      console.warn("Invalid matchDateTime:", iso);
+      return null;
+    }
+
+    d.setMinutes(d.getMinutes() + 120);
+    return d.toISOString();
+  };
   /** Filter by sport */
-const filteredMatches = React.useMemo(() => {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  const filteredMatches = React.useMemo(() => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
 
-  const yesterday = new Date(today);
-  yesterday.setDate(today.getDate() - 1);
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
 
-  return matchList.filter((m) => {
-    if (m.sportId !== activeSportId) return false;
+    return matchList.filter((m) => {
+      if (m.sportId !== activeSportId) return false;
 
-    const matchDate = new Date(m.matchDateTime);
-    matchDate.setHours(0, 0, 0, 0);
+      const matchDate = new Date(m.matchDateTime);
+      matchDate.setHours(0, 0, 0, 0);
 
-    // Show yesterday, today and all upcoming matches
-    return matchDate >= yesterday;
-  });
-}, [matchList, activeSportId]);
+      // Show yesterday, today and all upcoming matches
+      return matchDate >= yesterday;
+    });
+  }, [matchList, activeSportId]);
 
   /** Horse racing → series grouping */
   const seriesMap = React.useMemo(() => {
@@ -168,18 +185,132 @@ const filteredMatches = React.useMemo(() => {
                         {Item.title || "Super Over 2"}
                       </a>
                     </div>
-                     
+
                     <div className="game-icons">
-                      <span className="active" />
-                      <img
-                        src="/tv-icon.png"
-                        alt="icon-tv"
-                        className="icon-tv"
-                      />
+                      <div
+                        style={{
+                          width: "28px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <span
+                          className="active"
+                          style={{ marginRight: "0px" }}
+                        />
+                      </div>
+                      <div
+                        style={{
+                          width: "35px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <img
+                          src="/tv-icon.png"
+                          alt="icon-tv"
+                          className="icon-tv"
+                        />
+                      </div>
+                      <div
+                        style={{
+                          width: "35px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      ></div>
+                      <div
+                        style={{
+                          width: "35px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      ></div>
                     </div>
                   </td>
 
                   {/* 🔥 SAME ODDS UI */}
+                  {memoOdds(runners)}
+                </tr>
+              );
+            })}
+          {isFootball &&
+            goal2.length > 0 &&
+            goal2.map((Item: any) => {
+              const runners = getSuperOverRunners(Item);
+
+              return (
+                <tr key={Item.match_id}>
+                  <td>
+                    <div className="game-name">
+                      <a
+                        onClick={(e) => {
+                          e.preventDefault();
+
+                          if (!localStorage.getItem("token")) {
+                            toast.error("Please login first");
+                            return;
+                          }
+
+                          navigate(`/casino/${Item.slug}/${Item.match_id}`);
+                        }}
+                        className="text-dark"
+                      >
+                        {Item.title || "Goal 2"}
+                      </a>
+                    </div>
+
+                    <div className="game-icons">
+                      <div
+                        style={{
+                          width: "28px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <span
+                          className="active"
+                          style={{ marginRight: "0px" }}
+                        />
+                      </div>
+                      <div
+                        style={{
+                          width: "35px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <img
+                          src="/tv-icon.png"
+                          alt="icon-tv"
+                          className="icon-tv"
+                        />
+                      </div>
+                      <div
+                        style={{
+                          width: "35px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      ></div>
+                      <div
+                        style={{
+                          width: "35px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      ></div>
+                    </div>
+                  </td>
+
                   {memoOdds(runners)}
                 </tr>
               );
@@ -262,55 +393,108 @@ const filteredMatches = React.useMemo(() => {
                         onClick={() => handleMatchClick(match)}
                         className="text-dark"
                       >
-                        {match.name} /{" "}
+                        {/* {match.name} /{" "}
                         {moment
                           .utc(match.matchDateTime)
-                          .format("DD-MM-YYYY HH:mm")}
+                          .format("DD-MM-YYYY HH:mm")} */}
+                        {match.name} /{" "}
+                        {(() => {
+                          const date = addISTOffset(match.matchDateTime);
+
+                          return date
+                            ? moment.utc(date).format("DD/MM/YYYY HH:mm:ss")
+                            : "--";
+                        })()}
                       </a>
                     </div>
 
                     <div className="game-icons">
-                      {localTime.getTime() < Date.now() && (
-                        <span className="active" />
-                      )}
+                      <div
+                        style={{
+                          width: "35px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        {localTime.getTime() < Date.now() && (
+                          <span
+                            className="active"
+                            style={{ marginRight: "0px" }}
+                          />
+                        )}
+                      </div>
                       {/* <i className="fas fa-tv icon-tv" /> */}
-                    {match.inPlay && (
-                      <div style={{width:'35px',display:'flex',justifyContent:'center',alignItems:'center'}}>
-                      <img
-                        src="/tv-icon.png"
-                        alt="icon-tv"
-                        className="icon-tv" style={{width: "15px", height: "15px"}}
-                      />
-                      </div>)}
-                         {match.isFancy && (
-                          <div style={{width:'35px',display:'flex',justifyContent:'center',alignItems:'center'}}>
-                        <img
-                          src='https://dzm0kbaskt4pv.cloudfront.net/v2/static/front/img/icons/ic_fancy.png'
-                          className='fancy-icon'
-                          alt='Fancy'
-                        />
-                        </div>
-                      )}
 
-                      {match.isBookMaker && (
-                         <div style={{width:'35px',display:'flex',justifyContent:'center',alignItems:'center'}}>
-                        <img
-                          src='https://dzm0kbaskt4pv.cloudfront.net/v2/static/front/img/icons/ic_bm.png'
-                          className='bookmaker-icon'
-                          alt='Bookmaker'
-                        />
-                        </div>
-                      )}
+                      <div
+                        style={{
+                          width: "35px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        {match.inPlay && (
+                          <img
+                            src="/tv-icon.png"
+                            alt="icon-tv"
+                            className="icon-tv"
+                            style={{ width: "15px", height: "15px" }}
+                          />
+                        )}
+                      </div>
+
+                      <div
+                        style={{
+                          width: "35px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        {match.isFancy && (
+                          <img
+                            src="https://dzm0kbaskt4pv.cloudfront.net/v2/static/front/img/icons/ic_fancy.png"
+                            className="fancy-icon"
+                            alt="Fancy"
+                          />
+                        )}
+                      </div>
+
+                      <div
+                        style={{
+                          width: "35px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        {match.isBookMaker && (
+                          <img
+                            src="https://dzm0kbaskt4pv.cloudfront.net/v2/static/front/img/icons/ic_bm.png"
+                            className="bookmaker-icon"
+                            alt="Bookmaker"
+                          />
+                        )}
+                      </div>
+
+                      <div
+                        style={{
+                          width: "35px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
                         {match.isT10 && (
-                          <div style={{width:'35px',display:'flex',justifyContent:'center',alignItems:'center'}}>
-                        <img
-                          src='imgs/game-icon.svg'
-                          className='bookmaker-icon'
-                          style={{ height: '16px' }}
-                          alt='T10'
-                        />
-                        </div>
-                      )}  
+                          <img
+                            src="imgs/game-icon.svg"
+                            className="bookmaker-icon"
+                            style={{ height: "16px" }}
+                            alt="T10"
+                          />
+                        )}
+                      </div>
                     </div>
                   </td>
 

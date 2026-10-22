@@ -464,7 +464,7 @@ class MatchOdds extends React.PureComponent<
                 className={`${isSingleBackLay ? "singleBacklayclass" : ""} `}
               >
                 <div className={`market-title ${isMobile ? "" : "mt-1"}`}>
-                  <span>{market.marketName}</span>
+                  <span>{market.marketName || market.mname}</span>
                   {/* <a
                     href='#Bookmaker-market'
                     onClick={(e: MouseEvent<HTMLAnchorElement>) => {
@@ -643,7 +643,8 @@ class MatchOdds extends React.PureComponent<
                               }}
                             >
                               <span className="team-name">
-                                {runner.runnerName}
+                                  {runner.runnerName}
+
                               </span>
                               <p>
                                 {pnlValue ? (

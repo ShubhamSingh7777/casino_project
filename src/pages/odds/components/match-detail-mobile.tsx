@@ -17,7 +17,20 @@ const MatchDetailWrapper = (props: any) => {
   const [tavstatus, settvstatus] = React.useState<boolean>(false)
   const { socketUser } = useWebsocketUser()
   // console.log(props.fancies,'fancies');
+console.log('match-detail----------------------------',props.currentMatch?.matchDateTime,'match-detail-------')
+const addISTOffset = (iso: any) => {
+  if (!iso) return null;
 
+  const d = new Date(iso);
+
+  if (Number.isNaN(d.getTime())) {
+    console.warn("Invalid matchDateTime:", iso);
+    return null;
+  }
+
+  d.setMinutes(d.getMinutes() + 120);
+  return d.toISOString();
+};
   const updateTv = async () => {
       if (props.currentMatch?.sportId) {
         let matchId: any = props.currentMatch?.matchId?.toString()
@@ -30,6 +43,7 @@ const MatchDetailWrapper = (props: any) => {
         })
       }
     } 
+    
 
   // React.useEffect(() => {
   //   return () => {
@@ -45,7 +59,14 @@ const MatchDetailWrapper = (props: any) => {
             <div className='game-heading clsforellipse'>
               <span className='card-header-title giveMeEllipsis'>{props.currentMatch?.name}</span>
               <span className='float-right card-header-date'>
-                {moment(props.currentMatch?.matchDateTime).format('MM/DD/YYYY  h:mm a')}
+                {/* {moment(props.currentMatch?.matchDateTime).format('MM/DD/YYYY  h:mm a')} */}
+                  {(() => {
+    const date = addISTOffset(props.currentMatch?.matchDateTime);
+
+    return date
+      ? moment.utc(date).format("DD-MM-YYYY HH:mm")
+      : "--";
+  })()}
               </span>
             </div>
             {props.scoreBoard()}

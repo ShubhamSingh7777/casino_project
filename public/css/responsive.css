@@ -980,8 +980,19 @@ font-size: 12px;
         background:#f7f7f7;
     }
     .mobile-match-horseracing{
-      margin: 1px 0px 0px;
+      margin: 4px 0px 0px;
     }
+       .memooddsmob .fa-lock:before {
+  content: "";
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background-image: url("../imgs/lock.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  -webkit-filter: invert(1);
+}
     .lottcard{
         padding: 0px !important;
     }
@@ -1677,6 +1688,11 @@ font-size: 12px;
     font-size: 12px !important;
   }
   .mogambo-suspended .suspended::after,.TwocardTeen-suspended .suspended::after{
+    width: 100% !important;
+    right: 0%;
+    height: 100% !important;
+  }
+  .mogambo-suspended::after{
     width: 100% !important;
     right: 0%;
     height: 100% !important;
@@ -3244,7 +3260,7 @@ border-radius: 0px;
 /* =========================================================
    SUSPENDED
 ========================================================= */
-.sicbo .sicbo-suspended::before ,.sicbo2 .sicbo-suspended::before{
+.sicbo .sicbo-suspended::before ,.sicbo2 .sicbo-suspended::before,.mogambo-fancysuspended .suspended::before{
   content: "";
   position: absolute;
   width: 17px;
@@ -3274,6 +3290,9 @@ border-radius: 0px;
 .ab20 .teenpattixyz .game-section .card-image,.ab4 .teenpattixyz .game-section .card-image,.ab3 .teenpattixyz .game-section .card-image{
     margin-top: 0px;
     width: 29px;
+}
+.mogambo-fancysuspended .suspended::after{
+   width: 100% !important;
 }
 
 /* =========================================
