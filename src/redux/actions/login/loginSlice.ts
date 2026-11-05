@@ -83,10 +83,12 @@ const loginSlice = createSlice({
         state.userData.status = 'failed'
       })
       .addCase(getUserInfoAction.fulfilled, (state, action) => {
-        if (action.payload.data.user.role === RoleType.user)
-          localStorage.setItem('userType', action.payload.data.user.role)
-        else localStorage.setItem('userType-admin', action.payload.data.user.role)
-        state.userData.user = action.payload.data.user
+        const user = action.payload?.data?.user
+        // a response without a user (e.g. no session) must not crash the store
+        if (!user) return
+        if (user.role === RoleType.user) localStorage.setItem('userType', user.role)
+        else localStorage.setItem('userType-admin', user.role)
+        state.userData.user = user
         state.userData.error = ''
         state.userData.status = 'done'
       })

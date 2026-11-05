@@ -7,7 +7,7 @@ import IBet, { IBetOn, IBetType } from "../../../../../models/IBet";
 import authService from "../../../../../services/auth.service";
 import { useParams } from "react-router-dom";
 import { calculatePnlF } from "../../../../../utils/calculatePnl";
-import { createPortal } from 'react-dom';
+import { createPortal } from "react-dom";
 import { isMobile } from "react-device-detect";
 
 interface ButtonProps {
@@ -24,10 +24,19 @@ interface ButtonProps {
   onMouseLeave: () => void;
   betType: string;
   cleanBet: () => void;
-  marketStatus?: 'locked' | 'active';
-  lastOdds:any
+  marketStatus?: "locked" | "active";
+  lastOdds: any;
 }
 
+export const isMatchRunner = (runnerName: any, target: any) => {
+  if (!runnerName || !target) return false;
+  const s1 = String(runnerName).trim().toLowerCase();
+  const s2 = String(target).trim().toLowerCase();
+  if (s1 === s2) return true;
+  const normalize = (s: string) =>
+    s.replace(/\s*to\s*|\s*-\s*/g, "-").replace(/\s+/g, "");
+  return normalize(s1) === normalize(s2);
+};
 const ButtonItemroulette = ({
   title,
   numbers,
@@ -40,31 +49,36 @@ const ButtonItemroulette = ({
   onToggle,
   onMouseEnter,
   onMouseLeave,
-  betType = 'number',
+  betType = "number",
   cleanBet,
-  marketStatus = 'locked',
-  lastOdds
+  marketStatus = "locked",
+  lastOdds,
 }: ButtonProps) => {
-
   const dispatch = useAppDispatch();
   const userState = useAppSelector(selectUserData);
   const { gameCode } = useParams();
-  const [toasts, setToasts] = useState<{ id: string; message: string; type: 'success' | 'error' }[]>([]);
+  const [toasts, setToasts] = useState<
+    { id: string; message: string; type: "success" | "error" }[]
+  >([]);
   const [forceHideCoin, setForceHideCoin] = useState(false);
 
   // ✅ FIXED: Real-time market status sync
   useEffect(() => {
-    const firstRunnerStatus = liveMatchData?.event_data?.market?.[0]?.Runners?.[0]?.s;
+    const firstRunnerStatus =
+      liveMatchData?.event_data?.market?.[0]?.Runners?.[0]?.s;
     if (firstRunnerStatus === 1) {
       setForceHideCoin(false); // Clear error locks when active
     }
   }, [liveMatchData?.event_data?.market?.[0]?.Runners?.[0]?.s]);
 
   // ✅ EXTRACTED: Toast Management
-  const addToast = (message: string, type: 'success' | 'error') => {
+  const addToast = (message: string, type: "success" | "error") => {
     const id = Math.random().toString(36).substr(2, 9);
-    setToasts(prev => [...prev, { id, message, type }]);
-    setTimeout(() => setToasts(prev => prev.filter(t => t.id !== id)), 2000);
+    setToasts((prev) => [...prev, { id, message, type }]);
+    setTimeout(
+      () => setToasts((prev) => prev.filter((t) => t.id !== id)),
+      2000,
+    );
   };
 
   const market = liveMatchData?.event_data?.market?.[0];
@@ -72,25 +86,32 @@ const ButtonItemroulette = ({
 
   const firstRunnerStatus = market?.Runners?.[0]?.s;
   const isMarketActive = !!firstRunnerStatus && firstRunnerStatus === 1;
-  const isLocked = marketStatus === 'locked' || !isMarketActive;
+  const isLocked = marketStatus === "locked" || !isMarketActive;
 
-  const runner = lastOdds?.market[0].Runners.find((r: any) => r.n === String(numbers))!;
+  const runner = (lastOdds?.market?.[0]?.Runners || runners)?.find(
+    (r: any) => isMatchRunner(r.n, numbers),
+  );
 
-  const suspend = ['number', 'outside', 'dozen', 'column'].includes(betType) &&
+  const suspend =
+    ["number", "outside", "dozen", "column"].includes(betType) &&
     (isLocked || !runners.length || runner?.s !== 1 || !market)
-    ? 'suspended' : '';
+      ? "suspended"
+      : "";
 
   // ✅ EXTRACTED: Bet Validation
   const validateBet = (): { valid: boolean; error?: string } => {
-    if (userState.user.role !== RoleType.user) return { valid: false, error: 'User not authorized' };
-    if (!selectedCoin || selectedCoin <= 0) return { valid: false, error: 'Select coin first' };
-    if (suspend || isLocked) return { valid: false, error: 'Market Suspended' };
+    if (userState.user.role !== RoleType.user)
+      return { valid: false, error: "User not authorized" };
+    if (!selectedCoin || selectedCoin <= 0)
+      return { valid: false, error: "Select coin first" };
+    if (suspend || isLocked) return { valid: false, error: "Market Suspended" };
 
-    const runner = runners.find((r: any) => r.n === String(numbers));
-    if (!runner) return { valid: false, error: 'Runner not found' };
+    const runner = (runners || []).find((r: any) => isMatchRunner(r.n, numbers));
+    if (!runner) return { valid: false, error: "Runner not found" };
 
     const oddsVal = betSide === "BACK" ? runner.b : runner.l;
-    if (!oddsVal || oddsVal <= 0) return { valid: false, error: 'Invalid odds' };
+    if (!oddsVal || oddsVal <= 0)
+      return { valid: false, error: "Invalid odds" };
 
     return { valid: true };
   };
@@ -115,46 +136,46 @@ const ButtonItemroulette = ({
   //     setTimeout(() => cleanBet?.(), 200);
   //   }
   // };
-const handleApiResponse = (result: any) => {
-  const getApiMessage = (data: any): string => {
-    if (typeof data === 'string') return data;
-    if (data?.message) return data.message;
-    if (data?.payload?.message) return data.payload.message;
-    return 'Bet Failed';
+  const handleApiResponse = (result: any) => {
+    const getApiMessage = (data: any): string => {
+      if (typeof data === "string") return data;
+      if (data?.message) return data.message;
+      if (data?.payload?.message) return data.payload.message;
+      return "Bet Failed";
+    };
+
+    const apiResponse = result?.payload || result;
+
+    const hasError =
+      apiResponse?.error ||
+      apiResponse?.payload?.error ||
+      apiResponse?.code === 500 ||
+      result?.error;
+
+    if (!hasError) {
+      // Don't show local "Bet Placed" popup.
+      // Your existing/global bet popup will handle success.
+      return;
+    }
+
+    setForceHideCoin(true);
+
+    // Keep error handling if you need it
+    setTimeout(() => cleanBet?.(), 200);
   };
-
-  const apiResponse = result?.payload || result;
-
-  const hasError =
-    apiResponse?.error ||
-    apiResponse?.payload?.error ||
-    apiResponse?.code === 500 ||
-    result?.error;
-
-  if (!hasError) {
-    // Don't show local "Bet Placed" popup.
-    // Your existing/global bet popup will handle success.
-    return;
-  }
-
-  setForceHideCoin(true);
-
-  // Keep error handling if you need it
-  setTimeout(() => cleanBet?.(), 200);
-};
 
   const onBet = () => {
     setForceHideCoin(false);
     const validation = validateBet();
     if (!validation.valid) {
-      addToast(`❌ ${validation.error}`, 'error');
+      addToast(`❌ ${validation.error}`, "error");
       return;
     }
 
     onToggle();
 
     // Build bet object
-    const runner = runners.find((r: any) => r.n === String(numbers))!;
+    const runner = (runners || []).find((r: any) => isMatchRunner(r.n, numbers))!;
     const oddsVal = betSide === "BACK" ? runner.b : runner.l;
 
     const betObj: IBet = {
@@ -176,9 +197,13 @@ const handleApiResponse = (result: any) => {
       matchName: liveMatchData.event_data.title,
       betOn: IBetOn.CASINO,
       gtype: gameCode,
-        minbet: liveMatchData.min,
-            maxbet: liveMatchData.max,
+      minbet: 25,
+      maxbet: liveMatchData.event_data.max,
     };
+    // ✅ Console complete bet data
+    console.log("🎯 BET DATA BEFORE PNL:", betObj);
+    console.log("Minimum Bet:", betObj.minbet);
+    console.log("Maximum Bet:", betObj.maxbet);
 
     // Calculate PNL
     const cal = calculatePnlF(betObj);
@@ -190,60 +215,60 @@ const handleApiResponse = (result: any) => {
       .then(handleApiResponse)
       .catch(() => {
         setForceHideCoin(true);
-        addToast('❌ Network Error', 'error');
+        addToast("❌ Network Error", "error");
         setTimeout(() => cleanBet?.(), 200);
       });
   };
 
   // ✅ Styles (unchanged)
-  const toastStyle = (type: 'success' | 'error') => ({
-    padding: '16px 20px',
-    borderRadius: '12px',
-    background: type === 'success' ? '#4CAF50' : '#f44336',
-    color: 'white',
+  const toastStyle = (type: "success" | "error") => ({
+    padding: "16px 20px",
+    borderRadius: "12px",
+    background: type === "success" ? "#4CAF50" : "#f44336",
+    color: "white",
     fontWeight: 600 as const,
-    fontSize: '15px',
-    cursor: 'pointer',
-    boxShadow: '0 20px 40px rgba(0,0,0,0.4)',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '10px',
-    pointerEvents: 'auto' as const,
-    margin: '0 auto',
+    fontSize: "15px",
+    cursor: "pointer",
+    boxShadow: "0 20px 40px rgba(0,0,0,0.4)",
+    display: "flex",
+    alignItems: "center",
+    gap: "10px",
+    pointerEvents: "auto" as const,
+    margin: "0 auto",
   });
 
   const containerStyle = {
-    position: 'fixed' as const,
-    top: '15px',
-    left: '50%',
+    position: "fixed" as const,
+    top: "15px",
+    left: "50%",
     transform: "translateX(-50%)",
     zIndex: 100000,
-    display: 'flex',
-    flexDirection: 'column' as const,
-    gap: '12px',
-    maxWidth: '350px',
-    pointerEvents: 'none' as const,
+    display: "flex",
+    flexDirection: "column" as const,
+    gap: "12px",
+    maxWidth: "350px",
+    pointerEvents: "none" as const,
   };
 
   const coinStyle = {
-    position: 'absolute' as const,
-    left: '50%',
-    top: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: '25px',
-    height: '25px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    position: "absolute" as const,
+    left: "50%",
+    top: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "25px",
+    height: "25px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
     backgroundImage: `url('/imgs/roulette12/commonCoin.webp')`,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
+    backgroundSize: "cover",
+    backgroundPosition: "center",
   };
 
   const coinTextStyle = {
-    fontSize: '10px',
-    fontWeight: 'bold' as const,
-    color: '#fff',
+    fontSize: "10px",
+    fontWeight: "bold" as const,
+    color: "#fff",
     zIndex: 2,
   };
 
@@ -257,7 +282,11 @@ const handleApiResponse = (result: any) => {
         onMouseDown={(e) => e.preventDefault()}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
-        style={{ position: 'relative', cursor: isLocked ? 'not-allowed' : 'pointer' ,fontSize:isMobile?'16px':''}}
+        style={{
+          position: "relative",
+          cursor: isLocked ? "not-allowed" : "pointer",
+          fontSize: isMobile ? "16px" : "",
+        }}
       >
         <b className={isNumber ? "text-white" : "text-danger"}>{title}</b>
 
@@ -270,21 +299,24 @@ const handleApiResponse = (result: any) => {
       </button>
 
       {/* Toasts Portal */}
-      {toasts.length > 0 && createPortal(
-        <div style={containerStyle}>
-          {toasts.map(toast => (
-            <div
-              key={toast.id}
-              style={toastStyle(toast.type)}
-              onClick={() => setToasts(prev => prev.filter(t => t.id !== toast.id))}
-            >
-              <span style={{ fontSize: '20px' }}></span>
-              <span>{toast.message}</span>
-            </div>
-          ))}
-        </div>,
-        document.body
-      )}
+      {toasts.length > 0 &&
+        createPortal(
+          <div style={containerStyle}>
+            {toasts.map((toast) => (
+              <div
+                key={toast.id}
+                style={toastStyle(toast.type)}
+                onClick={() =>
+                  setToasts((prev) => prev.filter((t) => t.id !== toast.id))
+                }
+              >
+                <span style={{ fontSize: "20px" }}></span>
+                <span>{toast.message}</span>
+              </div>
+            ))}
+          </div>,
+          document.body,
+        )}
     </>
   );
 };

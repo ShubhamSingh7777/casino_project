@@ -259,15 +259,17 @@ const Header = () => {
                   )} */}
                   {isMobile ? (
                     isCasinoPage ? (
-                      <i
-                        className="fas fa-bars"
-                        style={{
-                          fontSize: "20px",
-                          marginRight: ".5rem",
-                          cursor: "pointer",
-                        }}
-                        onClick={() => setIsSidebarOpen(true)}
-                      />
+                      // <i
+                      //   className="fas fa-bars"
+                      //   style={{
+                      //     fontSize: "20px",
+                      //     marginRight: ".5rem",
+                      //     cursor: "pointer",
+                      //   }}
+                      //   onClick={() => setIsSidebarOpen(true)}
+                      // />
+                      <img src="/imgs/menubaricon.png" alt="" style={{width:'100%',height:'auto', marginRight: ".5rem",
+                       cursor: "pointer",}} onClick={() => setIsSidebarOpen(true)}/>
                     ) : (
                       <CustomLink to="/match/4">
                         <i

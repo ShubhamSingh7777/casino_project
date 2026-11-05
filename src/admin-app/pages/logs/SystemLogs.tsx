@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useAppSelector } from '../../../redux/hooks';
-import User, { RoleType } from '../../../models/User';
-import { selectUserData } from '../../../redux/actions/login/loginSlice';
+import { RoleType } from '../../../models/User';
 import moment from 'moment';
 import api from '../../../utils/api';
+import { useAdminRole } from '../../dev-auth';
 
 const SystemLogs = () => {
-  const userState = useAppSelector<{ user: User }>(selectUserData);
+  const role = useAdminRole();
   const [logs, setLogs] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [filters, setFilters] = useState({
@@ -38,7 +37,7 @@ const SystemLogs = () => {
     setFilters({ ...filters, [e.target.name]: e.target.value });
   };
 
-  if (userState.user.role !== RoleType.admin && userState.user.role !== RoleType.sadmin) {
+  if (role !== RoleType.admin && role !== RoleType.sadmin) {
     return <div className="p-4 text-danger">Unauthorized Access</div>;
   }
 

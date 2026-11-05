@@ -3,6 +3,10 @@ import { Link, LinkProps, useNavigate } from 'react-router-dom'
 import { RoleType } from '../../../models/User'
 import { selectUserData } from '../../../redux/actions/login/loginSlice'
 import { useAppSelector } from '../../../redux/hooks'
+import { readAdminDemo } from '../../../admin-app/dev-auth'
+
+/** Dev-only: with nobody logged in there is no role, so keep links inside /admin while browsing the admin panel. */
+const devAdminPrefix = () => readAdminDemo() && window.location.pathname.startsWith('/admin')
 
 export const CustomLink = React.memo(({ children, to, ...props }: LinkProps) => {
   const userState = useAppSelector(selectUserData)
@@ -10,7 +14,7 @@ export const CustomLink = React.memo(({ children, to, ...props }: LinkProps) => 
     if (userState.user.role) {
       return userState.user.role === RoleType.user ? to : `/admin${to}`
     }
-    return to
+    return devAdminPrefix() && typeof to === 'string' && !to.startsWith('/admin') ? `/admin${to}` : to
   }, [userState && userState.user.role, to])
 
   return (
@@ -34,6 +38,9 @@ export const useNavigateCustom = () => {
   const go = React.useCallback(
     (delta: any) => {
       if (userSate.user.role && userSate.user.role !== RoleType.user) {
+        return navigate(`/admin${delta}`)
+      }
+      if (!userSate.user.role && devAdminPrefix() && typeof delta === 'string' && !delta.startsWith('/admin')) {
         return navigate(`/admin${delta}`)
       }
       return navigate(delta)

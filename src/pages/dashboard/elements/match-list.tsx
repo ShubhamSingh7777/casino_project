@@ -57,7 +57,7 @@ const MatchList: React.FC<MatchListProps> = ({
       return null;
     }
 
-    d.setMinutes(d.getMinutes() + 120);
+    d.setMinutes(d.getMinutes() + 60);
     return d.toISOString();
   };
   /** Filter by sport */

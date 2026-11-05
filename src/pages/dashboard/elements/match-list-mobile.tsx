@@ -16,7 +16,7 @@ const MatchListMobile = (props: any) => {
   console.log(props.matchList?.matchDateTime,'mathclist-dashboard');
   const addISTOffset = (iso: any) => {
     const d = new Date(iso);
-    d.setMinutes(d.getMinutes() + 120);
+    d.setMinutes(d.getMinutes() + 60);
     return d.toISOString();
   };
 

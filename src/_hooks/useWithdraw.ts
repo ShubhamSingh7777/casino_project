@@ -36,13 +36,17 @@ const useWithdraw = () => {
   }, [])
 
   const getBankAndUpiList = () => {
-    depositWithdrawService?.getBankAndUpiLists().then((res) => setBankUpiLists(res?.data?.data))
+    depositWithdrawService
+      ?.getBankAndUpiLists()
+      .then((res) => setBankUpiLists(res?.data?.data))
+      .catch((e) => toast.error(e?.response?.data?.message || 'Could not load your saved accounts'))
   }
 
   const handleDelete = (type: string, id: any) => {
-    depositWithdrawService?.deleteUpiBank({ type: type, id: id }).then(() => {
-      getBankAndUpiList()
-    })
+    depositWithdrawService
+      ?.deleteUpiBank({ type: type, id: id })
+      .then(() => getBankAndUpiList())
+      .catch((e) => toast.error(e?.response?.data?.message || 'Could not delete the account'))
   }
 
   const onSubmit: SubmitHandler<WithdrawInput> = async (data) => {
@@ -54,7 +58,13 @@ const useWithdraw = () => {
 
     console.log('data...', data)
     if (data.bankDetail) {
-      const response = await depositWithdrawService.addDepositWithdraw(data)
+      let response
+      try {
+        response = await depositWithdrawService.addDepositWithdraw(data)
+      } catch (e: any) {
+        toast.error(e?.response?.data?.message || 'Could not submit the withdraw request')
+        return
+      }
       if (response?.data?.message) {
         toast.success(response?.data?.message)
         reset()

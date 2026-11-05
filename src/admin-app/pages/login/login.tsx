@@ -7,6 +7,7 @@ import { selectUserData } from '../../../redux/actions/login/loginSlice'
 import User from '../../../models/User'
 import { loginAction } from '../../../redux/actions/login/login.action'
 import SubmitButton from '../../../components/SubmitButton'
+import { ADMIN_DEMO_LOGIN, DEV_ADMIN_DEMO, isAdminDemoCredentials, setAdminDemo } from '../../../shared/dev-auth'
 
 const Login = () => {
   const dispatch = useAppDispatch()
@@ -49,8 +50,15 @@ const Login = () => {
     setLoginForm({ ...loginForm, [e.target.name]: e.target.value })
   }
 
+  // dev-only demo session: no API call, admin role, every page visible (src/shared/dev-auth.ts)
+  const startDemo = () => {
+    setAdminDemo(true)
+    navigate.go('/market-analysis')
+  }
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    if (isAdminDemoCredentials(loginForm.username, loginForm.password || '')) return startDemo()
     dispatch(loginAction(loginForm))
   }
 
@@ -113,6 +121,16 @@ const Login = () => {
                       </SubmitButton>
 
                     </div>
+                    {ADMIN_DEMO_LOGIN && (
+                      <div className='mt-3 text-center'>
+                        <button type='button' className='btn btn-submit btn-login' onClick={startDemo}>
+                          Demo Login (dev)
+                        </button>
+                        <p className='mt-2 mb-0' style={{ fontSize: 12, color: '#8a6d3b', background: '#fcf8e3', padding: '6px 8px', borderRadius: 4 }}>
+                          Dev only: opens every admin page without the backend. Or sign in with <b>{DEV_ADMIN_DEMO.username}</b> / <b>{DEV_ADMIN_DEMO.password}</b>.
+                        </p>
+                      </div>
+                    )}
                     <div className='mt-2 text-center download-apk'></div>
                   </form>
                 </div>

@@ -39,7 +39,7 @@ const MatchDetail = (props: any) => {
     return null;
   }
 
-  d.setMinutes(d.getMinutes() + 120);
+  d.setMinutes(d.getMinutes() + 60);
   return d.toISOString();
 };
   return (

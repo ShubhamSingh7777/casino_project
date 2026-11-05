@@ -1,0 +1,125 @@
+/* `base` with preflight disabled only emits the --tw-* variable defaults that transforms/rings/shadows need. */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Design tokens for the user panel. Prefixed with --ua- so they never collide with the legacy theme vars. */
+:root {
+  --ua-primary: #0f2327;
+  --ua-primary-two: #163439;
+  --ua-secondary: #2c4f58;
+  --ua-page: #f3f4f5;
+  --ua-foreground: #030712;
+  --ua-muted-fg: #6b7280;
+  --ua-back: #dbeafe;
+  --ua-back-strong: #a5c8f5;
+  --ua-back-fg: #1e3a8a;
+  --ua-back-hover: #bfdbfe;
+  --ua-lay: #fce7f3;
+  --ua-lay-strong: #f5b8d5;
+  --ua-lay-fg: #831843;
+  --ua-lay-hover: #fbcfe8;
+  --ua-success: #00a640;
+  --ua-success-soft: #4cc38a;
+  --ua-warning: #f59e0b;
+  --ua-suspended: #eef0f2;
+  --ua-suspended-fg: #374151;
+  --ua-flash: #fef08a;
+  --ua-link: #2563eb;
+  --ua-rules: #e8c547;
+  --ua-row-active: #f3f4f6;
+  --ua-menu-active: #67af7e;
+  --ua-border: #e0e0e0;
+  --ua-table-head: #dddddd;
+  --ua-table-head-fg: #444444;
+  --ua-muted: #f9f9f9;
+  --ua-header-h: 60px;
+  --ua-bottom-nav-h: 64px;
+}
+
+/*
+ * Reset the legacy global CSS (style.css sets line-height:15px, Roboto Condensed, 12px on mobile).
+ * Scoped to `.ua-ui` (new components only) so legacy pages rendered inside the shell keep their look.
+ * :where() keeps specificity at zero, so Tailwind utilities always win.
+ */
+:where(.ua-ui) {
+  font-family: 'Lato', system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--ua-foreground);
+  -webkit-font-smoothing: antialiased;
+}
+:where(.ua-ui) *,
+:where(.ua-ui) *::before,
+:where(.ua-ui) *::after {
+  box-sizing: border-box;
+}
+:where(.ua-ui) button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  border: 0;
+  background: none;
+  padding: 0;
+}
+:where(.ua-ui) a {
+  color: inherit;
+  text-decoration: none;
+}
+/* Bootstrap's a:hover (blue + underline) outranks the zero-specificity reset above. */
+.ua-ui a:hover,
+.ua-ui a:focus {
+  color: inherit;
+  text-decoration: none;
+}
+:where(.ua-ui) img {
+  max-width: 100%;
+  display: block;
+}
+:where(.ua-ui) input {
+  font: inherit;
+}
+:where(.ua-ui) h1,
+:where(.ua-ui) h2,
+:where(.ua-ui) h3 {
+  margin: 0;
+  font-size: inherit;
+}
+
+/* Page background: soft gray with a faint hexagon line pattern (~4% opacity). */
+.ua-page-bg {
+  background-color: var(--ua-page);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='98' viewBox='0 0 56 98'%3E%3Cpath d='M28 66L0 50V16L28 0l28 16v34L28 66zm0 32L0 82' fill='none' stroke='%23000' stroke-opacity='0.04' stroke-width='1'/%3E%3C/svg%3E");
+}
+
+/* Sport section header: dark brown → slate. */
+.ua-sport-header {
+  background-color: #4a3530;
+  background-image: linear-gradient(90deg, #5a3e36 0%, #3f4650 55%, #334155 100%);
+}
+
+/* Live / Upcoming segmented tab gradients */
+.ua-grad-live {
+  background-image: linear-gradient(90deg, #22c55e, #10b981);
+}
+.ua-grad-upcoming {
+  background-image: linear-gradient(90deg, #0ea5e9, #6366f1);
+}
+
+.ua-gold-text {
+  background: linear-gradient(90deg, #c9a27a, #e8c9a0);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.ua-no-scrollbar {
+  scrollbar-width: none;
+}
+.ua-no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.ua-safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}

@@ -75,9 +75,12 @@ const useDeposit = () => {
     depositWithdrawService
       .getPaymentSetting()
    
-      .then((res) => {
-           console.log("Fetched Payment Settings:", res?.data?.data)
-        setBankUpiLists(res?.data?.data)})
+      .then((res) => setBankUpiLists(res?.data?.data || {}))
+      // the endpoint can be missing (404) — show the page without payment methods instead of crashing
+      .catch(() => {
+        setBankUpiLists({})
+        toast.error('Payment methods are not available right now')
+      })
   }, [])
 
   const handleChange = (e: any) => {
@@ -124,7 +127,13 @@ const useDeposit = () => {
 
     formData.append('utrno', utrValue.toString())
 
-    const response = await depositWithdrawService.addDepositWithdraw(formData)
+    let response
+    try {
+      response = await depositWithdrawService.addDepositWithdraw(formData)
+    } catch (e: any) {
+      toast.error(e?.response?.data?.message || 'Could not submit the deposit request')
+      return
+    }
     if (response?.data?.message) {
       toast.success(response?.data?.message)
       reset()

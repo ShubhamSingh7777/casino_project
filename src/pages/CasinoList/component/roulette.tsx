@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import CasinoPnl from "./casinoPnl";
 import Minmax from "./_common/minmax";
-import ButtonItemroulette12 from "./_common/new/ButtonItemroulette";
+import ButtonItemroulette12, {
+  isMatchRunner,
+} from "./_common/new/ButtonItemroulette";
 import { isMobile } from "react-device-detect";
 import { useAppDispatch } from "../../../redux/hooks";
 import { useParams } from "react-router-dom";
@@ -42,67 +44,70 @@ const Roulette = ({ lastOdds, liveMatchData }: any) => {
   const hasPendingBets = selectedButtons.size > 0;
   const hasPreviousBets = previousBets.size > 0;
 
-  const repeatBet = () => {
-    if (isBetActionLoading) return;
+  const repeatBet = async () => {
+    if (isBetActionLoading || marketStatus === "locked") return;
 
-    // Add these two lines here
     const market = liveMatchData?.event_data?.market?.[0];
-    const runners = market?.Runners || [];
-    console.log("Previous Bets:", Array.from(previousBets.entries()));
-    previousBets.forEach((stack, numbers) => {
-      const runner = runners.find((r: any) => r.n === String(numbers));
+    const runners = market?.Runners || lastOdds?.market?.[0]?.Runners || [];
+    if (!runners.length || previousBets.size === 0) return;
 
-      if (!runner) {
-        console.log("Runner not found:", numbers);
-        return;
-      }
+    try {
+      setIsBetActionLoading(true);
+      const promises: any[] = [];
 
-      const oddsVal = betSide === "BACK" ? runner.b : runner.l;
+      previousBets.forEach((stack, numbers) => {
+        const runner = (runners || []).find((r: any) =>
+          isMatchRunner(r.n, numbers),
+        );
 
-      const betObj: IBet = {
-        isBack: betSide === "BACK",
-        odds: oddsVal,
-        volume: 0,
-        marketId: liveMatchData.mid,
-        marketName: market.MarketName,
-        matchId: Number(liveMatchData.event_data.match_id),
-        selectionName: runner.n,
-        selectionId: runner.i,
-        stack,
-        currentMarketOdds: oddsVal,
-        eventId: liveMatchData.mid,
-        exposure: 0,
-        pnl: 0,
-        ipAddress: authService.getIpAddress(),
-        type: IBetType.Match,
-        matchName: liveMatchData.event_data.title,
-        betOn: IBetOn.CASINO,
-        gtype: gameCode,
-      };
+        if (!runner) {
+          console.log("Runner not found:", numbers);
+          return;
+        }
 
-      const cal = calculatePnlF(betObj);
-      betObj.pnl = cal.pnl;
-      betObj.exposure = cal.exposure;
-      setSelectedButtons((prev) => {
-        console.log("Before:", Array.from(prev.entries()));
+        const oddsVal = betSide === "BACK" ? runner.b : runner.l;
 
-        const map = new Map(prev);
+        const betObj: IBet = {
+          isBack: betSide === "BACK",
+          odds: oddsVal,
+          volume: 0,
+          marketId: liveMatchData.mid,
+          marketName: market?.MarketName || "Number",
+          matchId: Number(liveMatchData?.event_data?.match_id),
+          selectionName: runner.n,
+          selectionId: runner.i,
+          stack,
+          currentMarketOdds: oddsVal,
+          eventId: liveMatchData?.event_data?.match_id || 0,
+          exposure: 0,
+          pnl: 0,
+          ipAddress: authService.getIpAddress(),
+          type: IBetType.Match,
+          matchName: liveMatchData?.event_data?.title,
+          betOn: IBetOn.CASINO,
+          gtype: gameCode,
+          minbet: 25,
+          maxbet: liveMatchData?.event_data?.max,
+        };
 
-        map.set(numbers, (map.get(numbers) || 0) + stack);
+        const cal = calculatePnlF(betObj);
+        betObj.pnl = cal.pnl;
+        betObj.exposure = cal.exposure;
+        setSelectedButtons((prev) => {
+          const map = new Map(prev);
+          map.set(numbers, (map.get(numbers) || 0) + stack);
+          return map;
+        });
 
-        console.log("After:", Array.from(map.entries()));
-
-        return map;
+        promises.push(dispatch(getPlaceBetAction(betObj)));
       });
-      console.log("Repeating:", {
-        numbers,
-        stack,
-        odds: oddsVal,
-      });
-      dispatch(getPlaceBetAction(betObj)).then((result: any) => {
-        console.log("Repeat Result:", result);
-      });
-    });
+
+      await Promise.all(promises);
+    } catch (err) {
+      console.error("Repeat Bet Error:", err);
+    } finally {
+      setIsBetActionLoading(false);
+    }
   };
   const undoBet = async () => {
     if (isBetActionLoading) return;
@@ -114,6 +119,18 @@ const Roulette = ({ lastOdds, liveMatchData }: any) => {
 
       // Remove the last placed coin from UI
       setSelectedButtons((prev) => {
+        const newMap = new Map(prev);
+
+        if (newMap.size > 0) {
+          const keys = Array.from(newMap.keys());
+          const lastKey = keys[keys.length - 1];
+          newMap.delete(lastKey);
+        }
+
+        return newMap;
+      });
+
+      setPreviousBets((prev) => {
         const newMap = new Map(prev);
 
         if (newMap.size > 0) {
@@ -151,7 +168,7 @@ const Roulette = ({ lastOdds, liveMatchData }: any) => {
   };
 
   const toggleSelection = (numbers: string) => {
-    setSelectedButtons((prev) => {
+    const updateMap = (prev: Map<string, number>) => {
       const newMap = new Map(prev);
       if (newMap.has(numbers)) {
         const currentAmount = newMap.get(numbers) || 0;
@@ -160,7 +177,9 @@ const Roulette = ({ lastOdds, liveMatchData }: any) => {
         newMap.set(numbers, selectedCoin);
       }
       return newMap;
-    });
+    };
+    setSelectedButtons(updateMap);
+    setPreviousBets(updateMap);
   };
   const isSelected = (numbers: string) => selectedButtons.has(numbers);
   const clearAllBets = () => setSelectedButtons(new Map());
@@ -204,7 +223,11 @@ const Roulette = ({ lastOdds, liveMatchData }: any) => {
       "2nd 12": [13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
       "3rd 12": [25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36],
       "1 to 18": Array.from({ length: 18 }, (_, i) => i + 1),
+      "1 - 18": Array.from({ length: 18 }, (_, i) => i + 1),
+      "1-18": Array.from({ length: 18 }, (_, i) => i + 1),
       "19 to 36": Array.from({ length: 18 }, (_, i) => i + 19),
+      "19 - 36": Array.from({ length: 18 }, (_, i) => i + 19),
+      "19-36": Array.from({ length: 18 }, (_, i) => i + 19),
       Red: Array.from(RED),
       Black: Array.from({ length: 36 }, (_, i) => i + 1).filter(
         (n) => !RED.has(n) && n !== 0,
@@ -269,18 +292,23 @@ const Roulette = ({ lastOdds, liveMatchData }: any) => {
   //   }
   // }, [lastOdds]);
   useEffect(() => {
-  const firstRunnerStatus = lastOdds?.market?.[0]?.Runners?.[0]?.s;
+    const firstRunnerStatus = lastOdds?.market?.[0]?.Runners?.[0]?.s;
 
-  if (firstRunnerStatus === 1) {
-    setMarketStatus("active");
-  } else if (firstRunnerStatus === 0) {
-    setMarketStatus("locked");
+    if (firstRunnerStatus === 1) {
+      setMarketStatus("active");
+    } else if (firstRunnerStatus === 0) {
+      setMarketStatus("locked");
 
-    // 🔥 Round cleared / market suspended
-    // Remove all selected betting coins from UI
-    setSelectedButtons(new Map());
-  }
-}, [lastOdds]);
+      // 🔥 Round cleared / market suspended
+      // Save bets to previousBets so user can Repeat in next round
+      setSelectedButtons((prev) => {
+        if (prev.size > 0) {
+          setPreviousBets(new Map(prev));
+        }
+        return new Map();
+      });
+    }
+  }, [lastOdds]);
   return (
     <>
       <style>
@@ -756,7 +784,7 @@ const Roulette = ({ lastOdds, liveMatchData }: any) => {
                   gap: "3px",
                 }}
               >
-                {["1 - 18", "Even", "Red", "Black", "Odd", "19 to 36"].map(
+                {["1 to 18", "Even", "Red", "Black", "Odd", "19 to 36"].map(
                   (name) => (
                     <div
                       key={name}
@@ -1248,5 +1276,4 @@ const Roulette = ({ lastOdds, liveMatchData }: any) => {
     </>
   );
 };
-
 export default React.memo(Roulette);

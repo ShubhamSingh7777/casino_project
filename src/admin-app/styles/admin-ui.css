@@ -1,0 +1,69 @@
+/* Admin panel design tokens (admin spec §2). Shares the Tailwind setup of the user panel (tw- prefix, #ua-root scope). */
+:root {
+  --ad-bg: #333d79;
+  --ad-card: rgba(0, 0, 0, 0.4);
+  --ad-side: rgba(0, 0, 0, 0.33);
+  --ad-item: rgba(255, 255, 255, 0.15);
+  --ad-modal: #2a3366;
+  --ad-muted: #a6b0cf;
+  --ad-success: #34c38f;
+  --ad-danger: #f46a6a;
+  --ad-info: #50a5f1;
+  --ad-warning: #f1b44c;
+  --ad-dark: #1e3a5f;
+  --ad-light: #eff2f7;
+  --ad-pill: #556ee6;
+}
+
+/* Base for new admin components (zero specificity so utilities win). */
+:where(.ad-ui) {
+  font-family: 'Lato', system-ui, sans-serif;
+  font-size: 12px;
+  line-height: 1.45;
+  color: #fff;
+}
+:where(.ad-ui) *,
+:where(.ad-ui) *::before,
+:where(.ad-ui) *::after {
+  box-sizing: border-box;
+}
+:where(.ad-ui) button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  border: 0;
+  background: none;
+  padding: 0;
+}
+:where(.ad-ui) a {
+  color: inherit;
+  text-decoration: none;
+}
+:where(.ad-ui) h1,
+:where(.ad-ui) h2,
+:where(.ad-ui) h3,
+:where(.ad-ui) p {
+  margin: 0;
+}
+:where(.ad-ui) table {
+  border-collapse: collapse;
+}
+
+.ad-footer-bg {
+  background-image: linear-gradient(180deg, #2b2b2b, #151515);
+}
+
+/* Legacy admin pages render on a light surface inside the new shell (they are styled for white). */
+.ad-legacy-surface {
+  background: #fff;
+  color: #1e1e1e;
+  border-radius: 6px;
+  padding: 8px;
+  min-height: 200px;
+}
+
+/* Legacy react-modal / bootstrap modals must sit above the sticky admin header and off-canvas menu. */
+.ReactModal__Overlay,
+.modal {
+  z-index: 1050 !important;
+}
